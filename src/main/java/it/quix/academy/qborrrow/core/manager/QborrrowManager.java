@@ -1,0 +1,727 @@
+package it.quix.academy.qborrrow.core.manager;
+
+import java.math.BigInteger;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.transaction.annotation.Transactional;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import it.quix.framework.core.exception.DAOCreateException;
+import it.quix.framework.core.exception.DAODeleteException;
+import it.quix.framework.core.exception.DAOFinderException;
+import it.quix.framework.core.exception.DAOStoreException;
+import it.quix.framework.core.validation.exception.ValidationException;
+import it.quix.framework.core.manager.UserContextHolder;
+import it.quix.academy.qborrrow.core.model.QborrrowUserContext;
+
+import it.quix.academy.qborrrow.core.validation.ValidatorFactory;
+import it.quix.academy.qborrrow.core.dao.DAOFactory;
+import it.quix.academy.qborrrow.core.model.Oggetti;
+import it.quix.academy.qborrrow.core.search.OggettiSearch;
+import it.quix.academy.qborrrow.core.model.Prestiti;
+import it.quix.academy.qborrrow.core.search.PrestitiSearch;
+import it.quix.academy.qborrrow.core.model.Soggetti;
+import it.quix.academy.qborrrow.core.search.SoggettiSearch;
+
+import it.quix.framework.core.handler.SysAttributeHandler;
+
+/**
+ * Interface of the application manager.<br>
+ * This class exposes all the application object management APIs.
+ * 
+ * @author Quix CodeGenerator version 03.03.00-SNAPSHOT
+ */
+public class QborrrowManager {
+
+    private static Log log = LogFactory.getLog(QborrrowManager.class);
+
+    @Resource(name = "daoFactory")
+    private DAOFactory daoFactory;
+
+    @Resource(name = "validatorFactory")
+    private ValidatorFactory validatorFactory;
+
+    @Resource(name = "sysAttributeHandler")
+    private SysAttributeHandler sysAttributeHandler;
+
+    /**
+     * Returns the list of Oggetti that satisfy conditions passed in
+     * oggettiSearch parameter
+     * 
+     * @param oggettiSearch search model that contains the filters to use
+     * @return returns the list of oggetti that satisfy conditions
+     * @see OggettiSearch
+     * @see Oggetti
+     */
+    @Transactional(readOnly = true)
+    public List<Oggetti> getOggettiList(OggettiSearch oggettiSearch) {
+        List<Oggetti> list = daoFactory.getOggettiDAO().getList(oggettiSearch);
+        return list;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Oggetti> getOggettiListBySoggetti(String soggetti_user_name) {
+        List<Oggetti> list = daoFactory.getOggettiDAO().getOggettiListBySoggetti(soggetti_user_name);
+        return list;
+    }
+
+    /**
+     * Returns the number of Oggetti that satisfy conditions passed in
+     * oggettiSearch parameter
+     * 
+     * @param oggettiSearch search model that contains the filters to use
+     * @return the number of Oggetti found
+     * @see OggettiSearch
+     * @see Oggetti
+     */
+    @Transactional(readOnly = true)
+    public Long countOggetti(OggettiSearch oggettiSearch) {
+        return daoFactory.getOggettiDAO().count(oggettiSearch);
+    }
+
+    /**
+     * retrieve from persistence system the required Oggetti record
+     * 
+     * @param oggettiId the key to retrieve the oggetti
+     * @return the requested Oggetti record
+     * @throws QborrrowException if an unexpected exception occurs or no record
+     *             is found
+     * @see Oggetti
+     */
+    @Transactional(readOnly = true, rollbackFor = { QborrrowException.class })
+    public Oggetti getOggetti(Integer id) throws DAOFinderException {
+        Oggetti oggetti = null;
+        oggetti = daoFactory.getOggettiDAO().get(id);
+        return oggetti;
+    }
+
+    /**
+     * persist the passed Oggetti object to database, previous validation
+     * 
+     * @param oggetti the object to save
+     * @return the persisted object
+     * @throws QborrrowException if an unexpected exception occurs during
+     *             operation
+     * @throws ValidationException if input data doesn't satisfy validation
+     * @see Oggetti
+     */
+    @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
+    public Oggetti saveOggetti(Oggetti oggetti) throws QborrrowException, ValidationException {
+        return saveOggetti(oggetti, true);
+    }
+
+    /**
+     * persist the passed Oggetti object to database
+     * 
+     * @param oggetti the object to save
+     * @param validate false skip model validation
+     * @return the persisted object
+     * @throws QborrrowException if an unexpected exception occurs during
+     *             operation
+     * @throws ValidationException if input data doesn't satisfy validation
+     * @see Oggetti
+     */
+    @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
+    public Oggetti saveOggetti(Oggetti oggetti, boolean validate) throws QborrrowException, ValidationException {
+        if (validate) {
+            validateOggetti(oggetti);
+        }
+        if (oggetti.getId() == null) {
+            createOggetti(oggetti, validate);
+        } else {
+            updateOggetti(oggetti, validate);
+        }
+        return oggetti;
+    }
+
+    /**
+     * create the passed Oggetti object to database, previous validation
+     * 
+     * @param oggetti the object to create
+     * @return the created object
+     * @throws QborrrowException if an unexpected exception occurs during
+     *             operation
+     * @throws ValidationException if input data doesn't satisfy validation
+     * @see Oggetti
+     */
+    @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
+    public Oggetti createOggetti(Oggetti oggetti) throws QborrrowException, ValidationException {
+        return createOggetti(oggetti, true);
+    }
+
+    /**
+     * create the passed Oggetti object to database
+     * 
+     * @param oggetti the object to create
+     * @param validate false skip model validation
+     * @return the created object
+     * @throws QborrrowException if an unexpected exception occurs during
+     *             operation
+     * @throws ValidationException if input data doesn't satisfy validation
+     * @see Oggetti
+     */
+    @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
+    public Oggetti createOggetti(Oggetti oggetti, boolean validate) throws QborrrowException, ValidationException {
+        if (validate) {
+            validateOggetti(oggetti);
+        }
+        try {
+            daoFactory.getOggettiDAO().create(oggetti);
+            return oggetti;
+        } catch (DAOCreateException ex) {
+            throw new QborrrowException(ex, oggetti);
+        }
+    }
+
+    /**
+     * update the passed Oggetti object to database, previous validation
+     * 
+     * @param oggetti the object to update
+     * @return the updated object
+     * @throws QborrrowException if an unexpected exception occurs during
+     *             operation
+     * @throws ValidationException if input data doesn't satisfy validation
+     * @see Oggetti
+     */
+    @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
+    public Oggetti updateOggetti(Oggetti oggetti) throws QborrrowException, ValidationException {
+        return updateOggetti(oggetti, true);
+    }
+
+    /**
+     * update the passed Oggetti object to database
+     * 
+     * @param oggetti the object to update
+     * @param validate false skip model validation
+     * @return the updated object
+     * @throws QborrrowException if an unexpected exception occurs during
+     *             operation
+     * @throws ValidationException if input data doesn't satisfy validation
+     * @see Oggetti
+     */
+    @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
+    public Oggetti updateOggetti(Oggetti oggetti, boolean validate) throws QborrrowException, ValidationException {
+        if (validate) {
+            validateOggetti(oggetti);
+        }
+        try {
+
+            daoFactory.getOggettiDAO().update(oggetti);
+
+            return oggetti;
+        } catch (DAOStoreException ex) {
+            throw new QborrrowException(ex, oggetti);
+        }
+    }
+
+    /**
+     * delete the Oggetti object from the database
+     * 
+     * @param oggetti the object to delete
+     * @throws QborrrowException if an unexpected exception occurs during
+     *             operation
+     * @see Oggetti
+     */
+    @Transactional(rollbackFor = { QborrrowException.class })
+    public void deleteOggetti(Integer id) throws QborrrowException {
+        try {
+            daoFactory.getOggettiDAO().delete(id);
+        } catch (DAODeleteException e) {
+            throw new QborrrowException("Error on delete Oggetti", e);
+        }
+    }
+
+    /**
+     * performs the validation of the selected Oggetti
+     *
+     * @param oggetti the object to be validated
+     * @param groups group name(s) targeted for validation (default to <code>[blank]</code> means all the validation will be done)
+     * @throws ValidationException if validation error occurs
+     * @see Oggetti
+     * @see it.quix.academy.qborrrow.core.validation.OggettiValidator
+     */
+    @Transactional(readOnly = true, rollbackFor = { ValidationException.class })
+    public void validateOggetti(Oggetti oggetti, String... groups) throws ValidationException {
+        QborrrowUserContext userContext = (QborrrowUserContext) UserContextHolder.getUserContext();
+        validatorFactory.getOggettiValidator().validate(userContext, oggetti, groups);
+    }
+
+    /**
+     * performs the validation of the selected search model OggettiSearch
+     *
+     * @param oggettiSearch the search model to be validated
+     * @param groups group name(s) targeted for validation (default to <code>[blank]</code> means all the validation will be done)
+     * @throws ValidationException if validation error occurs
+     * @see OggettiSearch
+     * @see it.quix.academy.qborrrow.core.validation.OggettiValidator
+     */
+    @Transactional(readOnly = true, rollbackFor = { ValidationException.class })
+    public void validateOggettiSearch(OggettiSearch oggettiSearch, String... groups) throws ValidationException {
+        QborrrowUserContext userContext = (QborrrowUserContext) UserContextHolder.getUserContext();
+        validatorFactory.getOggettiSearchValidator().validate(userContext, oggettiSearch, groups);
+    }
+
+    /**
+     * Returns the list of Prestiti that satisfy conditions passed in
+     * prestitiSearch parameter
+     * 
+     * @param prestitiSearch search model that contains the filters to use
+     * @return returns the list of prestiti that satisfy conditions
+     * @see PrestitiSearch
+     * @see Prestiti
+     */
+    @Transactional(readOnly = true)
+    public List<Prestiti> getPrestitiList(PrestitiSearch prestitiSearch) {
+        List<Prestiti> list = daoFactory.getPrestitiDAO().getList(prestitiSearch);
+        return list;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Prestiti> getPrestitiListBySoggetti(String soggetti_user_name) {
+        List<Prestiti> list = daoFactory.getPrestitiDAO().getPrestitiListBySoggetti(soggetti_user_name);
+        return list;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Prestiti> getPrestitiListByPrestiti(String prestiti_beneficiario, Integer prestiti_oggetto_prestato) {
+        List<Prestiti> list = daoFactory.getPrestitiDAO().getPrestitiListByPrestiti(prestiti_beneficiario, prestiti_oggetto_prestato);
+        return list;
+    }
+
+    /**
+     * Returns the number of Prestiti that satisfy conditions passed in
+     * prestitiSearch parameter
+     * 
+     * @param prestitiSearch search model that contains the filters to use
+     * @return the number of Prestiti found
+     * @see PrestitiSearch
+     * @see Prestiti
+     */
+    @Transactional(readOnly = true)
+    public Long countPrestiti(PrestitiSearch prestitiSearch) {
+        return daoFactory.getPrestitiDAO().count(prestitiSearch);
+    }
+
+    /**
+     * retrieve from persistence system the required Prestiti record
+     * 
+     * @param prestitiId the key to retrieve the prestiti
+     * @return the requested Prestiti record
+     * @throws QborrrowException if an unexpected exception occurs or no record
+     *             is found
+     * @see Prestiti
+     */
+    @Transactional(readOnly = true, rollbackFor = { QborrrowException.class })
+    public Prestiti getPrestiti(String beneficiario, Integer oggetto_prestato) throws DAOFinderException {
+        Prestiti prestiti = null;
+        prestiti = daoFactory.getPrestitiDAO().get(beneficiario, oggetto_prestato);
+        return prestiti;
+    }
+
+    /**
+     * persist the passed Prestiti object to database, previous validation
+     * 
+     * @param prestiti the object to save
+     * @return the persisted object
+     * @throws QborrrowException if an unexpected exception occurs during
+     *             operation
+     * @throws ValidationException if input data doesn't satisfy validation
+     * @see Prestiti
+     */
+    @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
+    public Prestiti savePrestiti(Prestiti prestiti) throws QborrrowException, ValidationException {
+        return savePrestiti(prestiti, true);
+    }
+
+    /**
+     * persist the passed Prestiti object to database
+     * 
+     * @param prestiti the object to save
+     * @param validate false skip model validation
+     * @return the persisted object
+     * @throws QborrrowException if an unexpected exception occurs during
+     *             operation
+     * @throws ValidationException if input data doesn't satisfy validation
+     * @see Prestiti
+     */
+    @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
+    public Prestiti savePrestiti(Prestiti prestiti, boolean validate) throws QborrrowException, ValidationException {
+        if (validate) {
+            validatePrestiti(prestiti);
+        }
+        if (prestiti.getBeneficiario() == null && prestiti.getOggetto_prestato() == null) {
+            createPrestiti(prestiti, validate);
+        } else {
+            updatePrestiti(prestiti, validate);
+        }
+        return prestiti;
+    }
+
+    /**
+     * create the passed Prestiti object to database, previous validation
+     * 
+     * @param prestiti the object to create
+     * @return the created object
+     * @throws QborrrowException if an unexpected exception occurs during
+     *             operation
+     * @throws ValidationException if input data doesn't satisfy validation
+     * @see Prestiti
+     */
+    @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
+    public Prestiti createPrestiti(Prestiti prestiti) throws QborrrowException, ValidationException {
+        return createPrestiti(prestiti, true);
+    }
+
+    /**
+     * create the passed Prestiti object to database
+     * 
+     * @param prestiti the object to create
+     * @param validate false skip model validation
+     * @return the created object
+     * @throws QborrrowException if an unexpected exception occurs during
+     *             operation
+     * @throws ValidationException if input data doesn't satisfy validation
+     * @see Prestiti
+     */
+    @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
+    public Prestiti createPrestiti(Prestiti prestiti, boolean validate) throws QborrrowException, ValidationException {
+        if (validate) {
+            validatePrestiti(prestiti);
+        }
+        try {
+            daoFactory.getPrestitiDAO().create(prestiti);
+            return prestiti;
+        } catch (DAOCreateException ex) {
+            throw new QborrrowException(ex, prestiti);
+        }
+    }
+
+    /**
+     * update the passed Prestiti object to database, previous validation
+     * 
+     * @param prestiti the object to update
+     * @return the updated object
+     * @throws QborrrowException if an unexpected exception occurs during
+     *             operation
+     * @throws ValidationException if input data doesn't satisfy validation
+     * @see Prestiti
+     */
+    @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
+    public Prestiti updatePrestiti(Prestiti prestiti) throws QborrrowException, ValidationException {
+        return updatePrestiti(prestiti, true);
+    }
+
+    /**
+     * update the passed Prestiti object to database
+     * 
+     * @param prestiti the object to update
+     * @param validate false skip model validation
+     * @return the updated object
+     * @throws QborrrowException if an unexpected exception occurs during
+     *             operation
+     * @throws ValidationException if input data doesn't satisfy validation
+     * @see Prestiti
+     */
+    @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
+    public Prestiti updatePrestiti(Prestiti prestiti, boolean validate) throws QborrrowException, ValidationException {
+        if (validate) {
+            validatePrestiti(prestiti);
+        }
+        try {
+
+            daoFactory.getPrestitiDAO().update(prestiti);
+
+            return prestiti;
+        } catch (DAOStoreException ex) {
+            throw new QborrrowException(ex, prestiti);
+        }
+    }
+
+    /**
+     * delete the Prestiti object from the database
+     * 
+     * @param prestiti the object to delete
+     * @throws QborrrowException if an unexpected exception occurs during
+     *             operation
+     * @see Prestiti
+     */
+    @Transactional(rollbackFor = { QborrrowException.class })
+    public void deletePrestiti(String beneficiario, Integer oggetto_prestato) throws QborrrowException {
+        try {
+            daoFactory.getPrestitiDAO().delete(beneficiario, oggetto_prestato);
+        } catch (DAODeleteException e) {
+            throw new QborrrowException("Error on delete Prestiti", e);
+        }
+    }
+
+    /**
+     * performs the validation of the selected Prestiti
+     *
+     * @param prestiti the object to be validated
+     * @param groups group name(s) targeted for validation (default to <code>[blank]</code> means all the validation will be done)
+     * @throws ValidationException if validation error occurs
+     * @see Prestiti
+     * @see it.quix.academy.qborrrow.core.validation.PrestitiValidator
+     */
+    @Transactional(readOnly = true, rollbackFor = { ValidationException.class })
+    public void validatePrestiti(Prestiti prestiti, String... groups) throws ValidationException {
+        QborrrowUserContext userContext = (QborrrowUserContext) UserContextHolder.getUserContext();
+        validatorFactory.getPrestitiValidator().validate(userContext, prestiti, groups);
+    }
+
+    /**
+     * performs the validation of the selected search model PrestitiSearch
+     *
+     * @param prestitiSearch the search model to be validated
+     * @param groups group name(s) targeted for validation (default to <code>[blank]</code> means all the validation will be done)
+     * @throws ValidationException if validation error occurs
+     * @see PrestitiSearch
+     * @see it.quix.academy.qborrrow.core.validation.PrestitiValidator
+     */
+    @Transactional(readOnly = true, rollbackFor = { ValidationException.class })
+    public void validatePrestitiSearch(PrestitiSearch prestitiSearch, String... groups) throws ValidationException {
+        QborrrowUserContext userContext = (QborrrowUserContext) UserContextHolder.getUserContext();
+        validatorFactory.getPrestitiSearchValidator().validate(userContext, prestitiSearch, groups);
+    }
+
+    /**
+     * Returns the list of Soggetti that satisfy conditions passed in
+     * soggettiSearch parameter
+     * 
+     * @param soggettiSearch search model that contains the filters to use
+     * @return returns the list of soggetti that satisfy conditions
+     * @see SoggettiSearch
+     * @see Soggetti
+     */
+    @Transactional(readOnly = true)
+    public List<Soggetti> getSoggettiList(SoggettiSearch soggettiSearch) {
+        List<Soggetti> list = daoFactory.getSoggettiDAO().getList(soggettiSearch);
+        return list;
+    }
+
+    /**
+     * Returns the number of Soggetti that satisfy conditions passed in
+     * soggettiSearch parameter
+     * 
+     * @param soggettiSearch search model that contains the filters to use
+     * @return the number of Soggetti found
+     * @see SoggettiSearch
+     * @see Soggetti
+     */
+    @Transactional(readOnly = true)
+    public Long countSoggetti(SoggettiSearch soggettiSearch) {
+        return daoFactory.getSoggettiDAO().count(soggettiSearch);
+    }
+
+    /**
+     * retrieve from persistence system the required Soggetti record
+     * 
+     * @param soggettiId the key to retrieve the soggetti
+     * @return the requested Soggetti record
+     * @throws QborrrowException if an unexpected exception occurs or no record
+     *             is found
+     * @see Soggetti
+     */
+    @Transactional(readOnly = true, rollbackFor = { QborrrowException.class })
+    public Soggetti getSoggetti(String user_name) throws DAOFinderException {
+        Soggetti soggetti = null;
+        soggetti = daoFactory.getSoggettiDAO().get(user_name);
+        return soggetti;
+    }
+
+    /**
+     * persist the passed Soggetti object to database, previous validation
+     * 
+     * @param soggetti the object to save
+     * @return the persisted object
+     * @throws QborrrowException if an unexpected exception occurs during
+     *             operation
+     * @throws ValidationException if input data doesn't satisfy validation
+     * @see Soggetti
+     */
+    @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
+    public Soggetti saveSoggetti(Soggetti soggetti) throws QborrrowException, ValidationException {
+        return saveSoggetti(soggetti, true);
+    }
+
+    /**
+     * persist the passed Soggetti object to database
+     * 
+     * @param soggetti the object to save
+     * @param validate false skip model validation
+     * @return the persisted object
+     * @throws QborrrowException if an unexpected exception occurs during
+     *             operation
+     * @throws ValidationException if input data doesn't satisfy validation
+     * @see Soggetti
+     */
+    @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
+    public Soggetti saveSoggetti(Soggetti soggetti, boolean validate) throws QborrrowException, ValidationException {
+        if (validate) {
+            validateSoggetti(soggetti);
+        }
+        if (soggetti.getUser_name() == null) {
+            createSoggetti(soggetti, validate);
+        } else {
+            updateSoggetti(soggetti, validate);
+        }
+        return soggetti;
+    }
+
+    /**
+     * create the passed Soggetti object to database, previous validation
+     * 
+     * @param soggetti the object to create
+     * @return the created object
+     * @throws QborrrowException if an unexpected exception occurs during
+     *             operation
+     * @throws ValidationException if input data doesn't satisfy validation
+     * @see Soggetti
+     */
+    @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
+    public Soggetti createSoggetti(Soggetti soggetti) throws QborrrowException, ValidationException {
+        return createSoggetti(soggetti, true);
+    }
+
+    /**
+     * create the passed Soggetti object to database
+     * 
+     * @param soggetti the object to create
+     * @param validate false skip model validation
+     * @return the created object
+     * @throws QborrrowException if an unexpected exception occurs during
+     *             operation
+     * @throws ValidationException if input data doesn't satisfy validation
+     * @see Soggetti
+     */
+    @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
+    public Soggetti createSoggetti(Soggetti soggetti, boolean validate) throws QborrrowException, ValidationException {
+        if (validate) {
+            validateSoggetti(soggetti);
+        }
+        try {
+            daoFactory.getSoggettiDAO().create(soggetti);
+            return soggetti;
+        } catch (DAOCreateException ex) {
+            throw new QborrrowException(ex, soggetti);
+        }
+    }
+
+    /**
+     * update the passed Soggetti object to database, previous validation
+     * 
+     * @param soggetti the object to update
+     * @return the updated object
+     * @throws QborrrowException if an unexpected exception occurs during
+     *             operation
+     * @throws ValidationException if input data doesn't satisfy validation
+     * @see Soggetti
+     */
+    @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
+    public Soggetti updateSoggetti(Soggetti soggetti) throws QborrrowException, ValidationException {
+        return updateSoggetti(soggetti, true);
+    }
+
+    /**
+     * update the passed Soggetti object to database
+     * 
+     * @param soggetti the object to update
+     * @param validate false skip model validation
+     * @return the updated object
+     * @throws QborrrowException if an unexpected exception occurs during
+     *             operation
+     * @throws ValidationException if input data doesn't satisfy validation
+     * @see Soggetti
+     */
+    @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
+    public Soggetti updateSoggetti(Soggetti soggetti, boolean validate) throws QborrrowException, ValidationException {
+        if (validate) {
+            validateSoggetti(soggetti);
+        }
+        try {
+
+            daoFactory.getSoggettiDAO().update(soggetti);
+
+            return soggetti;
+        } catch (DAOStoreException ex) {
+            throw new QborrrowException(ex, soggetti);
+        }
+    }
+
+    /**
+     * delete the Soggetti object from the database
+     * 
+     * @param soggetti the object to delete
+     * @throws QborrrowException if an unexpected exception occurs during
+     *             operation
+     * @see Soggetti
+     */
+    @Transactional(rollbackFor = { QborrrowException.class })
+    public void deleteSoggetti(String user_name) throws QborrrowException {
+        try {
+            daoFactory.getSoggettiDAO().delete(user_name);
+        } catch (DAODeleteException e) {
+            throw new QborrrowException("Error on delete Soggetti", e);
+        }
+    }
+
+    /**
+     * performs the validation of the selected Soggetti
+     *
+     * @param soggetti the object to be validated
+     * @param groups group name(s) targeted for validation (default to <code>[blank]</code> means all the validation will be done)
+     * @throws ValidationException if validation error occurs
+     * @see Soggetti
+     * @see it.quix.academy.qborrrow.core.validation.SoggettiValidator
+     */
+    @Transactional(readOnly = true, rollbackFor = { ValidationException.class })
+    public void validateSoggetti(Soggetti soggetti, String... groups) throws ValidationException {
+        QborrrowUserContext userContext = (QborrrowUserContext) UserContextHolder.getUserContext();
+        validatorFactory.getSoggettiValidator().validate(userContext, soggetti, groups);
+    }
+
+    /**
+     * performs the validation of the selected search model SoggettiSearch
+     *
+     * @param soggettiSearch the search model to be validated
+     * @param groups group name(s) targeted for validation (default to <code>[blank]</code> means all the validation will be done)
+     * @throws ValidationException if validation error occurs
+     * @see SoggettiSearch
+     * @see it.quix.academy.qborrrow.core.validation.SoggettiValidator
+     */
+    @Transactional(readOnly = true, rollbackFor = { ValidationException.class })
+    public void validateSoggettiSearch(SoggettiSearch soggettiSearch, String... groups) throws ValidationException {
+        QborrrowUserContext userContext = (QborrrowUserContext) UserContextHolder.getUserContext();
+        validatorFactory.getSoggettiSearchValidator().validate(userContext, soggettiSearch, groups);
+    }
+
+    public DAOFactory getDaoFactory() {
+        return daoFactory;
+    }
+
+    public void setDaoFactory(DAOFactory daoFactory) {
+        this.daoFactory = daoFactory;
+    }
+
+    public ValidatorFactory getValidatorFactory() {
+        return validatorFactory;
+    }
+
+    public void setValidatorFactory(ValidatorFactory validatorFactory) {
+        this.validatorFactory = validatorFactory;
+    }
+
+    public void setSysAttributeHandler(SysAttributeHandler sysAttributeHandler) {
+        this.sysAttributeHandler = sysAttributeHandler;
+    }
+
+    public SysAttributeHandler getSysAttributeHandler() {
+        return sysAttributeHandler;
+    }
+
+}
