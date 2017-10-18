@@ -30,12 +30,12 @@
 				</b>
 				&nbsp;&nbsp;<i class="fa fa-times-circle" style="cursor: pointer;" ng-click="removeFilter('idTo')"></i>
 			</span>
-			<span class="filterDiv" ng-if="scopeController.search.proprietario != null && scopeController.search.proprietario != ''">
-				<s:text name="oggetti.search.proprietario"/>: 
+			<span class="filterDiv" ng-if="scopeController.search.soggetti != null && scopeController.search.soggetti != ''">
+				<s:text name="oggetti.search.soggetti"/>: 
 				<b>
-					{{scopeController.search.proprietario}}
+					{{scopeController.search.soggetti_description}}
 				</b>
-				&nbsp;&nbsp;<i class="fa fa-times-circle" style="cursor: pointer;" ng-click="removeFilter('proprietario')"></i>
+				&nbsp;&nbsp;<i class="fa fa-times-circle" style="cursor: pointer;" ng-click="removeFilter('soggetti')"></i>
 			</span>
 		</div>
 		<div class="box-body qfade " ng-show="filtriEspansi" ng-cloak>
@@ -84,11 +84,23 @@
 						</div>
 					</div>
 				</div>
-				<div class="qcol-xs-12 qcol-sm-12 qcol-md-6" ng-class="{'qhas-error': forms.oggettiListForm.proprietario.$invalid}">
-					<label for="proprietario"><s:text name="oggetti.search.proprietario"/>:</label>
+				<div class="qcol-xs-12 qcol-sm-12 qcol-md-6" ng-class="{'qhas-error': forms.oggettiListForm.soggetti.$invalid}">
+					<label for="soggetti"><s:text name="oggetti.search.soggetti"/>:</label>
 					<div>
-						<input type="text" ng-model="scopeController.search.proprietario" id="proprietario" class="qform-control" />
-						<div ng-messages="forms.oggettiListForm.proprietario.$error" role="alert">
+						<span class="quix-popup-search-field">      
+			              	<div class="quix-popup-search-field-container">
+				              	<div>
+				              		<div class="quix-popup-search-field-label">{{scopeController.search.soggetti_description}}</div>
+				             		<div class="quix-popup-search-field-icon">
+										<i class="fa fa-times fa-lg" ng-click="qxResetPopupField(scopeController.search, 'soggetti')"></i>
+				             		</div>
+				             		<div class="quix-popup-search-field-icon">
+										<i class="fa fa-search fa-lg" ng-click="openPopupField('Soggetti', scopeController.search, 'soggetti', 'user_name', 'user_name')"></i>
+				             		</div>
+				             	</div>
+			              	</div>  
+			           </span>
+						<div ng-messages="forms.oggettiListForm.soggetti.$error" role="alert">
 						  	<div ng-message="notNull"><s:text name="error.notNull"/></div>
 						  	<div ng-message="invalidAK"><s:text name="error.invalidAK"/></div>
 						  	<div ng-message="notValid"><s:text name="error.notValid"/></div>
@@ -138,24 +150,17 @@
 						</span>
 					</li> 											
 					<li style="padding: 10px;">
-						<s:text name="oggetti.list.order.proprietario"/>
+						<s:text name="oggetti.list.order.titolo"/>
 						<span class="pull-right">
 							<i class="fa fa-sort-amount-asc" style="cursor: pointer;" ng-class="{'active-order-icon': scopeController.search.order == 3}" ng-click="orderBy(3); openOrderMenu = false;"></i>
 							<i class="fa fa-sort-amount-desc" style="cursor: pointer;" ng-class="{'active-order-icon': scopeController.search.order == 4}" ng-click="orderBy(4); openOrderMenu = false;"></i>
 						</span>
 					</li> 											
 					<li style="padding: 10px;">
-						<s:text name="oggetti.list.order.titolo"/>
+						<s:text name="oggetti.list.order.data_ultima_modifica"/>
 						<span class="pull-right">
 							<i class="fa fa-sort-amount-asc" style="cursor: pointer;" ng-class="{'active-order-icon': scopeController.search.order == 5}" ng-click="orderBy(5); openOrderMenu = false;"></i>
 							<i class="fa fa-sort-amount-desc" style="cursor: pointer;" ng-class="{'active-order-icon': scopeController.search.order == 6}" ng-click="orderBy(6); openOrderMenu = false;"></i>
-						</span>
-					</li> 											
-					<li style="padding: 10px;">
-						<s:text name="oggetti.list.order.data_ultima_modifica"/>
-						<span class="pull-right">
-							<i class="fa fa-sort-amount-asc" style="cursor: pointer;" ng-class="{'active-order-icon': scopeController.search.order == 7}" ng-click="orderBy(7); openOrderMenu = false;"></i>
-							<i class="fa fa-sort-amount-desc" style="cursor: pointer;" ng-class="{'active-order-icon': scopeController.search.order == 8}" ng-click="orderBy(8); openOrderMenu = false;"></i>
 						</span>
 					</li>											
 				</ul>
@@ -177,7 +182,6 @@
 			<thead>
 				<tr>
 					<th class="qtext-right"><s:text name="oggetti.list.id"/></th>
-					<th class="qtext-left"><s:text name="oggetti.list.proprietario"/></th>
 					<th class="qtext-left"><s:text name="oggetti.list.titolo"/></th>
 					<th class="qtext-left"><s:text name="oggetti.list.descrizione"/></th>
 					<th class="qtext-left"><s:text name="oggetti.list.immagine"/></th>
@@ -189,7 +193,6 @@
 			<tbody>
 				<tr ng-repeat="row in scopeController.result.list">
 					<td class="qtext-right" nowrap="nowrap">{{ row.id }}</td>
-					<td>{{ row.proprietario }}</td>
 					<td>{{ row.titolo }}</td>
 					<td>{{ row.descrizione }}</td>
 					<td>{{ row.immagine }}</td>

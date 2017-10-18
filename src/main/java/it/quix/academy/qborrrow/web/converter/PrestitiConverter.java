@@ -42,9 +42,9 @@ public class PrestitiConverter extends AbstractTypeConverter<Prestiti> {
             // QborrrowUserContext uc = (QborrrowUserContext) stack.findValue("userContext");
 
             String[] pks = arg1[0].split("[|]");
-            String beneficiario = (java.lang.String) convertFromString(pks[0], String.class);
-            Integer oggetto_prestato = (java.lang.Integer) convertFromString(pks[1], Integer.class);
-            Prestiti prestiti = getQborrrowManager().getPrestiti(beneficiario, oggetto_prestato);
+            String soggetti_user_name = (String) convertFromString(pks[0], String.class);
+            Integer oggetti_id = (Integer) convertFromString(pks[1], Integer.class);
+            Prestiti prestiti = getQborrrowManager().getPrestiti(soggetti_user_name, oggetti_id);
 
             if (prestiti == null) {
                 throw new TypeConversionException("Error on PrestitiConverter. Prestiti with key (id serialized) " + arg1[0] + " not found.");
@@ -61,9 +61,9 @@ public class PrestitiConverter extends AbstractTypeConverter<Prestiti> {
         Prestiti prestiti = (Prestiti) obj;
         try {
             StringBuilder pk = new StringBuilder();
-            pk.append(convertToString(prestiti.getBeneficiario()));
+            pk.append(convertToString(prestiti.getSoggetti_user_name()));
             pk.append("|");
-            pk.append(convertToString(prestiti.getOggetto_prestato()));
+            pk.append(convertToString(prestiti.getOggetti_id()));
             return pk.toString();
         } catch (Exception e) {
             throw new TypeConversionException(e);

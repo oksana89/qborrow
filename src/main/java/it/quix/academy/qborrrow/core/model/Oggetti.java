@@ -44,7 +44,7 @@ import it.quix.framework.core.model.UserContext;
 /**
  * The Oggetti entity.
  * 
- * @author Quix CodeGenerator version 03.03.00-SNAPSHOT, generated 11/10/2017 14:58:54
+ * @author Quix CodeGenerator version 03.03.00-SNAPSHOT, generated 12/10/2017 12:46:08
  */
 @Entity
 @Table(name = "oggetti")
@@ -76,19 +76,6 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
     @Column(length = 50, nullable = false)
     @QrExcelColumn(order = 0)
     private Integer id;
-
-    /**
-     * proprietario <br>
-     * proprietario <br>
-     * Property of field:
-     * <ul>
-     * <li>length = 50
-     * <li>nullable = false
-     * </ul>
-     */
-    @Column(length = 50, nullable = false)
-    @QrExcelColumn(order = 0)
-    private String proprietario;
 
     /**
      * titolo <br>
@@ -157,14 +144,18 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
     private Date data_ultima_modifica;
 
     /**
+     * proprietario <br>
+     * proprietario <br>
      * Property of field:
      * <ul>
-     * <li>columnName = user_name
+     * <li>columnName = proprietario
      * <li>nullable = true
      * </ul>
      */
+    @Column(length = 50, nullable = false)
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_name")
+    @JoinColumn(name = "proprietario")
+    @QrExcelColumn(order = 0, translate = true)
     private Soggetti soggetti;
 
     @Transient
@@ -172,6 +163,16 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
 
     @Transient
     private String soggetti_user_name;
+
+    /**
+     * indica se oggetto � prestato
+     */
+    private boolean isOggettoPrestato = false;
+
+    /**
+     * Se oggetto � in prestito vedremo i dati del prestito
+     */
+    private Prestiti prestito;
 
     /**
      * Indicates whether some other object is "equal to" this one.
@@ -251,8 +252,6 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
         sb.append("(");
 
         sb.append(", ").append("id=").append(id);
-
-        sb.append(", ").append("proprietario=").append(proprietario);
 
         sb.append(", ").append("titolo=").append(titolo);
 
@@ -352,39 +351,6 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
      */
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    /**
-     * Return the proprietario
-     * proprietario <br>
-     * Property of field:
-     * <ul>
-     * <li>length = 50
-     * <li>nullable = false
-     * </ul>
-     * 
-     * @return the proprietario
-     * @see Oggetti.proprietario
-     */
-
-    public String getProprietario() {
-        return proprietario;
-    }
-
-    /**
-     * Set the proprietario
-     * proprietario <br>
-     * Property of field:
-     * <ul>
-     * <li>length = 50
-     * <li>nullable = false
-     * </ul>
-     * 
-     * @param proprietario the proprietario to set
-     * @see Oggetti.proprietario
-     */
-    public void setProprietario(String proprietario) {
-        this.proprietario = proprietario;
     }
 
     /**
@@ -574,10 +540,11 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * <br>
+     * Return the proprietario
+     * proprietario <br>
      * Property of field:
      * <ul>
-     * <li>columnName = user_name
+     * <li>columnName = proprietario
      * <li>nullable = true
      * </ul>
      * 
@@ -598,14 +565,15 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * <br>
+     * Set the proprietario
+     * proprietario <br>
      * Property of field:
      * <ul>
-     * <li>columnName = user_name
+     * <li>columnName = proprietario
      * <li>nullable = true
      * </ul>
      * 
-     * @param soggetti
+     * @param soggetti the proprietario to set
      * @see Oggetti.soggetti
      */
     public void setSoggetti(Soggetti soggetti) {
@@ -644,6 +612,35 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
 
     public void setSoggettiJdbcAlreadyChecked(boolean soggettiJdbcAlreadyChecked) {
         this.soggettiJdbcAlreadyChecked = soggettiJdbcAlreadyChecked;
+    }
+
+    /**
+     * @param b
+     * @return the isOggettoPrestato
+     */
+    public boolean isOggettoPrestato(boolean b) {
+        return isOggettoPrestato;
+    }
+
+    /**
+     * @param isOggettoPrestato the isOggettoPrestato to set
+     */
+    public void setOggettoPrestato(boolean isOggettoPrestato) {
+        this.isOggettoPrestato = isOggettoPrestato;
+    }
+
+    /**
+     * @return the prestito
+     */
+    public Prestiti getPrestito() {
+        return prestito;
+    }
+
+    /**
+     * @param prestito the prestito to set
+     */
+    public void setPrestito(Prestiti prestito) {
+        this.prestito = prestito;
     }
 
 }

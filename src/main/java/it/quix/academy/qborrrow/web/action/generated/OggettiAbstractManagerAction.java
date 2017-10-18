@@ -185,6 +185,14 @@ public class OggettiAbstractManagerAction extends QborrrowManagerAction {
                     }
                     return stringValue;
                 }
+                if (field.getName().equals("soggetti")) {
+                    String stringValue = "";
+                    Soggetti soggetti = (Soggetti) value;
+                    if (soggetti != null) {
+                        stringValue = String.valueOf(soggetti.getUser_name());
+                    }
+                    return stringValue;
+                }
                 return super.translate(field, value);
             }
         };

@@ -42,11 +42,14 @@ public class Oggetti implements Serializable{
 
 		@Column(length = 50, nullable = false)
 		@QgSearchField
+		@ManyToOne
+		@JoinColumn(name = "proprietario")
 		@QgOrderBy(type = OrderByTypeEnum.ASC, position = 0)
 	    @QgSortable
 	    @QgListColumnField
+	    @QgEditField(editFieldType = SearchFieldType.COMBO_SEARCH_FIELD)
 	    @QgLabel(label = "proprietario", description = "proprietario")
-		public String proprietario;
+		Soggetti soggetti;
 		
 		@Column(length = 225, nullable = true)
 		@QgOrderBy(type = OrderByTypeEnum.ASC, position = 0) 
@@ -81,9 +84,6 @@ public class Oggetti implements Serializable{
 		public Date data_ultima_modifica;
 		
 		
-		@ManyToOne
-		@JoinColumn(name = "user_name")
-		public @QgEditField(editFieldType = SearchFieldType.COMBO_SEARCH_FIELD) Soggetti soggetti;
 	
 
 }

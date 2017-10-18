@@ -33,7 +33,7 @@ import it.quix.framework.util.exceptions.SystemException;
 /**
  * The Abstract DAO for Oggetti entity.
  * 
- * @author Quix CodeGenerator version 03.03.00-SNAPSHOT, generated 11/10/2017 14:58:54
+ * @author Quix CodeGenerator version 03.03.00-SNAPSHOT, generated 12/10/2017 12:46:09
  */
 public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
 
@@ -62,9 +62,9 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
             // Compose the insert query
             StringBuilder query = new StringBuilder(EOL);
             query.append("INSERT INTO oggetti ").append(EOL);
-            query.append("   (ID, PROPRIETARIO, TITOLO, DESCRIZIONE, IMMAGINE, CATEGORIA, DATA_ULTIMA_MODIFICA, USER_NAME) ").append(EOL);
+            query.append("   (ID, TITOLO, DESCRIZIONE, IMMAGINE, CATEGORIA, DATA_ULTIMA_MODIFICA, PROPRIETARIO) ").append(EOL);
             query.append(" VALUES ").append(EOL);
-            query.append(" (?, ?, ?, ?, ?, ?, ?, ?) ").append(EOL);
+            query.append(" (?, ?, ?, ?, ?, ?, ?) ").append(EOL);
 
             // Query logging
             if (queryLog.isInfoEnabled()) {
@@ -79,7 +79,6 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
             // Set the parameters
             int p = 1;
             super.setParameterInteger(statement, p++, oggetti.getId());
-            super.setParameterString(statement, p++, oggetti.getProprietario());
             super.setParameterString(statement, p++, oggetti.getTitolo());
             super.setParameterString(statement, p++, oggetti.getDescrizione());
             super.setParameterString(statement, p++, oggetti.getImmagine());
@@ -130,8 +129,7 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
             // Compose the update query
             StringBuilder query = new StringBuilder(EOL);
             query.append(" UPDATE oggetti SET ").append(EOL);
-            query.append(" proprietario = ? , titolo = ? , descrizione = ? , immagine = ? , categoria = ? , data_ultima_modifica = ? , user_name = ?  ")
-                .append(EOL);
+            query.append(" titolo = ? , descrizione = ? , immagine = ? , categoria = ? , data_ultima_modifica = ? , proprietario = ?  ").append(EOL);
             query.append("  WHERE id = ? ").append(EOL);
 
             // Query logging
@@ -148,7 +146,6 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
 
             // Set the parameters
             int p = 1;
-            super.setParameterString(statement, p++, oggetti.getProprietario());
             super.setParameterString(statement, p++, oggetti.getTitolo());
             super.setParameterString(statement, p++, oggetti.getDescrizione());
             super.setParameterString(statement, p++, oggetti.getImmagine());
@@ -200,10 +197,6 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
         if (oldOggetti.getId() != null && !oldOggetti.getId().equals(newOggetti.getId()))
             return true;
         if (oldOggetti.getId() == null && newOggetti.getId() != null)
-            return true;
-        if (oldOggetti.getProprietario() != null && !oldOggetti.getProprietario().equals(newOggetti.getProprietario()))
-            return true;
-        if (oldOggetti.getProprietario() == null && newOggetti.getProprietario() != null)
             return true;
         if (oldOggetti.getTitolo() != null && !oldOggetti.getTitolo().equals(newOggetti.getTitolo()))
             return true;
@@ -265,7 +258,6 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
 
         newOggetti.setQborrrowManager(oggetti.getQborrrowManager());
         newOggetti.setId(oggetti.getId());
-        newOggetti.setProprietario(oggetti.getProprietario());
         newOggetti.setTitolo(oggetti.getTitolo());
         newOggetti.setDescrizione(oggetti.getDescrizione());
         newOggetti.setImmagine(oggetti.getImmagine());
@@ -315,7 +307,7 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
                 queryLog.debug(msgTime);
             }
             if (rs.next()) {
-                Oggetti oggettiModel = buildModelFromResultSet(rs);
+                Oggetti oggettiModel = buildModelFromResultSet(rs, qborrrowManager);
                 return oggettiModel;
             }
             throw new DAOFinderException(FrameworkStringUtils.concat("Cannot find Oggetti on database with [id = ", id, "]"));
@@ -340,8 +332,34 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
      * @return the Oggetti object
      * @throws SQLException if any error on retrieve fields from the ResultSet
      */
-    protected Oggetti buildModelFromResultSet(ResultSet rs) throws SQLException {
+    protected Oggetti oggetti(ResultSet rs) throws SQLException {
         return buildModelFromResultSet(rs, qborrrowManager);
+    }
+
+    /**
+     * Fill all object (Oggetti) fields from the ResultSet
+     * 
+     * @param rs the ResultSet to copy to the object
+     * @param qborrowManager the manager to set
+     * @return the Oggetti object
+     * @throws SQLException if any error on retrieve fields from the ResultSet
+     */
+
+    public Oggetti buildModelFromResultSet(ResultSet rs, QborrrowManager qborrrowManager) throws SQLException {
+        Oggetti oggetti = new Oggetti();
+
+        oggetti.setJdbc(true);
+        oggetti.setQborrrowManager(qborrrowManager);
+
+        oggetti.setSoggetti_user_name(getParameterString(rs, "proprietario"));
+        oggetti.setId(getParameterInteger(rs, "id"));
+        oggetti.setTitolo(getParameterString(rs, "titolo"));
+        oggetti.setDescrizione(getParameterString(rs, "descrizione"));
+        oggetti.setImmagine(getParameterString(rs, "immagine"));
+        oggetti.setCategoria(getParameterString(rs, "categoria"));
+        oggetti.setData_ultima_modifica(getParameterDate(rs, "data_ultima_modifica"));
+
+        return oggetti;
     }
 
     /**
@@ -352,15 +370,15 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
      * @return the Oggetti object
      * @throws SQLException if any error on retrieve fields from the ResultSet
      */
-    public Oggetti buildModelFromResultSet(ResultSet rs, QborrrowManager qborrrowManager) throws SQLException {
+    public Oggetti oggetti(ResultSet rs, QborrrowManager qborrrowManager) throws SQLException {
+
         Oggetti oggetti = new Oggetti();
 
         oggetti.setJdbc(true);
         oggetti.setQborrrowManager(qborrrowManager);
 
-        oggetti.setSoggetti_user_name(getParameterString(rs, "user_name"));
+        oggetti.setSoggetti_user_name(getParameterString(rs, "proprietario"));
         oggetti.setId(getParameterInteger(rs, "id"));
-        oggetti.setProprietario(getParameterString(rs, "proprietario"));
         oggetti.setTitolo(getParameterString(rs, "titolo"));
         oggetti.setDescrizione(getParameterString(rs, "descrizione"));
         oggetti.setImmagine(getParameterString(rs, "immagine"));
@@ -443,7 +461,7 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
             // Compose the select query
             StringBuilder query = new StringBuilder(EOL);
             query.append("SELECT * FROM oggetti ").append(EOL);
-            query.append("WHERE user_name = ?  ").append(EOL);
+            query.append("WHERE proprietario = ?  ").append(EOL);
             // Query logging
             if (queryLog.isInfoEnabled()) {
                 queryLog.info(query);
@@ -466,7 +484,7 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
                 queryLog.debug(msgTime);
             }
             while (rs.next()) {
-                Oggetti oggetti = buildModelFromResultSet(rs);
+                Oggetti oggetti = buildModelFromResultSet(rs, qborrrowManager);
                 list.add(oggetti);
             }
             return list;
@@ -496,7 +514,7 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
             // Compose the select query
             StringBuilder query = new StringBuilder(EOL);
             query.append("DELETE FROM oggetti ").append(EOL);
-            query.append("WHERE user_name = ?  ").append(EOL);
+            query.append("WHERE proprietario = ?  ").append(EOL);
             // Query logging
             if (queryLog.isInfoEnabled()) {
                 queryLog.info(query);
@@ -638,7 +656,7 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
             int count = 0;
             skipFirstRows(rs, search);
             while (rs.next()) {
-                Oggetti oggetti = buildModelFromResultSet(rs);
+                Oggetti oggetti = buildModelFromResultSet(rs, qborrrowManager);
                 list.add(oggetti);
                 count++;
                 if (stopRows(count, search)) {
@@ -677,11 +695,6 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
 
         }
 
-        if (StringUtils.isNotEmpty(search.getProprietario())) {
-            whereClause.append("AND proprietario  LIKE ? ");
-            parameters.put(new Integer(p), "%" + search.getProprietario() + "%");
-            p++;
-        }
         if (StringUtils.isNotEmpty(search.getTitolo())) {
             whereClause.append("AND titolo  LIKE ? ");
             parameters.put(new Integer(p), "%" + search.getTitolo() + "%");
@@ -713,12 +726,12 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
             p++;
         }
         if (search.getSoggetti() != null) {
-            whereClause.append("AND user_name = ?  ");
+            whereClause.append("AND proprietario = ?  ");
             parameters.put(new Integer(p), search.getSoggetti().getUser_name());
             p++;
         } else {
             if (search.getSoggetti_user_name() != null) {
-                whereClause.append("AND user_name = ? ");
+                whereClause.append("AND proprietario = ? ");
                 parameters.put(new Integer(p), search.getSoggetti_user_name());
                 p++;
             }

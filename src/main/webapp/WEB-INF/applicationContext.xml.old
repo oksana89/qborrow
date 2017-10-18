@@ -20,7 +20,7 @@
 
 	
 
-	<bean id="qborrrowInterceptor" class="it.quix.academy.qborrrow.web.interceptor.QborrrowInterceptor" />
+	<bean id="qborrrowInterceptor" class="it.quix.academy.qborrrow.web.interceptor.Qborr rowInterceptor" />
 
 
 	<!-- use .properties for label as default -->

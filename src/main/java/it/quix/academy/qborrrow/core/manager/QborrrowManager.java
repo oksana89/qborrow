@@ -57,10 +57,24 @@ public class QborrrowManager {
      * @return returns the list of oggetti that satisfy conditions
      * @see OggettiSearch
      * @see Oggetti
+     * 
      */
     @Transactional(readOnly = true)
     public List<Oggetti> getOggettiList(OggettiSearch oggettiSearch) {
         List<Oggetti> list = daoFactory.getOggettiDAO().getList(oggettiSearch);
+        return list;
+    }
+
+    /**
+     * funz per ottenere la lista dei miei oggettie
+     * lo sernamene settato nel oggetto search dello usercontext
+     * 
+     * @param OggettiSearch
+     */
+
+    @Transactional(readOnly = true)
+    public List<Oggetti> getMieiOggettiList(OggettiSearch oggettiSearch) {
+        List<Oggetti> list = daoFactory.getOggettiDAO().getMieiOggettiList(oggettiSearch);
         return list;
     }
 
@@ -288,8 +302,8 @@ public class QborrrowManager {
     }
 
     @Transactional(readOnly = true)
-    public List<Prestiti> getPrestitiListByPrestiti(String prestiti_beneficiario, Integer prestiti_oggetto_prestato) {
-        List<Prestiti> list = daoFactory.getPrestitiDAO().getPrestitiListByPrestiti(prestiti_beneficiario, prestiti_oggetto_prestato);
+    public List<Prestiti> getPrestitiListByOggetti(Integer oggetti_id) {
+        List<Prestiti> list = daoFactory.getPrestitiDAO().getPrestitiListByOggetti(oggetti_id);
         return list;
     }
 
@@ -317,9 +331,9 @@ public class QborrrowManager {
      * @see Prestiti
      */
     @Transactional(readOnly = true, rollbackFor = { QborrrowException.class })
-    public Prestiti getPrestiti(String beneficiario, Integer oggetto_prestato) throws DAOFinderException {
+    public Prestiti getPrestiti(String soggetti_user_name, Integer oggetti_id) throws DAOFinderException {
         Prestiti prestiti = null;
-        prestiti = daoFactory.getPrestitiDAO().get(beneficiario, oggetto_prestato);
+        prestiti = daoFactory.getPrestitiDAO().get(soggetti_user_name, oggetti_id);
         return prestiti;
     }
 
@@ -354,7 +368,7 @@ public class QborrrowManager {
         if (validate) {
             validatePrestiti(prestiti);
         }
-        if (prestiti.getBeneficiario() == null && prestiti.getOggetto_prestato() == null) {
+        if (prestiti.getSoggetti() == null && prestiti.getOggetti() == null) {
             createPrestiti(prestiti, validate);
         } else {
             updatePrestiti(prestiti, validate);
@@ -451,9 +465,9 @@ public class QborrrowManager {
      * @see Prestiti
      */
     @Transactional(rollbackFor = { QborrrowException.class })
-    public void deletePrestiti(String beneficiario, Integer oggetto_prestato) throws QborrrowException {
+    public void deletePrestiti(String soggetti_user_name, Integer oggetti_id) throws QborrrowException {
         try {
-            daoFactory.getPrestitiDAO().delete(beneficiario, oggetto_prestato);
+            daoFactory.getPrestitiDAO().delete(soggetti_user_name, oggetti_id);
         } catch (DAODeleteException e) {
             throw new QborrrowException("Error on delete Prestiti", e);
         }

@@ -27,20 +27,23 @@ import javax.persistence.TemporalType;
 public class Prestiti implements Serializable {
 	   
 	@Id
-	@Column(length = 50, nullable = false)
-	@QgLabel(label = "beneficiario", description = "fk-beneficiario")
+	@ManyToOne
+	@JoinColumn(name = "beneficiario")
 	@QgSearchField
-	@QgOrderBy(type = OrderByTypeEnum.ASC, position = 0)
     @QgSortable
     @QgListColumnField
-	public String beneficiario;
+    public Soggetti soggetti;
+	//public String beneficiario;
 
 	@Id
+	@ManyToOne
+	@JoinColumn(name = "oggetto_prestato")
+	@QgEditField(editFieldType = SearchFieldType.COMBO_SEARCH_FIELD)
 	@QgSearchField 
 	@QgListColumnField
 	@Column(nullable = false)
 	@QgLabel(label = "oggetto prestato", description = "oggetto prestato")
-	public Integer oggetto_prestato;
+	public Oggetti oggetti;
 	
 	 
 	@Column(length = 9, nullable = false)
@@ -54,7 +57,7 @@ public class Prestiti implements Serializable {
 	public Date data_prestito;
 	
 	
-	@Column(name = "data ultima modifica", length = 9, nullable = false)
+	@Column(name = "data_scadenza_prestito", length = 9, nullable = false)
 	@QcDateType
 	@QgSearchField
 	@QgListColumnField
@@ -64,14 +67,7 @@ public class Prestiti implements Serializable {
     @QgLabel(label = "data scadenza prestito", description = "data scadenza prestito")
 	public Date data_scadenza_prestito;
 	
-	@ManyToOne
-	@JoinColumn(name = "user_name")
-	@QgEditField(editFieldType = SearchFieldType.COMBO_SEARCH_FIELD)
-	public Soggetti soggetti;
 	
-	@ManyToOne
-	@JoinColumn(name = "id")
-	public @QgEditField(editFieldType = SearchFieldType.COMBO_SEARCH_FIELD) Prestiti prestiti;
 	
 	 
 }

@@ -1,8 +1,6 @@
 package it.quix.academy.qborrrow.core.model;
 
 import java.io.Serializable;
-import java.lang.Integer;
-import java.lang.String;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashSet;
@@ -15,7 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
@@ -39,12 +36,11 @@ import it.quix.framework.core.handler.SysAttributeHandler;
 import it.quix.framework.core.manager.UserContextHolder;
 import it.quix.framework.core.model.AttributeView;
 import it.quix.framework.core.model.UserContext;
-import it.quix.framework.core.validation.annotation.QvPattern;
 
 /**
  * The Prestiti entity.
  * 
- * @author Quix CodeGenerator version 03.03.00-SNAPSHOT, generated 11/10/2017 14:58:54
+ * @author Quix CodeGenerator version 03.03.00-SNAPSHOT, generated 12/10/2017 12:46:08
  */
 @Entity
 @Table(name = "prestiti")
@@ -63,35 +59,47 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
     private static Log log = LogFactory.getLog(Prestiti.class);
 
     /**
-     * beneficiario <br>
-     * fk-beneficiario <br>
      * Property of field:
      * <ul>
-     * <li>length = 50
-     * <li>nullable = false
+     * <li>columnName = beneficiario
+     * <li>nullable = true
      * </ul>
      * This field is part of the primary key of this entity.
      */
     @Id
-    @Column(length = 50, nullable = false)
-    @QvPattern(regex = "[^|]*", message = "error.qvpattern.message")
-    @QrExcelColumn(order = 0)
-    private String beneficiario;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "beneficiario")
+    @QrExcelColumn(order = 0, translate = true)
+    private Soggetti soggetti;
+
+    @Transient
+    private boolean soggettiJdbcAlreadyChecked = false;
+
+    @Transient
+    private String soggetti_user_name;
 
     /**
      * oggetto prestato <br>
      * oggetto prestato <br>
      * Property of field:
      * <ul>
-     * <li>length = 255
-     * <li>nullable = false
+     * <li>columnName = oggetto_prestato
+     * <li>nullable = true
      * </ul>
      * This field is part of the primary key of this entity.
      */
     @Id
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "oggetto_prestato")
     @Column(nullable = false)
-    @QrExcelColumn(order = 0)
-    private Integer oggetto_prestato;
+    @QrExcelColumn(order = 0, translate = true)
+    private Oggetti oggetti;
+
+    @Transient
+    private boolean oggettiJdbcAlreadyChecked = false;
+
+    @Transient
+    private Integer oggetti_id;
 
     /**
      * data prestito <br>
@@ -114,52 +122,15 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
      * Property of field:
      * <ul>
      * <li>length = 9
-     * <li>columnName = data ultima modifica
+     * <li>columnName = data_scadenza_prestito
      * <li>nullable = false
      * </ul>
      */
-    @Column(length = 9, name = "data ultima modifica", nullable = false)
+    @Column(length = 9, name = "data_scadenza_prestito", nullable = false)
     @QcDateType()
     @Temporal(TemporalType.DATE)
     @QrExcelColumn(order = 0)
     private Date data_scadenza_prestito;
-
-    /**
-     * Property of field:
-     * <ul>
-     * <li>columnName = user_name
-     * <li>nullable = true
-     * </ul>
-     */
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_name")
-    private Soggetti soggetti;
-
-    @Transient
-    private boolean soggettiJdbcAlreadyChecked = false;
-
-    @Transient
-    private String soggetti_user_name;
-
-    /**
-     * Property of field:
-     * <ul>
-     * <li>columnName = id
-     * <li>nullable = true
-     * </ul>
-     */
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id")
-    private Prestiti prestiti;
-
-    @Transient
-    private boolean prestitiJdbcAlreadyChecked = false;
-
-    @Transient
-    private String prestiti_beneficiario;
-
-    @Transient
-    private Integer prestiti_oggetto_prestato;
 
     /**
      * Indicates whether some other object is "equal to" this one.
@@ -192,18 +163,18 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
             return false;
         }
         Prestiti other = (Prestiti) obj;
-        if (beneficiario == null) {
-            if (other.getBeneficiario() != null) {
+        if (soggetti == null) {
+            if (other.getSoggetti() != null) {
                 return false;
             }
-        } else if (!beneficiario.equals(other.getBeneficiario())) {
+        } else if (!soggetti.equals(other.getSoggetti())) {
             return false;
         }
-        if (oggetto_prestato == null) {
-            if (other.getOggetto_prestato() != null) {
+        if (oggetti == null) {
+            if (other.getOggetti() != null) {
                 return false;
             }
-        } else if (!oggetto_prestato.equals(other.getOggetto_prestato())) {
+        } else if (!oggetti.equals(other.getOggetti())) {
             return false;
         }
         return true;
@@ -229,8 +200,8 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((beneficiario == null) ? 0 : beneficiario.hashCode());
-        result = prime * result + ((oggetto_prestato == null) ? 0 : oggetto_prestato.hashCode());
+        result = prime * result + ((soggetti == null) ? 0 : soggetti.hashCode());
+        result = prime * result + ((oggetti == null) ? 0 : oggetti.hashCode());
         return result;
     }
 
@@ -246,17 +217,13 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
         sb.append(this.getClass().getName());
         sb.append("(");
 
-        sb.append(", ").append("beneficiario=").append(beneficiario);
+        sb.append(", ").append("soggetti=").append(soggetti);
 
-        sb.append(", ").append("oggetto_prestato=").append(oggetto_prestato);
+        sb.append(", ").append("oggetti=").append(oggetti);
 
         sb.append(", ").append("data_prestito=").append(data_prestito);
 
         sb.append(", ").append("data_scadenza_prestito=").append(data_scadenza_prestito);
-
-        sb.append(", ").append("soggetti=").append(soggetti);
-
-        sb.append(", ").append("prestiti=").append(prestiti);
 
         sb.append(")");
         return sb.toString();
@@ -268,7 +235,6 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
      */
     @PrePersist
     public void prePersist() {
-        this.beneficiario = UUID.randomUUID().toString();
     }
 
     /**
@@ -277,7 +243,6 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
      */
     public void prePersist(Configuration configuration) {
         prePersist();
-        this.beneficiario = UUID.randomUUID().toString();
     }
 
     /**
@@ -316,36 +281,85 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * Return the beneficiario
-     * fk-beneficiario <br>
+     * <br>
      * Property of field:
      * <ul>
-     * <li>length = 50
-     * <li>nullable = false
+     * <li>columnName = beneficiario
+     * <li>nullable = true
      * </ul>
      * 
-     * @return the beneficiario
-     * @see Prestiti.beneficiario
+     * @return the soggetti
+     * @see Prestiti.soggetti
      */
 
-    public String getBeneficiario() {
-        return beneficiario;
+    public Soggetti getSoggetti() {
+        if (jdbc && soggetti == null && soggetti_user_name != null && !soggettiJdbcAlreadyChecked) {
+            try {
+                soggetti = getQborrrowManager().getSoggetti(soggetti_user_name);
+                soggettiJdbcAlreadyChecked = true;
+            } catch (DAOFinderException e) {
+                log.debug("Unexpected DAOFinderException on getSoggetti by soggetti_user_name = " + soggetti_user_name, e);
+            }
+        }
+        return soggetti;
     }
 
     /**
-     * Set the beneficiario
-     * fk-beneficiario <br>
+     * <br>
      * Property of field:
      * <ul>
-     * <li>length = 50
-     * <li>nullable = false
+     * <li>columnName = beneficiario
+     * <li>nullable = true
      * </ul>
      * 
-     * @param beneficiario the beneficiario to set
-     * @see Prestiti.beneficiario
+     * @param soggetti
+     * @see Prestiti.soggetti
      */
-    public void setBeneficiario(String beneficiario) {
-        this.beneficiario = beneficiario;
+    public void setSoggetti(Soggetti soggetti) {
+        this.soggetti = soggetti;
+        if (soggetti != null) {
+            soggetti_user_name = soggetti.getUser_name();
+
+        } else {
+            soggetti_user_name = null;
+        }
+    }
+
+    public String getSoggetti_user_name() {
+        if (jdbc) {
+            return soggetti_user_name;
+        } else {
+            return soggetti == null ? null : soggetti.getUser_name();
+        }
+    }
+
+    public void setSoggetti_user_name(String soggetti_user_name) {
+        if (jdbc) {
+            if (this.soggetti_user_name != null && !this.soggetti_user_name.equals(soggetti_user_name)) {
+                soggetti = null;
+                soggettiJdbcAlreadyChecked = false;
+            }
+            this.soggetti_user_name = soggetti_user_name;
+        } else {
+            throw new ModelJdbcException("The method setSoggetti_user_name can be invoked only on jdbc model.");
+        }
+    }
+
+    /**
+     * @return the soggettiJdbcAlreadyChecked
+     * @see Prestiti#soggettiJdbcAlreadyChecked
+     */
+    @JSON(include = false)
+    public boolean isSoggettiJdbcAlreadyChecked() {
+        return soggettiJdbcAlreadyChecked;
+    }
+
+    /**
+     * @param soggettiJdbcAlreadyChecked the soggettiJdbcAlreadyChecked to set
+     * @see Prestiti#soggettiJdbcAlreadyChecked
+     */
+    public void setSoggettiJdbcAlreadyChecked(boolean soggettiJdbcAlreadyChecked) {
+        this.soggettiJdbcAlreadyChecked = soggettiJdbcAlreadyChecked;
     }
 
     /**
@@ -353,16 +367,24 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
      * oggetto prestato <br>
      * Property of field:
      * <ul>
-     * <li>length = 255
-     * <li>nullable = false
+     * <li>columnName = oggetto_prestato
+     * <li>nullable = true
      * </ul>
      * 
-     * @return the oggetto_prestato
-     * @see Prestiti.oggetto_prestato
+     * @return the oggetti
+     * @see Prestiti.oggetti
      */
 
-    public Integer getOggetto_prestato() {
-        return oggetto_prestato;
+    public Oggetti getOggetti() {
+        if (jdbc && oggetti == null && oggetti_id != null && !oggettiJdbcAlreadyChecked) {
+            try {
+                oggetti = getQborrrowManager().getOggetti(oggetti_id);
+                oggettiJdbcAlreadyChecked = true;
+            } catch (DAOFinderException e) {
+                log.debug("Unexpected DAOFinderException on getOggetti by oggetti_id = " + oggetti_id, e);
+            }
+        }
+        return oggetti;
     }
 
     /**
@@ -370,15 +392,58 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
      * oggetto prestato <br>
      * Property of field:
      * <ul>
-     * <li>length = 255
-     * <li>nullable = false
+     * <li>columnName = oggetto_prestato
+     * <li>nullable = true
      * </ul>
      * 
-     * @param oggetto_prestato the oggetto prestato to set
-     * @see Prestiti.oggetto_prestato
+     * @param oggetti the oggetto prestato to set
+     * @see Prestiti.oggetti
      */
-    public void setOggetto_prestato(Integer oggetto_prestato) {
-        this.oggetto_prestato = oggetto_prestato;
+    public void setOggetti(Oggetti oggetti) {
+        this.oggetti = oggetti;
+        if (oggetti != null) {
+            oggetti_id = oggetti.getId();
+
+        } else {
+            oggetti_id = null;
+        }
+    }
+
+    public Integer getOggetti_id() {
+        if (jdbc) {
+            return oggetti_id;
+        } else {
+            return oggetti == null ? null : oggetti.getId();
+        }
+    }
+
+    public void setOggetti_id(Integer oggetti_id) {
+        if (jdbc) {
+            if (this.oggetti_id != null && !this.oggetti_id.equals(oggetti_id)) {
+                oggetti = null;
+                oggettiJdbcAlreadyChecked = false;
+            }
+            this.oggetti_id = oggetti_id;
+        } else {
+            throw new ModelJdbcException("The method setOggetti_id can be invoked only on jdbc model.");
+        }
+    }
+
+    /**
+     * @return the oggettiJdbcAlreadyChecked
+     * @see Prestiti#oggettiJdbcAlreadyChecked
+     */
+    @JSON(include = false)
+    public boolean isOggettiJdbcAlreadyChecked() {
+        return oggettiJdbcAlreadyChecked;
+    }
+
+    /**
+     * @param oggettiJdbcAlreadyChecked the oggettiJdbcAlreadyChecked to set
+     * @see Prestiti#oggettiJdbcAlreadyChecked
+     */
+    public void setOggettiJdbcAlreadyChecked(boolean oggettiJdbcAlreadyChecked) {
+        this.oggettiJdbcAlreadyChecked = oggettiJdbcAlreadyChecked;
     }
 
     /**
@@ -420,7 +485,7 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
      * Property of field:
      * <ul>
      * <li>length = 9
-     * <li>columnName = data ultima modifica
+     * <li>columnName = data_scadenza_prestito
      * <li>nullable = false
      * </ul>
      * 
@@ -438,7 +503,7 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
      * Property of field:
      * <ul>
      * <li>length = 9
-     * <li>columnName = data ultima modifica
+     * <li>columnName = data_scadenza_prestito
      * <li>nullable = false
      * </ul>
      * 
@@ -447,175 +512,6 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
      */
     public void setData_scadenza_prestito(Date data_scadenza_prestito) {
         this.data_scadenza_prestito = data_scadenza_prestito;
-    }
-
-    /**
-     * <br>
-     * Property of field:
-     * <ul>
-     * <li>columnName = user_name
-     * <li>nullable = true
-     * </ul>
-     * 
-     * @return the soggetti
-     * @see Prestiti.soggetti
-     */
-
-    public Soggetti getSoggetti() {
-        if (jdbc && soggetti == null && soggetti_user_name != null && !soggettiJdbcAlreadyChecked) {
-            try {
-                soggetti = getQborrrowManager().getSoggetti(soggetti_user_name);
-                soggettiJdbcAlreadyChecked = true;
-            } catch (DAOFinderException e) {
-                log.debug("Unexpected DAOFinderException on getSoggetti by soggetti_user_name = " + soggetti_user_name, e);
-            }
-        }
-        return soggetti;
-    }
-
-    /**
-     * <br>
-     * Property of field:
-     * <ul>
-     * <li>columnName = user_name
-     * <li>nullable = true
-     * </ul>
-     * 
-     * @param soggetti
-     * @see Prestiti.soggetti
-     */
-    public void setSoggetti(Soggetti soggetti) {
-        this.soggetti = soggetti;
-        if (soggetti != null) {
-            soggetti_user_name = soggetti.getUser_name();
-        } else {
-            soggetti_user_name = null;
-        }
-    }
-
-    public String getSoggetti_user_name() {
-        if (jdbc) {
-            return soggetti_user_name;
-        } else {
-            return soggetti == null ? null : soggetti.getUser_name();
-        }
-    }
-
-    public void setSoggetti_user_name(String soggetti_user_name) {
-        if (jdbc) {
-            if (this.soggetti_user_name != null && !this.soggetti_user_name.equals(soggetti_user_name)) {
-                soggetti = null;
-                soggettiJdbcAlreadyChecked = false;
-            }
-            this.soggetti_user_name = soggetti_user_name;
-        } else {
-            throw new ModelJdbcException("The method setSoggetti_user_name can be invoked only on jdbc model.");
-        }
-    }
-
-    @JSON(include = false)
-    public boolean isSoggettiJdbcAlreadyChecked() {
-        return soggettiJdbcAlreadyChecked;
-    }
-
-    public void setSoggettiJdbcAlreadyChecked(boolean soggettiJdbcAlreadyChecked) {
-        this.soggettiJdbcAlreadyChecked = soggettiJdbcAlreadyChecked;
-    }
-
-    /**
-     * <br>
-     * Property of field:
-     * <ul>
-     * <li>columnName = id
-     * <li>nullable = true
-     * </ul>
-     * 
-     * @return the prestiti
-     * @see Prestiti.prestiti
-     */
-
-    public Prestiti getPrestiti() {
-        if (jdbc && prestiti == null && (prestiti_beneficiario != null && prestiti_oggetto_prestato != null) && !prestitiJdbcAlreadyChecked) {
-            try {
-                prestiti = getQborrrowManager().getPrestiti(prestiti_beneficiario, prestiti_oggetto_prestato);
-                prestitiJdbcAlreadyChecked = true;
-            } catch (DAOFinderException e) {
-                log.debug("Unexpected DAOFinderException on getPrestiti by prestiti_beneficiario = " + prestiti_beneficiario + ", prestiti_oggetto_prestato = "
-                    + prestiti_oggetto_prestato, e);
-            }
-        }
-        return prestiti;
-    }
-
-    /**
-     * <br>
-     * Property of field:
-     * <ul>
-     * <li>columnName = id
-     * <li>nullable = true
-     * </ul>
-     * 
-     * @param prestiti
-     * @see Prestiti.prestiti
-     */
-    public void setPrestiti(Prestiti prestiti) {
-        this.prestiti = prestiti;
-        if (prestiti != null) {
-            prestiti_beneficiario = prestiti.getBeneficiario();
-            prestiti_oggetto_prestato = prestiti.getOggetto_prestato();
-        } else {
-            prestiti_beneficiario = null;
-            prestiti_oggetto_prestato = null;
-        }
-    }
-
-    public String getPrestiti_beneficiario() {
-        if (jdbc) {
-            return prestiti_beneficiario;
-        } else {
-            return prestiti == null ? null : prestiti.getBeneficiario();
-        }
-    }
-
-    public void setPrestiti_beneficiario(String prestiti_beneficiario) {
-        if (jdbc) {
-            if (this.prestiti_beneficiario != null && !this.prestiti_beneficiario.equals(prestiti_beneficiario)) {
-                prestiti = null;
-                prestitiJdbcAlreadyChecked = false;
-            }
-            this.prestiti_beneficiario = prestiti_beneficiario;
-        } else {
-            throw new ModelJdbcException("The method setPrestiti_beneficiario can be invoked only on jdbc model.");
-        }
-    }
-
-    public Integer getPrestiti_oggetto_prestato() {
-        if (jdbc) {
-            return prestiti_oggetto_prestato;
-        } else {
-            return prestiti == null ? null : prestiti.getOggetto_prestato();
-        }
-    }
-
-    public void setPrestiti_oggetto_prestato(Integer prestiti_oggetto_prestato) {
-        if (jdbc) {
-            if (this.prestiti_oggetto_prestato != null && !this.prestiti_oggetto_prestato.equals(prestiti_oggetto_prestato)) {
-                prestiti = null;
-                prestitiJdbcAlreadyChecked = false;
-            }
-            this.prestiti_oggetto_prestato = prestiti_oggetto_prestato;
-        } else {
-            throw new ModelJdbcException("The method setPrestiti_oggetto_prestato can be invoked only on jdbc model.");
-        }
-    }
-
-    @JSON(include = false)
-    public boolean isPrestitiJdbcAlreadyChecked() {
-        return prestitiJdbcAlreadyChecked;
-    }
-
-    public void setPrestitiJdbcAlreadyChecked(boolean prestitiJdbcAlreadyChecked) {
-        this.prestitiJdbcAlreadyChecked = prestitiJdbcAlreadyChecked;
     }
 
 }

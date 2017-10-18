@@ -16,26 +16,19 @@
   			<h3 class="qh3 box-title">&nbsp;&nbsp;<s:text name="prestiti.search.title"/></h3>
 		</div>
 		<div class="box-body" ng-show="!filtriEspansi" ng-cloak>
-			<span class="filterDiv" ng-if="scopeController.search.beneficiario != null && scopeController.search.beneficiario != ''">
-				<s:text name="prestiti.search.beneficiario"/>: 
+			<span class="filterDiv" ng-if="scopeController.search.soggetti != null && scopeController.search.soggetti != ''">
+				<s:text name="prestiti.search.soggetti"/>: 
 				<b>
-					{{scopeController.search.beneficiario}}
+					{{scopeController.search.soggetti_description}}
 				</b>
-				&nbsp;&nbsp;<i class="fa fa-times-circle" style="cursor: pointer;" ng-click="removeFilter('beneficiario')"></i>
+				&nbsp;&nbsp;<i class="fa fa-times-circle" style="cursor: pointer;" ng-click="removeFilter('soggetti')"></i>
 			</span>
-			<span class="filterDiv" ng-if="scopeController.search.oggetto_prestatoFrom != null && scopeController.search.oggetto_prestatoFrom != ''">
-				<s:text name="prestiti.search.oggetto_prestatoFrom"/>: 
+			<span class="filterDiv" ng-if="scopeController.search.oggetti != null && scopeController.search.oggetti != ''">
+				<s:text name="prestiti.search.oggetti"/>: 
 				<b>
-					{{scopeController.search.oggetto_prestatoFrom}}
+					{{scopeController.search.oggetti_description}}
 				</b>
-				&nbsp;&nbsp;<i class="fa fa-times-circle" style="cursor: pointer;" ng-click="removeFilter('oggetto_prestatoFrom')"></i>
-			</span>
-			<span class="filterDiv" ng-if="scopeController.search.oggetto_prestatoTo != null && scopeController.search.oggetto_prestatoTo != ''">
-				<s:text name="prestiti.search.oggetto_prestatoTo"/>: 
-				<b>
-					{{scopeController.search.oggetto_prestatoTo}}
-				</b>
-				&nbsp;&nbsp;<i class="fa fa-times-circle" style="cursor: pointer;" ng-click="removeFilter('oggetto_prestatoTo')"></i>
+				&nbsp;&nbsp;<i class="fa fa-times-circle" style="cursor: pointer;" ng-click="removeFilter('oggetti')"></i>
 			</span>
 			<span class="filterDiv" ng-if="scopeController.search.data_prestitoFrom != null && scopeController.search.data_prestitoFrom != ''">
 				<s:text name="prestiti.search.data_prestitoFrom"/>: 
@@ -68,11 +61,23 @@
 		</div>
 		<div class="box-body qfade " ng-show="filtriEspansi" ng-cloak>
 			<div class="qrow">
-				<div class="qcol-xs-12 qcol-sm-12 qcol-md-6" ng-class="{'qhas-error': forms.prestitiListForm.beneficiario.$invalid}">
-					<label for="beneficiario"><s:text name="prestiti.search.beneficiario"/>:</label>
+				<div class="qcol-xs-12 qcol-sm-12 qcol-md-6" ng-class="{'qhas-error': forms.prestitiListForm.soggetti.$invalid}">
+					<label for="soggetti"><s:text name="prestiti.search.soggetti"/>:</label>
 					<div>
-						<input type="text" ng-model="scopeController.search.beneficiario" id="beneficiario" class="qform-control" />
-						<div ng-messages="forms.prestitiListForm.beneficiario.$error" role="alert">
+						<span class="quix-popup-search-field">      
+			              	<div class="quix-popup-search-field-container">
+				              	<div>
+				              		<div class="quix-popup-search-field-label">{{scopeController.search.soggetti_description}}</div>
+				             		<div class="quix-popup-search-field-icon">
+										<i class="fa fa-times fa-lg" ng-click="qxResetPopupField(scopeController.search, 'soggetti')"></i>
+				             		</div>
+				             		<div class="quix-popup-search-field-icon">
+										<i class="fa fa-search fa-lg" ng-click="openPopupField('Soggetti', scopeController.search, 'soggetti', 'user_name', 'user_name')"></i>
+				             		</div>
+				             	</div>
+			              	</div>  
+			           </span>
+						<div ng-messages="forms.prestitiListForm.soggetti.$error" role="alert">
 						  	<div ng-message="notNull"><s:text name="error.notNull"/></div>
 						  	<div ng-message="invalidAK"><s:text name="error.invalidAK"/></div>
 						  	<div ng-message="notValid"><s:text name="error.notValid"/></div>
@@ -90,33 +95,23 @@
 						</div>
 					</div>
 				</div>
-				<div class="qcol-xs-6 qcol-sm-6 qcol-md-3" ng-class="{'qhas-error': forms.prestitiListForm.oggetto_prestatoFrom.$invalid}">
-					<label for="oggetto_prestatoFrom"><s:text name="prestiti.search.oggetto_prestatoFrom"/>:</label>
+				<div class="qcol-xs-12 qcol-sm-12 qcol-md-6" ng-class="{'qhas-error': forms.prestitiListForm.oggetti.$invalid}">
+					<label for="oggetti"><s:text name="prestiti.search.oggetti"/>:</label>
 					<div>
-						<input type="text" ng-model="scopeController.search.oggetto_prestatoFrom" id="oggetto_prestatoFrom" class="qform-control qform-control-number" />
-						<div ng-messages="forms.prestitiListForm.oggetto_prestatoFrom.$error" role="alert">
-						  	<div ng-message="notNull"><s:text name="error.notNull"/></div>
-						  	<div ng-message="invalidAK"><s:text name="error.invalidAK"/></div>
-						  	<div ng-message="notValid"><s:text name="error.notValid"/></div>
-						  	<div ng-message="lenght"><s:text name="error.lenght"/></div>
-						  	<div ng-message="dateToBeforeDateFrom"><s:text name="error.dateToBeforeDateFrom"/></div>
-						  	<div ng-message="fieldToBeforeFieldFrom"><s:text name="error.fieldToBeforeFieldFrom"/></div>
-						  	<div ng-message="notUnique"><s:text name="error.notUnique"/></div>
-						  	<div ng-message="min"><s:text name="error.min"/></div>
-						  	<div ng-message="max"><s:text name="error.max"/></div>
-						  	<div ng-message="ognl"><s:text name="error.ognl"/></div>
-						  	<div ng-message="pattern"><s:text name="error.pattern"/></div>
-						  	<div ng-message="notBlank"><s:text name="error.notBlank"/></div>
-						  	<div ng-message="qvpattern.message"><s:text name="error.qvpattern.message"/></div>
-						  	<div ng-message="string.length"><s:text name="error.string.length"/></div>
-						</div>
-					</div>
-				</div>
-				<div class="qcol-xs-6 qcol-sm-6 qcol-md-3" ng-class="{'qhas-error': forms.prestitiListForm.oggetto_prestatoTo.$invalid}">
-					<label for="oggetto_prestatoTo"><s:text name="prestiti.search.oggetto_prestatoTo"/>:</label>
-					<div>
-						<input type="text" ng-model="scopeController.search.oggetto_prestatoTo" id="oggetto_prestatoTo" class="qform-control qform-control-number" />
-						<div ng-messages="forms.prestitiListForm.oggetto_prestatoTo.$error" role="alert">
+						<span class="quix-popup-search-field">      
+			              	<div class="quix-popup-search-field-container">
+				              	<div>
+				              		<div class="quix-popup-search-field-label">{{scopeController.search.oggetti_description}}</div>
+				             		<div class="quix-popup-search-field-icon">
+										<i class="fa fa-times fa-lg" ng-click="qxResetPopupField(scopeController.search, 'oggetti')"></i>
+				             		</div>
+				             		<div class="quix-popup-search-field-icon">
+										<i class="fa fa-search fa-lg" ng-click="openPopupField('Oggetti', scopeController.search, 'oggetti', 'id', 'id')"></i>
+				             		</div>
+				             	</div>
+			              	</div>  
+			           </span>
+						<div ng-messages="forms.prestitiListForm.oggetti.$error" role="alert">
 						  	<div ng-message="notNull"><s:text name="error.notNull"/></div>
 						  	<div ng-message="invalidAK"><s:text name="error.invalidAK"/></div>
 						  	<div ng-message="notValid"><s:text name="error.notValid"/></div>
@@ -301,7 +296,7 @@
 				</a>
 				<ul class="qdropdown-menu qdropdown-menu-right" ng-show="openOrderMenu" style="display: block;"> 											
 					<li style="padding: 10px;">
-						<s:text name="prestiti.list.order.beneficiario"/>
+						<s:text name="prestiti.list.order.soggetti"/>
 						<span class="pull-right">
 							<i class="fa fa-sort-amount-asc" style="cursor: pointer;" ng-class="{'active-order-icon': scopeController.search.order == 1}" ng-click="orderBy(1); openOrderMenu = false;"></i>
 							<i class="fa fa-sort-amount-desc" style="cursor: pointer;" ng-class="{'active-order-icon': scopeController.search.order == 2}" ng-click="orderBy(2); openOrderMenu = false;"></i>
@@ -339,8 +334,8 @@
     	<table class="qtable qtable-hover">
 			<thead>
 				<tr>
-					<th class="qtext-left"><s:text name="prestiti.list.beneficiario"/></th>
-					<th class="qtext-right"><s:text name="prestiti.list.oggetto_prestato"/></th>
+					<th class="qtext-left"><s:text name="prestiti.list.soggetti"/></th>
+					<th class="qtext-left"><s:text name="prestiti.list.oggetti"/></th>
 					<th class="qtext-center"><s:text name="prestiti.list.data_prestito"/></th>
 					<th class="qtext-center"><s:text name="prestiti.list.data_scadenza_prestito"/></th>
 					<th>&nbsp;</th>
@@ -348,8 +343,8 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="row in scopeController.result.list">
-					<td>{{ row.beneficiario }}</td>
-					<td class="qtext-right" nowrap="nowrap">{{ row.oggetto_prestato }}</td>
+					<td>{{ row.soggetti }}</td>
+					<td>{{ row.oggetti }}</td>
 					<td class="qtext-center" nowrap="nowrap">{{ row.data_prestito  | date:"<s:text name="format.date3" />" }}</td>
 					<td class="qtext-center" nowrap="nowrap">{{ row.data_scadenza_prestito  | date:"<s:text name="format.date3" />" }}</td>
 					<td class="qtext-right">

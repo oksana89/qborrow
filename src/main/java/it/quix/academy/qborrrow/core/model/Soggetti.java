@@ -42,7 +42,7 @@ import it.quix.framework.core.validation.annotation.QvPattern;
 /**
  * The Soggetti entity.
  * 
- * @author Quix CodeGenerator version 03.03.00-SNAPSHOT, generated 11/10/2017 14:58:54
+ * @author Quix CodeGenerator version 03.03.00-SNAPSHOT, generated 12/10/2017 12:46:09
  */
 @Entity
 @Table(name = "soggetti")
@@ -147,6 +147,19 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
     @Temporal(TemporalType.DATE)
     @QrExcelColumn(order = 0)
     private Date data_ultima_modifica;
+    
+    /**
+     * Property of field:
+     * <ul>
+     * <li>length = 255
+     * <li>nullable = false
+     * </ul>
+     */
+    @Column(nullable = false)
+    @QcDateType()
+    @Temporal(TemporalType.DATE)
+    @QrExcelColumn(order = 0)
+    private Date data_compleanno;
 
     /**
 	 */
@@ -540,6 +553,8 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
     public void setData_ultima_modifica(Date data_ultima_modifica) {
         this.data_ultima_modifica = data_ultima_modifica;
     }
+   
+    
 
     /**
      * <br>
@@ -614,5 +629,24 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
     public void setPrestitiJdbcAlreadyChecked(boolean prestitiJdbcAlreadyChecked) {
         this.prestitiJdbcAlreadyChecked = prestitiJdbcAlreadyChecked;
     }
+
+    public void setData_ultima_modifica(String string) {
+        // TODO Auto-generated method stub
+
+    }
+
+	/**
+	 * @return the data_compleanno
+	 */
+	public Date getData_compleanno() {
+		return data_compleanno;
+	}
+
+	/**
+	 * @param data_compleanno the data_compleanno to set
+	 */
+	public void setData_compleanno(Date data_compleanno) {
+		this.data_compleanno = data_compleanno;
+	}
 
 }

@@ -9,14 +9,14 @@
 		</div>
 		<div class="box-body">
 			<div class="qrow">		
-				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.prestitiEditForm.beneficiario.$invalid}">
-					<label for="beneficiario"><s:text name="prestiti.edit.beneficiario"/>*</label>
+				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.prestitiEditForm.soggetti.$invalid}">
+					<label for="soggetti"><s:text name="prestiti.edit.soggetti"/></label>
 					<input type="text" 
-						ng-model="scopeController.selectedRow.beneficiario" 
-						id="beneficiario" 
-						name="beneficiario"
+						ng-model="scopeController.selectedRow.soggetti" 
+						id="soggetti" 
+						name="soggetti"
 						class="qform-control" />
-					<div ng-messages="forms.prestitiEditForm.beneficiario.$error" role="alert">
+					<div ng-messages="forms.prestitiEditForm.soggetti.$error" role="alert">
 					  	<div ng-message="notNull"><s:text name="error.notNull"/></div>
 					  	<div ng-message="invalidAK"><s:text name="error.invalidAK"/></div>
 					  	<div ng-message="notValid"><s:text name="error.notValid"/></div>
@@ -33,14 +33,16 @@
 					  	<div ng-message="string.length"><s:text name="error.string.length"/></div>
 					</div>
 				</div>		
-				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.prestitiEditForm.oggetto_prestato.$invalid}">
-					<label for="oggetto_prestato"><s:text name="prestiti.edit.oggetto_prestato"/>*</label>
-					<input type="text" 
-						ng-model="scopeController.selectedRow.oggetto_prestato" 
-						id="oggetto_prestato" 
-						name="oggetto_prestato"
-						class="qform-control qform-control-number" />
-					<div ng-messages="forms.prestitiEditForm.oggetto_prestato.$error" role="alert">
+				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.prestitiEditForm.oggetti.$invalid}">
+					<label for="oggetti"><s:text name="prestiti.edit.oggetti"/></label>
+					<select 
+						ng-init="loadCombo('oggetti')" 
+						id="oggetti"
+						name="oggetti"
+						ng-model="scopeController.selectedRow.oggetti"
+						ng-options="option.id as option.id for option in scopeController.oggettiList"
+						class="qform-control" />
+					<div ng-messages="forms.prestitiEditForm.oggetti.$error" role="alert">
 					  	<div ng-message="notNull"><s:text name="error.notNull"/></div>
 					  	<div ng-message="invalidAK"><s:text name="error.invalidAK"/></div>
 					  	<div ng-message="notValid"><s:text name="error.notValid"/></div>
@@ -105,60 +107,6 @@
 						</div>
 					
 					<div ng-messages="forms.prestitiEditForm.data_scadenza_prestito.$error" role="alert">
-					  	<div ng-message="notNull"><s:text name="error.notNull"/></div>
-					  	<div ng-message="invalidAK"><s:text name="error.invalidAK"/></div>
-					  	<div ng-message="notValid"><s:text name="error.notValid"/></div>
-					  	<div ng-message="lenght"><s:text name="error.lenght"/></div>
-					  	<div ng-message="dateToBeforeDateFrom"><s:text name="error.dateToBeforeDateFrom"/></div>
-					  	<div ng-message="fieldToBeforeFieldFrom"><s:text name="error.fieldToBeforeFieldFrom"/></div>
-					  	<div ng-message="notUnique"><s:text name="error.notUnique"/></div>
-					  	<div ng-message="min"><s:text name="error.min"/></div>
-					  	<div ng-message="max"><s:text name="error.max"/></div>
-					  	<div ng-message="ognl"><s:text name="error.ognl"/></div>
-					  	<div ng-message="pattern"><s:text name="error.pattern"/></div>
-					  	<div ng-message="notBlank"><s:text name="error.notBlank"/></div>
-					  	<div ng-message="qvpattern.message"><s:text name="error.qvpattern.message"/></div>
-					  	<div ng-message="string.length"><s:text name="error.string.length"/></div>
-					</div>
-				</div>
-			</div>
-			<div class="qrow">		
-				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.prestitiEditForm.soggetti.$invalid}">
-					<label for="soggetti"><s:text name="prestiti.edit.soggetti"/></label>
-					<select 
-						ng-init="loadCombo('soggetti')" 
-						id="soggetti"
-						name="soggetti"
-						ng-model="scopeController.selectedRow.soggetti"
-						ng-options="option.user_name as option.user_name for option in scopeController.soggettiList"
-						class="qform-control" />
-					<div ng-messages="forms.prestitiEditForm.soggetti.$error" role="alert">
-					  	<div ng-message="notNull"><s:text name="error.notNull"/></div>
-					  	<div ng-message="invalidAK"><s:text name="error.invalidAK"/></div>
-					  	<div ng-message="notValid"><s:text name="error.notValid"/></div>
-					  	<div ng-message="lenght"><s:text name="error.lenght"/></div>
-					  	<div ng-message="dateToBeforeDateFrom"><s:text name="error.dateToBeforeDateFrom"/></div>
-					  	<div ng-message="fieldToBeforeFieldFrom"><s:text name="error.fieldToBeforeFieldFrom"/></div>
-					  	<div ng-message="notUnique"><s:text name="error.notUnique"/></div>
-					  	<div ng-message="min"><s:text name="error.min"/></div>
-					  	<div ng-message="max"><s:text name="error.max"/></div>
-					  	<div ng-message="ognl"><s:text name="error.ognl"/></div>
-					  	<div ng-message="pattern"><s:text name="error.pattern"/></div>
-					  	<div ng-message="notBlank"><s:text name="error.notBlank"/></div>
-					  	<div ng-message="qvpattern.message"><s:text name="error.qvpattern.message"/></div>
-					  	<div ng-message="string.length"><s:text name="error.string.length"/></div>
-					</div>
-				</div>		
-				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.prestitiEditForm.prestiti.$invalid}">
-					<label for="prestiti"><s:text name="prestiti.edit.prestiti"/></label>
-					<select 
-						ng-init="loadCombo('prestiti')" 
-						id="prestiti"
-						name="prestiti"
-						ng-model="scopeController.selectedRow.prestiti"
-						ng-options="option. as option.beneficiario for option in scopeController.prestitiList"
-						class="qform-control" />
-					<div ng-messages="forms.prestitiEditForm.prestiti.$error" role="alert">
 					  	<div ng-message="notNull"><s:text name="error.notNull"/></div>
 					  	<div ng-message="invalidAK"><s:text name="error.invalidAK"/></div>
 					  	<div ng-message="notValid"><s:text name="error.notValid"/></div>

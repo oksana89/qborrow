@@ -33,32 +33,6 @@
 					  	<div ng-message="string.length"><s:text name="error.string.length"/></div>
 					</div>
 				</div>		
-				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.oggettiEditForm.proprietario.$invalid}">
-					<label for="proprietario"><s:text name="oggetti.edit.proprietario"/>*</label>
-					<input type="text" 
-						ng-model="scopeController.selectedRow.proprietario" 
-						id="proprietario" 
-						name="proprietario"
-						class="qform-control" />
-					<div ng-messages="forms.oggettiEditForm.proprietario.$error" role="alert">
-					  	<div ng-message="notNull"><s:text name="error.notNull"/></div>
-					  	<div ng-message="invalidAK"><s:text name="error.invalidAK"/></div>
-					  	<div ng-message="notValid"><s:text name="error.notValid"/></div>
-					  	<div ng-message="lenght"><s:text name="error.lenght"/></div>
-					  	<div ng-message="dateToBeforeDateFrom"><s:text name="error.dateToBeforeDateFrom"/></div>
-					  	<div ng-message="fieldToBeforeFieldFrom"><s:text name="error.fieldToBeforeFieldFrom"/></div>
-					  	<div ng-message="notUnique"><s:text name="error.notUnique"/></div>
-					  	<div ng-message="min"><s:text name="error.min"/></div>
-					  	<div ng-message="max"><s:text name="error.max"/></div>
-					  	<div ng-message="ognl"><s:text name="error.ognl"/></div>
-					  	<div ng-message="pattern"><s:text name="error.pattern"/></div>
-					  	<div ng-message="notBlank"><s:text name="error.notBlank"/></div>
-					  	<div ng-message="qvpattern.message"><s:text name="error.qvpattern.message"/></div>
-					  	<div ng-message="string.length"><s:text name="error.string.length"/></div>
-					</div>
-				</div>
-			</div>
-			<div class="qrow">		
 				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.oggettiEditForm.titolo.$invalid}">
 					<label for="titolo"><s:text name="oggetti.edit.titolo"/></label>
 					<input type="text" 
@@ -82,7 +56,9 @@
 					  	<div ng-message="qvpattern.message"><s:text name="error.qvpattern.message"/></div>
 					  	<div ng-message="string.length"><s:text name="error.string.length"/></div>
 					</div>
-				</div>		
+				</div>
+			</div>
+			<div class="qrow">		
 				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.oggettiEditForm.descrizione.$invalid}">
 					<label for="descrizione"><s:text name="oggetti.edit.descrizione"/></label>
 					<input type="text" 
@@ -106,9 +82,7 @@
 					  	<div ng-message="qvpattern.message"><s:text name="error.qvpattern.message"/></div>
 					  	<div ng-message="string.length"><s:text name="error.string.length"/></div>
 					</div>
-				</div>
-			</div>
-			<div class="qrow">		
+				</div>		
 				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.oggettiEditForm.immagine.$invalid}">
 					<label for="immagine"><s:text name="oggetti.edit.immagine"/></label>
 					<input type="text" 
@@ -132,7 +106,9 @@
 					  	<div ng-message="qvpattern.message"><s:text name="error.qvpattern.message"/></div>
 					  	<div ng-message="string.length"><s:text name="error.string.length"/></div>
 					</div>
-				</div>		
+				</div>
+			</div>
+			<div class="qrow">		
 				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.oggettiEditForm.categoria.$invalid}">
 					<label for="categoria"><s:text name="oggetti.edit.categoria"/></label>
 					<qs2:attribute2Input 
@@ -159,9 +135,7 @@
 					  	<div ng-message="qvpattern.message"><s:text name="error.qvpattern.message"/></div>
 					  	<div ng-message="string.length"><s:text name="error.string.length"/></div>
 					</div>
-				</div>
-			</div>
-			<div class="qrow">		
+				</div>		
 				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.oggettiEditForm.data_ultima_modifica.$invalid}">
 					<label for="data_ultima_modifica"><s:text name="oggetti.edit.data_ultima_modifica"/>*</label>
 						<div class="qdropdown">
@@ -192,7 +166,9 @@
 					  	<div ng-message="qvpattern.message"><s:text name="error.qvpattern.message"/></div>
 					  	<div ng-message="string.length"><s:text name="error.string.length"/></div>
 					</div>
-				</div>		
+				</div>
+			</div>
+			<div class="qrow">		
 				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.oggettiEditForm.soggetti.$invalid}">
 					<label for="soggetti"><s:text name="oggetti.edit.soggetti"/></label>
 					<select 

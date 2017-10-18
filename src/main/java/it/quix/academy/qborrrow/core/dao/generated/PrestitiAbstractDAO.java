@@ -33,7 +33,7 @@ import it.quix.framework.util.exceptions.SystemException;
 /**
  * The Abstract DAO for Prestiti entity.
  * 
- * @author Quix CodeGenerator version 03.03.00-SNAPSHOT, generated 11/10/2017 14:58:54
+ * @author Quix CodeGenerator version 03.03.00-SNAPSHOT, generated 12/10/2017 12:46:09
  */
 public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
 
@@ -62,9 +62,9 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             // Compose the insert query
             StringBuilder query = new StringBuilder(EOL);
             query.append("INSERT INTO prestiti ").append(EOL);
-            query.append("   (BENEFICIARIO, OGGETTO_PRESTATO, DATA_PRESTITO, DATA ULTIMA MODIFICA, USER_NAME, ID) ").append(EOL);
+            query.append("   (BENEFICIARIO, OGGETTO_PRESTATO, DATA_PRESTITO, DATA_SCADENZA_PRESTITO) ").append(EOL);
             query.append(" VALUES ").append(EOL);
-            query.append(" (?, ?, ?, ?, ?, ?) ").append(EOL);
+            query.append(" (?, ?, ?, ?) ").append(EOL);
 
             // Query logging
             if (queryLog.isInfoEnabled()) {
@@ -78,13 +78,10 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             prestiti.prePersist(configuration);
             // Set the parameters
             int p = 1;
-            super.setParameterString(statement, p++, prestiti.getBeneficiario());
-            super.setParameterInteger(statement, p++, prestiti.getOggetto_prestato());
+            super.setParameterString(statement, p++, prestiti.getSoggetti_user_name());
+            super.setParameterInteger(statement, p++, prestiti.getOggetti_id());
             super.setParameterDate(statement, p++, prestiti.getData_prestito());
             super.setParameterDate(statement, p++, prestiti.getData_scadenza_prestito());
-            super.setParameterString(statement, p++, prestiti.getSoggetti_user_name());
-            super.setParameterString(statement, p++, prestiti.getPrestiti_beneficiario());
-            super.setParameterInteger(statement, p++, prestiti.getPrestiti_oggetto_prestato());
 
             // Execute the query
             long startTime = System.currentTimeMillis();
@@ -129,7 +126,7 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             // Compose the update query
             StringBuilder query = new StringBuilder(EOL);
             query.append(" UPDATE prestiti SET ").append(EOL);
-            query.append(" data_prestito = ? , data ultima modifica = ? , user_name = ? , id = ?  ").append(EOL);
+            query.append(" data_prestito = ? , data_scadenza_prestito = ?  ").append(EOL);
             query.append("  WHERE beneficiario = ?  AND oggetto_prestato = ? ").append(EOL);
 
             // Query logging
@@ -148,13 +145,10 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             int p = 1;
             super.setParameterDate(statement, p++, prestiti.getData_prestito());
             super.setParameterDate(statement, p++, prestiti.getData_scadenza_prestito());
-            super.setParameterString(statement, p++, prestiti.getSoggetti_user_name());
-            super.setParameterString(statement, p++, prestiti.getPrestiti_beneficiario());
-            super.setParameterInteger(statement, p++, prestiti.getPrestiti_oggetto_prestato());
 
             // Set the primary key
-            super.setParameterString(statement, p++, prestiti.getBeneficiario());
-            super.setParameterInteger(statement, p++, prestiti.getOggetto_prestato());
+            super.setParameterString(statement, p++, prestiti.getSoggetti_user_name());
+            super.setParameterInteger(statement, p++, prestiti.getOggetti_id());
 
             // Execute the query
             long startTime = System.currentTimeMillis();
@@ -194,14 +188,6 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
      * @return if the first model is different to the second model
      */
     protected boolean isDirty(Prestiti oldPrestiti, Prestiti newPrestiti) {
-        if (oldPrestiti.getBeneficiario() != null && !oldPrestiti.getBeneficiario().equals(newPrestiti.getBeneficiario()))
-            return true;
-        if (oldPrestiti.getBeneficiario() == null && newPrestiti.getBeneficiario() != null)
-            return true;
-        if (oldPrestiti.getOggetto_prestato() != null && !oldPrestiti.getOggetto_prestato().equals(newPrestiti.getOggetto_prestato()))
-            return true;
-        if (oldPrestiti.getOggetto_prestato() == null && newPrestiti.getOggetto_prestato() != null)
-            return true;
         if (oldPrestiti.getData_prestito() != null && !oldPrestiti.getData_prestito().equals(newPrestiti.getData_prestito()))
             return true;
         if (oldPrestiti.getData_prestito() == null && newPrestiti.getData_prestito() != null)
@@ -214,9 +200,9 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             return true;
         if (oldPrestiti.getSoggetti() == null && newPrestiti.getSoggetti() != null)
             return true;
-        if (oldPrestiti.getPrestiti() != null && !oldPrestiti.getPrestiti().equals(newPrestiti.getPrestiti()))
+        if (oldPrestiti.getOggetti() != null && !oldPrestiti.getOggetti().equals(newPrestiti.getOggetti()))
             return true;
-        if (oldPrestiti.getPrestiti() == null && newPrestiti.getPrestiti() != null)
+        if (oldPrestiti.getOggetti() == null && newPrestiti.getOggetti() != null)
             return true;
 
         return false;
@@ -253,12 +239,10 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
         newPrestiti.setJdbc(true);
 
         newPrestiti.setQborrrowManager(prestiti.getQborrrowManager());
-        newPrestiti.setBeneficiario(prestiti.getBeneficiario());
-        newPrestiti.setOggetto_prestato(prestiti.getOggetto_prestato());
+        newPrestiti.setSoggetti(prestiti.getSoggetti());
+        newPrestiti.setOggetti(prestiti.getOggetti());
         newPrestiti.setData_prestito(prestiti.getData_prestito());
         newPrestiti.setData_scadenza_prestito(prestiti.getData_scadenza_prestito());
-        newPrestiti.setSoggetti(prestiti.getSoggetti());
-        newPrestiti.setPrestiti(prestiti.getPrestiti());
 
         return newPrestiti;
     }
@@ -266,12 +250,12 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
     /**
      * Return a record of Prestiti on table prestiti
      * 
-     * @param beneficiario - beneficiario - fk-beneficiario
-     * @param oggetto_prestato - oggetto prestato - oggetto prestato
+     * @param soggetti_user_name - user_name - Nome utente
+     * @param oggetti_id - id - id oggetto
      * @return the object Prestiti
      * @throws DAOFinderException if no record found with passed params
      */
-    public Prestiti get(String beneficiario, Integer oggetto_prestato) throws DAOFinderException {
+    public Prestiti get(String soggetti_user_name, Integer oggetti_id) throws DAOFinderException {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -291,8 +275,8 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             // Set the parameters
             int p = 1;
             // Set the primary key
-            super.setParameterString(statement, p++, beneficiario);
-            super.setParameterInteger(statement, p++, oggetto_prestato);
+            super.setParameterString(statement, p++, soggetti_user_name);
+            super.setParameterInteger(statement, p++, oggetti_id);
 
             // Execute the query
             long startTime = System.currentTimeMillis();
@@ -307,14 +291,14 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
                 Prestiti prestitiModel = buildModelFromResultSet(rs);
                 return prestitiModel;
             }
-            throw new DAOFinderException(FrameworkStringUtils.concat("Cannot find Prestiti on database with [beneficiario = ", beneficiario,
-                " oggetto_prestato = ", oggetto_prestato, "]"));
+            throw new DAOFinderException(FrameworkStringUtils.concat("Cannot find Prestiti on database with [soggetti_user_name = ", soggetti_user_name,
+                " oggetti_id = ", oggetti_id, "]"));
 
         } catch (SQLException ex) {
             String msg =
                 FrameworkStringUtils.concat(
-                    "Error on method get(String beneficiario, Integer oggetto_prestato) for Prestiti on database with [beneficiario = ", beneficiario,
-                    " oggetto_prestato = ", oggetto_prestato, "]");
+                    "Error on method get(String soggetti_user_name, Integer oggetti_id) for Prestiti on database with [soggetti_user_name = ",
+                    soggetti_user_name, " oggetti_id = ", oggetti_id, "]");
             if (log.isErrorEnabled()) {
                 log.error(msg);
             }
@@ -351,13 +335,10 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
         prestiti.setJdbc(true);
         prestiti.setQborrrowManager(qborrrowManager);
 
-        prestiti.setSoggetti_user_name(getParameterString(rs, "user_name"));
-        prestiti.setPrestiti_beneficiario(getParameterString(rs, "id"));
-        prestiti.setPrestiti_oggetto_prestato(getParameterInteger(rs, "id"));
-        prestiti.setBeneficiario(getParameterString(rs, "beneficiario"));
-        prestiti.setOggetto_prestato(getParameterInteger(rs, "oggetto_prestato"));
+        prestiti.setSoggetti_user_name(getParameterString(rs, "beneficiario"));
+        prestiti.setOggetti_id(getParameterInteger(rs, "oggetto_prestato"));
         prestiti.setData_prestito(getParameterDate(rs, "data_prestito"));
-        prestiti.setData_scadenza_prestito(getParameterDate(rs, "data ultima modifica"));
+        prestiti.setData_scadenza_prestito(getParameterDate(rs, "data_scadenza_prestito"));
 
         return prestiti;
     }
@@ -365,12 +346,12 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
     /**
      * Delete a record of Prestiti on table prestiti
      * 
-     * @param beneficiario - beneficiario - fk-beneficiario
-     * @param oggetto_prestato - oggetto prestato - oggetto prestato
+     * @param soggetti_user_name - user_name - Nome utente
+     * @param oggetti_id - id - id oggetto
      *
      * @throws DAODeleteException if no record deleted
      */
-    public void delete(String beneficiario, Integer oggetto_prestato) throws DAODeleteException {
+    public void delete(String soggetti_user_name, Integer oggetti_id) throws DAODeleteException {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -390,8 +371,8 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             // Set the parameters
             int p = 1;
             // Set the primary key
-            super.setParameterString(statement, p++, beneficiario);
-            super.setParameterInteger(statement, p++, oggetto_prestato);
+            super.setParameterString(statement, p++, soggetti_user_name);
+            super.setParameterInteger(statement, p++, oggetti_id);
 
             // Execute the query
             long startTime = System.currentTimeMillis();
@@ -404,8 +385,8 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             }
             if (numberOfDeletedRecord < 1) {
                 String msg =
-                    FrameworkStringUtils.concat("No record of Prestiti deleted with params [beneficiario = ", beneficiario, " oggetto_prestato = ",
-                        oggetto_prestato, "]");
+                    FrameworkStringUtils.concat("No record of Prestiti deleted with params [soggetti_user_name = ", soggetti_user_name, " oggetti_id = ",
+                        oggetti_id, "]");
                 if (log.isWarnEnabled()) {
                     log.warn(msg);
                 }
@@ -413,8 +394,8 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             }
         } catch (SQLException ex) {
             String msg =
-                FrameworkStringUtils.concat("Error during delete records on Prestiti with params [beneficiario = ", beneficiario, " oggetto_prestato = ",
-                    oggetto_prestato, "]");
+                FrameworkStringUtils.concat("Error during delete records on Prestiti with params [soggetti_user_name = ", soggetti_user_name, " oggetti_id = ",
+                    oggetti_id, "]");
             if (log.isErrorEnabled()) {
                 log.error(msg);
             }
@@ -441,7 +422,7 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             // Compose the select query
             StringBuilder query = new StringBuilder(EOL);
             query.append("SELECT * FROM prestiti ").append(EOL);
-            query.append("WHERE user_name = ?  ").append(EOL);
+            query.append("WHERE beneficiario = ?  ").append(EOL);
             // Query logging
             if (queryLog.isInfoEnabled()) {
                 queryLog.info(query);
@@ -494,7 +475,7 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             // Compose the select query
             StringBuilder query = new StringBuilder(EOL);
             query.append("DELETE FROM prestiti ").append(EOL);
-            query.append("WHERE user_name = ?  ").append(EOL);
+            query.append("WHERE beneficiario = ?  ").append(EOL);
             // Query logging
             if (queryLog.isInfoEnabled()) {
                 queryLog.info(query);
@@ -539,12 +520,12 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
     }
 
     /**
-     * Get list of Prestiti by Prestiti
+     * Get list of Prestiti by Oggetti
      * 
-     * @param Prestiti
+     * @param Oggetti
      * @return a Prestiti list
      */
-    public List<Prestiti> getPrestitiListByPrestiti(String prestiti_beneficiario, Integer prestiti_oggetto_prestato) {
+    public List<Prestiti> getPrestitiListByOggetti(Integer oggetti_id) {
         List<Prestiti> list = new ArrayList<Prestiti>();
         Connection connection = null;
         PreparedStatement statement = null;
@@ -553,7 +534,7 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             // Compose the select query
             StringBuilder query = new StringBuilder(EOL);
             query.append("SELECT * FROM prestiti ").append(EOL);
-            query.append("WHERE id = ?  AND id = ?  ").append(EOL);
+            query.append("WHERE oggetto_prestato = ?  ").append(EOL);
             // Query logging
             if (queryLog.isInfoEnabled()) {
                 queryLog.info(query);
@@ -564,8 +545,7 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             statement = connection.prepareStatement(query.toString());
             // Set the parameters
             int p = 1;
-            super.setParameterString(statement, p++, prestiti_beneficiario);
-            super.setParameterInteger(statement, p++, prestiti_oggetto_prestato);
+            super.setParameterInteger(statement, p++, oggetti_id);
 
             // Execute the query
             long startTime = System.currentTimeMillis();
@@ -582,9 +562,7 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             }
             return list;
         } catch (SQLException ex) {
-            String msg =
-                FrameworkStringUtils.concat("Unexpeted error on find Prestiti with prestiti_beneficiario = ", prestiti_beneficiario,
-                    " prestiti_oggetto_prestato = ", prestiti_oggetto_prestato, "on database.");
+            String msg = FrameworkStringUtils.concat("Unexpeted error on find Prestiti with oggetti_id = ", oggetti_id, "on database.");
             if (log.isErrorEnabled()) {
                 log.error(msg, ex);
             }
@@ -597,20 +575,19 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
     }
 
     /**
-     * Delete Prestiti list by Prestiti
+     * Delete Prestiti list by Oggetti
      * 
-     * @param prestiti_beneficiario - beneficiario - fk-beneficiario
-     * @param prestiti_oggetto_prestato - oggetto prestato - oggetto prestato
+     * @param oggetti_id - id - id oggetto
      * @throws DAODeleteException if no record deleted
      */
-    public void deletePrestitiListByPrestiti(String prestiti_beneficiario, Integer prestiti_oggetto_prestato) throws DAODeleteException {
+    public void deletePrestitiListByOggetti(Integer oggetti_id) throws DAODeleteException {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             // Compose the select query
             StringBuilder query = new StringBuilder(EOL);
             query.append("DELETE FROM prestiti ").append(EOL);
-            query.append("WHERE id = ?  AND id = ?  ").append(EOL);
+            query.append("WHERE oggetto_prestato = ?  ").append(EOL);
             // Query logging
             if (queryLog.isInfoEnabled()) {
                 queryLog.info(query);
@@ -622,8 +599,7 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
 
             // Set the parameters
             int p = 1;
-            super.setParameterString(statement, p++, prestiti_beneficiario);
-            super.setParameterInteger(statement, p++, prestiti_oggetto_prestato);
+            super.setParameterInteger(statement, p++, oggetti_id);
 
             // Execute the query
             long startTime = System.currentTimeMillis();
@@ -636,18 +612,15 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             }
             if (numberOfDeletedRecord < 1) {
                 String msg =
-                    FrameworkStringUtils.concat("An error occurred delete Prestiti with prestiti_beneficiario = ", prestiti_beneficiario,
-                        " prestiti_oggetto_prestato = ", prestiti_oggetto_prestato, " on database. No record created. Number of deleted rows: ",
-                        numberOfDeletedRecord);
+                    FrameworkStringUtils.concat("An error occurred delete Prestiti with oggetti_id = ", oggetti_id,
+                        " on database. No record created. Number of deleted rows: ", numberOfDeletedRecord);
                 if (log.isWarnEnabled()) {
                     log.warn(msg);
                 }
                 throw new DAODeleteException(msg);
             }
         } catch (SQLException ex) {
-            String msg =
-                FrameworkStringUtils.concat("Unexpeted error on delete Prestiti with prestiti_beneficiario = ", prestiti_beneficiario,
-                    " prestiti_oggetto_prestato = ", prestiti_oggetto_prestato, " on database.");
+            String msg = FrameworkStringUtils.concat("Unexpeted error on delete Prestiti with oggetti_id = ", oggetti_id, " on database.");
             if (log.isErrorEnabled()) {
                 log.error(msg, ex);
             }
@@ -787,21 +760,6 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
     protected StringBuilder getWhereQuery(Map<Integer, Object> parameters, PrestitiSearch search) {
         StringBuilder whereClause = new StringBuilder("");
         int p = 1;
-        if (StringUtils.isNotEmpty(search.getBeneficiario())) {
-            whereClause.append(" AND beneficiario ");
-
-            whereClause.append(" = ? ");
-            parameters.put(new Integer(p), search.getBeneficiario());
-
-            p++;
-        }
-        if (search.getOggetto_prestato() != null) {
-            whereClause.append("AND oggetto_prestato = ? ");
-            parameters.put(new Integer(p), search.getOggetto_prestato());
-            p++;
-        } else {
-
-        }
 
         if (search.getData_prestitoFrom() != null) {
             whereClause.append("AND data_prestito >= ? ");
@@ -814,42 +772,35 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             p++;
         }
         if (search.getData_scadenza_prestitoFrom() != null) {
-            whereClause.append("AND data ultima modifica >= ? ");
+            whereClause.append("AND data_scadenza_prestito >= ? ");
             parameters.put(new Integer(p), search.getData_scadenza_prestitoFrom());
             p++;
         }
         if (search.getData_scadenza_prestitoTo() != null) {
-            whereClause.append("AND data ultima modifica <= ? ");
+            whereClause.append("AND data_scadenza_prestito <= ? ");
             parameters.put(new Integer(p), search.getData_scadenza_prestitoTo());
             p++;
         }
         if (search.getSoggetti() != null) {
-            whereClause.append("AND user_name = ?  ");
+            whereClause.append("AND beneficiario = ?  ");
             parameters.put(new Integer(p), search.getSoggetti().getUser_name());
             p++;
         } else {
             if (search.getSoggetti_user_name() != null) {
-                whereClause.append("AND user_name = ? ");
+                whereClause.append("AND beneficiario = ? ");
                 parameters.put(new Integer(p), search.getSoggetti_user_name());
                 p++;
             }
 
         }
-        if (search.getPrestiti() != null) {
-            whereClause.append("AND id = ?  AND id = ?  ");
-            parameters.put(new Integer(p), search.getPrestiti().getBeneficiario());
-            p++;
-            parameters.put(new Integer(p), search.getPrestiti().getOggetto_prestato());
+        if (search.getOggetti() != null) {
+            whereClause.append("AND oggetto_prestato = ?  ");
+            parameters.put(new Integer(p), search.getOggetti().getId());
             p++;
         } else {
-            if (search.getPrestiti_beneficiario() != null) {
-                whereClause.append("AND id = ? ");
-                parameters.put(new Integer(p), search.getPrestiti_beneficiario());
-                p++;
-            }
-            if (search.getPrestiti_oggetto_prestato() != null) {
-                whereClause.append("AND id = ? ");
-                parameters.put(new Integer(p), search.getPrestiti_oggetto_prestato());
+            if (search.getOggetti_id() != null) {
+                whereClause.append("AND oggetto_prestato = ? ");
+                parameters.put(new Integer(p), search.getOggetti_id());
                 p++;
             }
 
@@ -878,14 +829,14 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
                 query.append(" ORDER BY data_prestito DESC ");
                 break;
             case 5:
-                query.append(" ORDER BY data ultima modifica ASC ");
+                query.append(" ORDER BY data_scadenza_prestito ASC ");
                 break;
             case 6:
-                query.append(" ORDER BY data ultima modifica DESC ");
+                query.append(" ORDER BY data_scadenza_prestito DESC ");
                 break;
 
             default:
-                query.append(" ORDER BY beneficiario ASC, data_prestito ASC, data ultima modifica ASC");
+                query.append(" ORDER BY data_prestito ASC, data_scadenza_prestito ASC");
                 break;
         }
     }

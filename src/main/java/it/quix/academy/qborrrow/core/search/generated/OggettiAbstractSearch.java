@@ -21,8 +21,6 @@ public class OggettiAbstractSearch extends AbstractSearchModel {
 
     private Integer id;
 
-    private String proprietario;
-
     private String titolo;
 
     private String descrizione;
@@ -43,7 +41,6 @@ public class OggettiAbstractSearch extends AbstractSearchModel {
 
     public void clearFilter() {
         id = null;
-        proprietario = null;
         titolo = null;
         descrizione = null;
         immagine = null;
@@ -58,7 +55,6 @@ public class OggettiAbstractSearch extends AbstractSearchModel {
         OggettiSearch search = new OggettiSearch();
 
         search.setId(id);
-        search.setProprietario(proprietario);
         search.setTitolo(titolo);
         search.setDescrizione(descrizione);
         search.setImmagine(immagine);
@@ -103,13 +99,6 @@ public class OggettiAbstractSearch extends AbstractSearchModel {
                 return false;
             }
         } else if (!id.equals(other.getId())) {
-            return false;
-        }
-        if (proprietario == null) {
-            if (other.getProprietario() != null) {
-                return false;
-            }
-        } else if (!proprietario.equals(other.getProprietario())) {
             return false;
         }
         if (titolo == null) {
@@ -193,7 +182,6 @@ public class OggettiAbstractSearch extends AbstractSearchModel {
         int result = 1;
 
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((proprietario == null) ? 0 : proprietario.hashCode());
         result = prime * result + ((titolo == null) ? 0 : titolo.hashCode());
         result = prime * result + ((descrizione == null) ? 0 : descrizione.hashCode());
         result = prime * result + ((immagine == null) ? 0 : immagine.hashCode());
@@ -217,7 +205,6 @@ public class OggettiAbstractSearch extends AbstractSearchModel {
         sb.append(this.getClass().getName());
         sb.append("(");
         sb.append("id=").append(id);
-        sb.append(", ").append("proprietario=").append(proprietario);
         sb.append(", ").append("titolo=").append(titolo);
         sb.append(", ").append("descrizione=").append(descrizione);
         sb.append(", ").append("immagine=").append(immagine);
@@ -242,22 +229,6 @@ public class OggettiAbstractSearch extends AbstractSearchModel {
      */
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    /**
-     * @return the proprietario
-     * @see OggettiSearch#proprietario
-     */
-    public String getProprietario() {
-        return proprietario;
-    }
-
-    /**
-     * @param proprietario the proprietario to set
-     * @see OggettiSearch#proprietario
-     */
-    public void setProprietario(String proprietario) {
-        this.proprietario = proprietario;
     }
 
     /**
@@ -388,7 +359,7 @@ public class OggettiAbstractSearch extends AbstractSearchModel {
                 order = 2;
             }
         }
-        if (orderField.equals("proprietario")) {
+        if (orderField.equals("soggetti")) {
             if (OrderByTypeEnum.ASC.equals(orderType)) {
                 order = 3;
             } else {

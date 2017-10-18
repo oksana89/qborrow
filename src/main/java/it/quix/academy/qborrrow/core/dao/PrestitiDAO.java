@@ -10,7 +10,7 @@ import it.quix.academy.qborrrow.core.dao.generated.PrestitiAbstractDAO;
 /**
  * The DAO for Prestiti entity.
  * 
- * @author Quix CodeGenerator version 03.03.00-SNAPSHOT, generated 11/10/2017 14:58:54
+ * @author Quix CodeGenerator version 03.03.00-SNAPSHOT, generated 12/10/2017 12:46:09
  */
 public class PrestitiDAO extends PrestitiAbstractDAO {
 

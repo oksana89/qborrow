@@ -2,12 +2,10 @@ package it.quix.academy.qborrrow.core.search.generated;
 
 import it.quix.framework.core.model.AbstractSearchModel;
 import it.quix.framework.core.codegen.annotation.OrderByTypeEnum;
-import it.quix.academy.qborrrow.core.model.Prestiti;
+import it.quix.academy.qborrrow.core.model.Oggetti;
 import java.util.Date;
 import java.math.BigInteger;
 import it.quix.academy.qborrrow.core.search.PrestitiSearch;
-import java.lang.String;
-import java.lang.Integer;
 import it.quix.academy.qborrrow.core.model.Soggetti;
 
 import it.quix.framework.core.converter.annotation.QcDateType;
@@ -22,9 +20,13 @@ public class PrestitiAbstractSearch extends AbstractSearchModel {
      */
     private static final long serialVersionUID = 1L;
 
-    private String beneficiario;
+    private Soggetti soggetti;
 
-    private Integer oggetto_prestato;
+    private String soggetti_user_name;
+
+    private Oggetti oggetti;
+
+    private Integer oggetti_id;
 
     @QcDateType()
     private Date data_prestitoFrom;
@@ -38,44 +40,28 @@ public class PrestitiAbstractSearch extends AbstractSearchModel {
     @QcDateType()
     private Date data_scadenza_prestitoTo;
 
-    private Soggetti soggetti;
-
-    private String soggetti_user_name;
-
-    private Prestiti prestiti;
-
-    private String prestiti_beneficiario;
-
-    private Integer prestiti_oggetto_prestato;
-
     public void clearFilter() {
-        beneficiario = null;
-        oggetto_prestato = null;
+        soggetti = null;
+        soggetti_user_name = null;
+        oggetti = null;
+        oggetti_id = null;
         data_prestitoFrom = null;
         data_prestitoTo = null;
         data_scadenza_prestitoFrom = null;
         data_scadenza_prestitoTo = null;
-        soggetti = null;
-        soggetti_user_name = null;
-        prestiti = null;
-        prestiti_beneficiario = null;
-        prestiti_oggetto_prestato = null;
     }
 
     public PrestitiSearch cloneFilter() {
         PrestitiSearch search = new PrestitiSearch();
 
-        search.setBeneficiario(beneficiario);
-        search.setOggetto_prestato(oggetto_prestato);
+        search.setSoggetti(soggetti);
+        search.setSoggetti_user_name(soggetti_user_name);
+        search.setOggetti(oggetti);
+        search.setOggetti_id(oggetti_id);
         search.setData_prestitoFrom(data_prestitoFrom);
         search.setData_prestitoTo(data_prestitoTo);
         search.setData_scadenza_prestitoFrom(data_scadenza_prestitoFrom);
         search.setData_scadenza_prestitoTo(data_scadenza_prestitoTo);
-        search.setSoggetti(soggetti);
-        search.setSoggetti_user_name(soggetti_user_name);
-        search.setPrestiti(prestiti);
-        search.setPrestiti_beneficiario(prestiti_beneficiario);
-        search.setPrestiti_oggetto_prestato(prestiti_oggetto_prestato);
         return search;
     }
 
@@ -107,18 +93,32 @@ public class PrestitiAbstractSearch extends AbstractSearchModel {
             return false;
         }
         PrestitiAbstractSearch other = (PrestitiAbstractSearch) obj;
-        if (beneficiario == null) {
-            if (other.getBeneficiario() != null) {
+        if (soggetti == null) {
+            if (other.getSoggetti() != null) {
                 return false;
             }
-        } else if (!beneficiario.equals(other.getBeneficiario())) {
+        } else if (!soggetti.equals(other.getSoggetti())) {
             return false;
         }
-        if (oggetto_prestato == null) {
-            if (other.getOggetto_prestato() != null) {
+        if (soggetti_user_name == null) {
+            if (other.getSoggetti_user_name() != null) {
                 return false;
             }
-        } else if (!oggetto_prestato.equals(other.getOggetto_prestato())) {
+        } else if (!soggetti_user_name.equals(other.getSoggetti_user_name())) {
+            return false;
+        }
+        if (oggetti == null) {
+            if (other.getOggetti() != null) {
+                return false;
+            }
+        } else if (!oggetti.equals(other.getOggetti())) {
+            return false;
+        }
+        if (oggetti_id == null) {
+            if (other.getOggetti_id() != null) {
+                return false;
+            }
+        } else if (!oggetti_id.equals(other.getOggetti_id())) {
             return false;
         }
         if (data_prestitoFrom == null) {
@@ -149,41 +149,6 @@ public class PrestitiAbstractSearch extends AbstractSearchModel {
         } else if (!data_scadenza_prestitoTo.equals(other.getData_scadenza_prestitoTo())) {
             return false;
         }
-        if (soggetti == null) {
-            if (other.getSoggetti() != null) {
-                return false;
-            }
-        } else if (!soggetti.equals(other.getSoggetti())) {
-            return false;
-        }
-        if (soggetti_user_name == null) {
-            if (other.getSoggetti_user_name() != null) {
-                return false;
-            }
-        } else if (!soggetti_user_name.equals(other.getSoggetti_user_name())) {
-            return false;
-        }
-        if (prestiti == null) {
-            if (other.getPrestiti() != null) {
-                return false;
-            }
-        } else if (!prestiti.equals(other.getPrestiti())) {
-            return false;
-        }
-        if (prestiti_beneficiario == null) {
-            if (other.getPrestiti_beneficiario() != null) {
-                return false;
-            }
-        } else if (!prestiti_beneficiario.equals(other.getPrestiti_beneficiario())) {
-            return false;
-        }
-        if (prestiti_oggetto_prestato == null) {
-            if (other.getPrestiti_oggetto_prestato() != null) {
-                return false;
-            }
-        } else if (!prestiti_oggetto_prestato.equals(other.getPrestiti_oggetto_prestato())) {
-            return false;
-        }
         return true;
     }
 
@@ -208,15 +173,15 @@ public class PrestitiAbstractSearch extends AbstractSearchModel {
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((beneficiario == null) ? 0 : beneficiario.hashCode());
-        result = prime * result + ((oggetto_prestato == null) ? 0 : oggetto_prestato.hashCode());
+        result = prime * result + ((soggetti == null) ? 0 : soggetti.hashCode());
+        result = prime * result + ((oggetti == null) ? 0 : oggetti.hashCode());
         result = prime * result + ((data_prestitoFrom == null) ? 0 : data_prestitoFrom.hashCode());
         result = prime * result + ((data_prestitoTo == null) ? 0 : data_prestitoTo.hashCode());
         result = prime * result + ((data_scadenza_prestitoFrom == null) ? 0 : data_scadenza_prestitoFrom.hashCode());
         result = prime * result + ((data_scadenza_prestitoTo == null) ? 0 : data_scadenza_prestitoTo.hashCode());
 
-        result = prime * result + ((beneficiario == null) ? 0 : beneficiario.hashCode());
-        result = prime * result + ((oggetto_prestato == null) ? 0 : oggetto_prestato.hashCode());
+        result = prime * result + ((soggetti == null) ? 0 : soggetti.hashCode());
+        result = prime * result + ((oggetti == null) ? 0 : oggetti.hashCode());
         return result;
     }
 
@@ -231,8 +196,8 @@ public class PrestitiAbstractSearch extends AbstractSearchModel {
         StringBuilder sb = new StringBuilder();
         sb.append(this.getClass().getName());
         sb.append("(");
-        sb.append("beneficiario=").append(beneficiario);
-        sb.append("oggetto_prestato=").append(oggetto_prestato);
+        sb.append("soggetti=").append(soggetti);
+        sb.append("oggetti=").append(oggetti);
         sb.append(", ").append("data_prestitoFrom=").append(data_prestitoFrom);
         sb.append(", ").append("data_prestitoTo=").append(data_prestitoTo);
         sb.append(", ").append("data_scadenza_prestitoFrom=").append(data_scadenza_prestitoFrom);
@@ -242,35 +207,67 @@ public class PrestitiAbstractSearch extends AbstractSearchModel {
     }
 
     /**
-     * @return the beneficiario
-     * @see PrestitiSearch#beneficiario
+     * @return the soggetti
+     * @see PrestitiSearch#soggetti
      */
-    public String getBeneficiario() {
-        return beneficiario;
+    public Soggetti getSoggetti() {
+        return soggetti;
     }
 
     /**
-     * @param beneficiario the beneficiario to set
-     * @see PrestitiSearch#beneficiario
+     * @param soggetti the soggetti to set
+     * @see PrestitiSearch#soggetti
      */
-    public void setBeneficiario(String beneficiario) {
-        this.beneficiario = beneficiario;
+    public void setSoggetti(Soggetti soggetti) {
+        this.soggetti = soggetti;
     }
 
     /**
-     * @return the oggetto_prestato
-     * @see PrestitiSearch#oggetto_prestato
+     * @return the soggetti_user_name
+     * @see PrestitiSearch#soggetti_user_name
      */
-    public Integer getOggetto_prestato() {
-        return oggetto_prestato;
+    public String getSoggetti_user_name() {
+        return soggetti_user_name;
     }
 
     /**
-     * @param oggetto_prestato the oggetto_prestato to set
-     * @see PrestitiSearch#oggetto_prestato
+     * @param soggetti_user_name the soggetti_user_name to set
+     * @see PrestitiSearch#soggetti_user_name
      */
-    public void setOggetto_prestato(Integer oggetto_prestato) {
-        this.oggetto_prestato = oggetto_prestato;
+    public void setSoggetti_user_name(String soggetti_user_name) {
+        this.soggetti_user_name = soggetti_user_name;
+    }
+
+    /**
+     * @return the oggetti
+     * @see PrestitiSearch#oggetti
+     */
+    public Oggetti getOggetti() {
+        return oggetti;
+    }
+
+    /**
+     * @param oggetti the oggetti to set
+     * @see PrestitiSearch#oggetti
+     */
+    public void setOggetti(Oggetti oggetti) {
+        this.oggetti = oggetti;
+    }
+
+    /**
+     * @return the oggetti_id
+     * @see PrestitiSearch#oggetti_id
+     */
+    public Integer getOggetti_id() {
+        return oggetti_id;
+    }
+
+    /**
+     * @param oggetti_id the oggetti_id to set
+     * @see PrestitiSearch#oggetti_id
+     */
+    public void setOggetti_id(Integer oggetti_id) {
+        this.oggetti_id = oggetti_id;
     }
 
     /**
@@ -337,64 +334,8 @@ public class PrestitiAbstractSearch extends AbstractSearchModel {
         this.data_scadenza_prestitoTo = data_scadenza_prestitoTo;
     }
 
-    /**
-     * @return the soggetti
-     * @see PrestitiSearch#soggetti
-     */
-    public Soggetti getSoggetti() {
-        return soggetti;
-    }
-
-    /**
-     * @param soggetti the soggetti to set
-     * @see PrestitiSearch#soggetti
-     */
-    public void setSoggetti(Soggetti soggetti) {
-        this.soggetti = soggetti;
-    }
-
-    /**
-     * @return the prestiti
-     * @see PrestitiSearch#prestiti
-     */
-    public Prestiti getPrestiti() {
-        return prestiti;
-    }
-
-    /**
-     * @param prestiti the prestiti to set
-     * @see PrestitiSearch#prestiti
-     */
-    public void setPrestiti(Prestiti prestiti) {
-        this.prestiti = prestiti;
-    }
-
-    public String getSoggetti_user_name() {
-        return soggetti_user_name;
-    }
-
-    public void setSoggetti_user_name(String soggetti_user_name) {
-        this.soggetti_user_name = soggetti_user_name;
-    }
-
-    public String getPrestiti_beneficiario() {
-        return prestiti_beneficiario;
-    }
-
-    public void setPrestiti_beneficiario(String prestiti_beneficiario) {
-        this.prestiti_beneficiario = prestiti_beneficiario;
-    }
-
-    public Integer getPrestiti_oggetto_prestato() {
-        return prestiti_oggetto_prestato;
-    }
-
-    public void setPrestiti_oggetto_prestato(Integer prestiti_oggetto_prestato) {
-        this.prestiti_oggetto_prestato = prestiti_oggetto_prestato;
-    }
-
     public int orderByManagement(String orderField, OrderByTypeEnum orderType) {
-        if (orderField.equals("beneficiario")) {
+        if (orderField.equals("soggetti")) {
             if (OrderByTypeEnum.ASC.equals(orderType)) {
                 order = 1;
             } else {

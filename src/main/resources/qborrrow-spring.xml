@@ -16,6 +16,8 @@
 	<import resource="classpath:qborrrow-validator-spring.xml" />
 	<import resource="classpath:qborrrow-config-spring.xml" />
 	<import resource="classpath:qborrrow-frmk-custom-spring.xml" />
+	<import resource="classpath:mail.xml" />
+	
 
 	<!-- ****************** -->
 	<!-- Aspects -->
@@ -38,7 +40,8 @@
 	<!-- beans application -->
 	<!-- ****************** -->
 	<bean id="userContext" class="it.quix.academy.qborrrow.core.model.QborrrowUserContext" scope="prototype">
- 	</bean>
+ 	 
+	</bean>
 	<bean id="userContextFactory" class="it.quix.framework.core.model.UserContextFactory">
 		<property name="userContextClass" value="it.quix.academy.qborrrow.core.model.QborrrowUserContext" />
 	</bean>
