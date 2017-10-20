@@ -30,33 +30,33 @@
 				</b>
 				&nbsp;&nbsp;<i class="fa fa-times-circle" style="cursor: pointer;" ng-click="removeFilter('oggetti')"></i>
 			</span>
-			<span class="filterDiv" ng-if="scopeController.search.data_prestitoFrom != null && scopeController.search.data_prestitoFrom != ''">
-				<s:text name="prestiti.search.data_prestitoFrom"/>: 
+			<span class="filterDiv" ng-if="scopeController.search.dataPrestitoFrom != null && scopeController.search.dataPrestitoFrom != ''">
+				<s:text name="prestiti.search.dataPrestitoFrom"/>: 
 				<b>
-					{{scopeController.search.data_prestitoFrom | date:"<s:text name="format.date4" />"}}
+					{{scopeController.search.dataPrestitoFrom | date:"<s:text name="format.date4" />"}}
 				</b>
-				&nbsp;&nbsp;<i class="fa fa-times-circle" style="cursor: pointer;" ng-click="removeFilter('data_prestitoFrom')"></i>
+				&nbsp;&nbsp;<i class="fa fa-times-circle" style="cursor: pointer;" ng-click="removeFilter('dataPrestitoFrom')"></i>
 			</span>
-			<span class="filterDiv" ng-if="scopeController.search.data_prestitoTo != null && scopeController.search.data_prestitoTo != ''">
-				<s:text name="prestiti.search.data_prestitoTo"/>: 
+			<span class="filterDiv" ng-if="scopeController.search.dataPrestitoTo != null && scopeController.search.dataPrestitoTo != ''">
+				<s:text name="prestiti.search.dataPrestitoTo"/>: 
 				<b>
-					{{scopeController.search.data_prestitoTo | date:"<s:text name="format.date4" />"}}
+					{{scopeController.search.dataPrestitoTo | date:"<s:text name="format.date4" />"}}
 				</b>
-				&nbsp;&nbsp;<i class="fa fa-times-circle" style="cursor: pointer;" ng-click="removeFilter('data_prestitoTo')"></i>
+				&nbsp;&nbsp;<i class="fa fa-times-circle" style="cursor: pointer;" ng-click="removeFilter('dataPrestitoTo')"></i>
 			</span>
-			<span class="filterDiv" ng-if="scopeController.search.data_scadenza_prestitoFrom != null && scopeController.search.data_scadenza_prestitoFrom != ''">
-				<s:text name="prestiti.search.data_scadenza_prestitoFrom"/>: 
+			<span class="filterDiv" ng-if="scopeController.search.scadenzaPrestitoFrom != null && scopeController.search.scadenzaPrestitoFrom != ''">
+				<s:text name="prestiti.search.scadenzaPrestitoFrom"/>: 
 				<b>
-					{{scopeController.search.data_scadenza_prestitoFrom | date:"<s:text name="format.date4" />"}}
+					{{scopeController.search.scadenzaPrestitoFrom | date:"<s:text name="format.date4" />"}}
 				</b>
-				&nbsp;&nbsp;<i class="fa fa-times-circle" style="cursor: pointer;" ng-click="removeFilter('data_scadenza_prestitoFrom')"></i>
+				&nbsp;&nbsp;<i class="fa fa-times-circle" style="cursor: pointer;" ng-click="removeFilter('scadenzaPrestitoFrom')"></i>
 			</span>
-			<span class="filterDiv" ng-if="scopeController.search.data_scadenza_prestitoTo != null && scopeController.search.data_scadenza_prestitoTo != ''">
-				<s:text name="prestiti.search.data_scadenza_prestitoTo"/>: 
+			<span class="filterDiv" ng-if="scopeController.search.scadenzaPrestitoTo != null && scopeController.search.scadenzaPrestitoTo != ''">
+				<s:text name="prestiti.search.scadenzaPrestitoTo"/>: 
 				<b>
-					{{scopeController.search.data_scadenza_prestitoTo | date:"<s:text name="format.date4" />"}}
+					{{scopeController.search.scadenzaPrestitoTo | date:"<s:text name="format.date4" />"}}
 				</b>
-				&nbsp;&nbsp;<i class="fa fa-times-circle" style="cursor: pointer;" ng-click="removeFilter('data_scadenza_prestitoTo')"></i>
+				&nbsp;&nbsp;<i class="fa fa-times-circle" style="cursor: pointer;" ng-click="removeFilter('scadenzaPrestitoTo')"></i>
 			</span>
 		</div>
 		<div class="box-body qfade " ng-show="filtriEspansi" ng-cloak>
@@ -131,24 +131,24 @@
 				</div>
 			</div>
 			<div class="qrow">
-				<div class="qcol-xs-6 qcol-sm-6 qcol-md-3" ng-class="{'qhas-error': forms.prestitiListForm.data_prestitoFrom.$invalid}">
-					<label for="data_prestitoFrom"><s:text name="prestiti.search.data_prestitoFrom"/>:</label>
+				<div class="qcol-xs-6 qcol-sm-6 qcol-md-3" ng-class="{'qhas-error': forms.prestitiListForm.dataPrestitoFrom.$invalid}">
+					<label for="dataPrestitoFrom"><s:text name="prestiti.search.dataPrestitoFrom"/>:</label>
 					<div>
 
 		              		<div class="qdropdown">
 								<a class="qdropdown-toggle" id="dropdown2" role="qbutton" data-toggle="qdropdown" data-target="#" href="#">
 									<div class="qinput-group">
-							    		<input type="text" name="data_prestitoFrom" id="data_prestitoFrom" class="qform-control box-input-calendar" data-ng-model="scopeController.search.data_prestitoFrom" presetDate="true" dateformat="DD/MM/YYYY">
+							    		<input type="text" name="dataPrestitoFrom" id="dataPrestitoFrom" class="qform-control box-input-calendar" data-ng-model="scopeController.search.dataPrestitoFrom" presetDate="true" dateformat="DD/MM/YYYY">
 							    		<span class="qinput-group-addon"><i class="fa fa-calendar"></i></span>
 							    	</div>
 							  	</a>
 							  	<ul class="qdropdown-menu" role="qmenu" aria-labelledby="dLabel">
-							    	<datetimepicker data-ng-model="scopeController.search.data_prestitoFrom" data-datetimepicker-config="{ minView:'day', modelType: 'Date' }"/>
+							    	<datetimepicker data-ng-model="scopeController.search.dataPrestitoFrom" data-datetimepicker-config="{ minView:'day', modelType: 'Date' }"/>
 							  	</ul>
 							</div>
 						
 		              	
-						<div ng-messages="forms.prestitiListForm.data_prestitoFrom.$error" role="alert">
+						<div ng-messages="forms.prestitiListForm.dataPrestitoFrom.$error" role="alert">
 						  	<div ng-message="notNull"><s:text name="error.notNull"/></div>
 						  	<div ng-message="invalidAK"><s:text name="error.invalidAK"/></div>
 						  	<div ng-message="notValid"><s:text name="error.notValid"/></div>
@@ -166,24 +166,24 @@
 						</div>
 					</div>
 				</div>
-				<div class="qcol-xs-6 qcol-sm-6 qcol-md-3" ng-class="{'qhas-error': forms.prestitiListForm.data_prestitoTo.$invalid}">
-					<label for="data_prestitoTo"><s:text name="prestiti.search.data_prestitoTo"/>:</label>
+				<div class="qcol-xs-6 qcol-sm-6 qcol-md-3" ng-class="{'qhas-error': forms.prestitiListForm.dataPrestitoTo.$invalid}">
+					<label for="dataPrestitoTo"><s:text name="prestiti.search.dataPrestitoTo"/>:</label>
 					<div>
 
 		              		<div class="qdropdown">
 								<a class="qdropdown-toggle" id="dropdown2" role="qbutton" data-toggle="qdropdown" data-target="#" href="#">
 									<div class="qinput-group">
-							    		<input type="text" name="data_prestitoTo" id="data_prestitoTo" class="qform-control box-input-calendar" data-ng-model="scopeController.search.data_prestitoTo" presetDate="true" dateformat="DD/MM/YYYY">
+							    		<input type="text" name="dataPrestitoTo" id="dataPrestitoTo" class="qform-control box-input-calendar" data-ng-model="scopeController.search.dataPrestitoTo" presetDate="true" dateformat="DD/MM/YYYY">
 							    		<span class="qinput-group-addon"><i class="fa fa-calendar"></i></span>
 							    	</div>
 							  	</a>
 							  	<ul class="qdropdown-menu" role="qmenu" aria-labelledby="dLabel">
-							    	<datetimepicker data-ng-model="scopeController.search.data_prestitoTo" data-datetimepicker-config="{ minView:'day', modelType: 'Date' }"/>
+							    	<datetimepicker data-ng-model="scopeController.search.dataPrestitoTo" data-datetimepicker-config="{ minView:'day', modelType: 'Date' }"/>
 							  	</ul>
 							</div>
 						
 		              	
-						<div ng-messages="forms.prestitiListForm.data_prestitoTo.$error" role="alert">
+						<div ng-messages="forms.prestitiListForm.dataPrestitoTo.$error" role="alert">
 						  	<div ng-message="notNull"><s:text name="error.notNull"/></div>
 						  	<div ng-message="invalidAK"><s:text name="error.invalidAK"/></div>
 						  	<div ng-message="notValid"><s:text name="error.notValid"/></div>
@@ -201,24 +201,24 @@
 						</div>
 					</div>
 				</div>
-				<div class="qcol-xs-6 qcol-sm-6 qcol-md-3" ng-class="{'qhas-error': forms.prestitiListForm.data_scadenza_prestitoFrom.$invalid}">
-					<label for="data_scadenza_prestitoFrom"><s:text name="prestiti.search.data_scadenza_prestitoFrom"/>:</label>
+				<div class="qcol-xs-6 qcol-sm-6 qcol-md-3" ng-class="{'qhas-error': forms.prestitiListForm.scadenzaPrestitoFrom.$invalid}">
+					<label for="scadenzaPrestitoFrom"><s:text name="prestiti.search.scadenzaPrestitoFrom"/>:</label>
 					<div>
 
 		              		<div class="qdropdown">
 								<a class="qdropdown-toggle" id="dropdown2" role="qbutton" data-toggle="qdropdown" data-target="#" href="#">
 									<div class="qinput-group">
-							    		<input type="text" name="data_scadenza_prestitoFrom" id="data_scadenza_prestitoFrom" class="qform-control box-input-calendar" data-ng-model="scopeController.search.data_scadenza_prestitoFrom" presetDate="true" dateformat="DD/MM/YYYY">
+							    		<input type="text" name="scadenzaPrestitoFrom" id="scadenzaPrestitoFrom" class="qform-control box-input-calendar" data-ng-model="scopeController.search.scadenzaPrestitoFrom" presetDate="true" dateformat="DD/MM/YYYY">
 							    		<span class="qinput-group-addon"><i class="fa fa-calendar"></i></span>
 							    	</div>
 							  	</a>
 							  	<ul class="qdropdown-menu" role="qmenu" aria-labelledby="dLabel">
-							    	<datetimepicker data-ng-model="scopeController.search.data_scadenza_prestitoFrom" data-datetimepicker-config="{ minView:'day', modelType: 'Date' }"/>
+							    	<datetimepicker data-ng-model="scopeController.search.scadenzaPrestitoFrom" data-datetimepicker-config="{ minView:'day', modelType: 'Date' }"/>
 							  	</ul>
 							</div>
 						
 		              	
-						<div ng-messages="forms.prestitiListForm.data_scadenza_prestitoFrom.$error" role="alert">
+						<div ng-messages="forms.prestitiListForm.scadenzaPrestitoFrom.$error" role="alert">
 						  	<div ng-message="notNull"><s:text name="error.notNull"/></div>
 						  	<div ng-message="invalidAK"><s:text name="error.invalidAK"/></div>
 						  	<div ng-message="notValid"><s:text name="error.notValid"/></div>
@@ -236,24 +236,24 @@
 						</div>
 					</div>
 				</div>
-				<div class="qcol-xs-6 qcol-sm-6 qcol-md-3" ng-class="{'qhas-error': forms.prestitiListForm.data_scadenza_prestitoTo.$invalid}">
-					<label for="data_scadenza_prestitoTo"><s:text name="prestiti.search.data_scadenza_prestitoTo"/>:</label>
+				<div class="qcol-xs-6 qcol-sm-6 qcol-md-3" ng-class="{'qhas-error': forms.prestitiListForm.scadenzaPrestitoTo.$invalid}">
+					<label for="scadenzaPrestitoTo"><s:text name="prestiti.search.scadenzaPrestitoTo"/>:</label>
 					<div>
 
 		              		<div class="qdropdown">
 								<a class="qdropdown-toggle" id="dropdown2" role="qbutton" data-toggle="qdropdown" data-target="#" href="#">
 									<div class="qinput-group">
-							    		<input type="text" name="data_scadenza_prestitoTo" id="data_scadenza_prestitoTo" class="qform-control box-input-calendar" data-ng-model="scopeController.search.data_scadenza_prestitoTo" presetDate="true" dateformat="DD/MM/YYYY">
+							    		<input type="text" name="scadenzaPrestitoTo" id="scadenzaPrestitoTo" class="qform-control box-input-calendar" data-ng-model="scopeController.search.scadenzaPrestitoTo" presetDate="true" dateformat="DD/MM/YYYY">
 							    		<span class="qinput-group-addon"><i class="fa fa-calendar"></i></span>
 							    	</div>
 							  	</a>
 							  	<ul class="qdropdown-menu" role="qmenu" aria-labelledby="dLabel">
-							    	<datetimepicker data-ng-model="scopeController.search.data_scadenza_prestitoTo" data-datetimepicker-config="{ minView:'day', modelType: 'Date' }"/>
+							    	<datetimepicker data-ng-model="scopeController.search.scadenzaPrestitoTo" data-datetimepicker-config="{ minView:'day', modelType: 'Date' }"/>
 							  	</ul>
 							</div>
 						
 		              	
-						<div ng-messages="forms.prestitiListForm.data_scadenza_prestitoTo.$error" role="alert">
+						<div ng-messages="forms.prestitiListForm.scadenzaPrestitoTo.$error" role="alert">
 						  	<div ng-message="notNull"><s:text name="error.notNull"/></div>
 						  	<div ng-message="invalidAK"><s:text name="error.invalidAK"/></div>
 						  	<div ng-message="notValid"><s:text name="error.notValid"/></div>
@@ -303,14 +303,14 @@
 						</span>
 					</li> 											
 					<li style="padding: 10px;">
-						<s:text name="prestiti.list.order.data_prestito"/>
+						<s:text name="prestiti.list.order.dataPrestito"/>
 						<span class="pull-right">
 							<i class="fa fa-sort-amount-asc" style="cursor: pointer;" ng-class="{'active-order-icon': scopeController.search.order == 3}" ng-click="orderBy(3); openOrderMenu = false;"></i>
 							<i class="fa fa-sort-amount-desc" style="cursor: pointer;" ng-class="{'active-order-icon': scopeController.search.order == 4}" ng-click="orderBy(4); openOrderMenu = false;"></i>
 						</span>
 					</li> 											
 					<li style="padding: 10px;">
-						<s:text name="prestiti.list.order.data_scadenza_prestito"/>
+						<s:text name="prestiti.list.order.scadenzaPrestito"/>
 						<span class="pull-right">
 							<i class="fa fa-sort-amount-asc" style="cursor: pointer;" ng-class="{'active-order-icon': scopeController.search.order == 5}" ng-click="orderBy(5); openOrderMenu = false;"></i>
 							<i class="fa fa-sort-amount-desc" style="cursor: pointer;" ng-class="{'active-order-icon': scopeController.search.order == 6}" ng-click="orderBy(6); openOrderMenu = false;"></i>
@@ -336,8 +336,8 @@
 				<tr>
 					<th class="qtext-left"><s:text name="prestiti.list.soggetti"/></th>
 					<th class="qtext-left"><s:text name="prestiti.list.oggetti"/></th>
-					<th class="qtext-center"><s:text name="prestiti.list.data_prestito"/></th>
-					<th class="qtext-center"><s:text name="prestiti.list.data_scadenza_prestito"/></th>
+					<th class="qtext-center"><s:text name="prestiti.list.dataPrestito"/></th>
+					<th class="qtext-center"><s:text name="prestiti.list.scadenzaPrestito"/></th>
 					<th>&nbsp;</th>
 				</tr>
 			</thead>
@@ -345,8 +345,8 @@
 				<tr ng-repeat="row in scopeController.result.list">
 					<td>{{ row.soggetti }}</td>
 					<td>{{ row.oggetti }}</td>
-					<td class="qtext-center" nowrap="nowrap">{{ row.data_prestito  | date:"<s:text name="format.date3" />" }}</td>
-					<td class="qtext-center" nowrap="nowrap">{{ row.data_scadenza_prestito  | date:"<s:text name="format.date3" />" }}</td>
+					<td class="qtext-center" nowrap="nowrap">{{ row.dataPrestito  | date:"<s:text name="format.date3" />" }}</td>
+					<td class="qtext-center" nowrap="nowrap">{{ row.scadenzaPrestito  | date:"<s:text name="format.date3" />" }}</td>
 					<td class="qtext-right">
 						<div class="qbtn-group" ng-hide="popup">
 		                  	<button class="qbtn btn-framework-color" ng-click="edit(row)" type="button"><i class="fa fa-pencil"></i>&nbsp;<s:text name="button.edit" /></button>

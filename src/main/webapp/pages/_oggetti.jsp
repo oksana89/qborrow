@@ -157,7 +157,7 @@
 						</span>
 					</li> 											
 					<li style="padding: 10px;">
-						<s:text name="oggetti.list.order.data_ultima_modifica"/>
+						<s:text name="oggetti.list.order.dataUltimaModifica"/>
 						<span class="pull-right">
 							<i class="fa fa-sort-amount-asc" style="cursor: pointer;" ng-class="{'active-order-icon': scopeController.search.order == 5}" ng-click="orderBy(5); openOrderMenu = false;"></i>
 							<i class="fa fa-sort-amount-desc" style="cursor: pointer;" ng-class="{'active-order-icon': scopeController.search.order == 6}" ng-click="orderBy(6); openOrderMenu = false;"></i>
@@ -186,7 +186,7 @@
 					<th class="qtext-left"><s:text name="oggetti.list.descrizione"/></th>
 					<th class="qtext-left"><s:text name="oggetti.list.immagine"/></th>
 					<th class="qtext-left"><s:text name="oggetti.list.categoria"/></th>
-					<th class="qtext-center"><s:text name="oggetti.list.data_ultima_modifica"/></th>
+					<th class="qtext-center"><s:text name="oggetti.list.dataUltimaModifica"/></th>
 					<th>&nbsp;</th>
 				</tr>
 			</thead>
@@ -197,7 +197,7 @@
 					<td>{{ row.descrizione }}</td>
 					<td>{{ row.immagine }}</td>
 					<td>{{ row.categoria | sysattribute:'QBO000_categoria' }}</td>
-					<td class="qtext-center" nowrap="nowrap">{{ row.data_ultima_modifica  | date:"<s:text name="format.date3" />" }}</td>
+					<td class="qtext-center" nowrap="nowrap">{{ row.dataUltimaModifica  | date:"<s:text name="format.date3" />" }}</td>
 					<td class="qtext-right">
 						<div class="qbtn-group" ng-hide="popup">
 		                  	<button class="qbtn btn-framework-color" ng-click="edit(row)" type="button"><i class="fa fa-pencil"></i>&nbsp;<s:text name="button.edit" /></button>

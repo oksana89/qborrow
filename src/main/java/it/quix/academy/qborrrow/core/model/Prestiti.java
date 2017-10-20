@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
@@ -40,7 +41,7 @@ import it.quix.framework.core.model.UserContext;
 /**
  * The Prestiti entity.
  * 
- * @author Quix CodeGenerator version 03.03.00-SNAPSHOT, generated 12/10/2017 12:46:08
+ * @author Quix CodeGenerator version 03.03.00-SNAPSHOT, generated 11/10/2017 14:50:04
  */
 @Entity
 @Table(name = "prestiti")
@@ -67,32 +68,57 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
      * This field is part of the primary key of this entity.
      */
     @Id
-    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "beneficiario")
-    @QrExcelColumn(order = 0, translate = true)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Soggetti soggetti;
 
     @Transient
     private boolean soggettiJdbcAlreadyChecked = false;
 
     @Transient
-    private String soggetti_user_name;
+    private String soggettiUsername;
 
     /**
-     * oggetto prestato <br>
-     * oggetto prestato <br>
+     * Data Inizio Prestito <br>
+     * Data di inizio del prestito <br>
+     * Property of field:
+     * <ul>
+     * <li>length = 255
+     * <li>columnName = data_prestito
+     * <li>nullable = true
+     * </ul>
+     */
+    @QcDateType()
+    @Temporal(TemporalType.DATE)
+    @Column(name = "data_prestito")
+    @QrExcelColumn(order = 0)
+    private Date dataPrestito;
+
+    /**
+     * Data Scadenza Prestito <br>
+     * Data di scadenza del prestito <br>
+     * Property of field:
+     * <ul>
+     * <li>length = 255
+     * <li>columnName = scadenza_prestito
+     * <li>nullable = true
+     * </ul>
+     */
+    @QcDateType()
+    @Temporal(TemporalType.DATE)
+    @Column(name = "scadenza_prestito")
+    @QrExcelColumn(order = 0)
+    private Date scadenzaPrestito;
+
+    /**
      * Property of field:
      * <ul>
      * <li>columnName = oggetto_prestato
      * <li>nullable = true
      * </ul>
-     * This field is part of the primary key of this entity.
      */
-    @Id
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "oggetto_prestato")
-    @Column(nullable = false)
-    @QrExcelColumn(order = 0, translate = true)
     private Oggetti oggetti;
 
     @Transient
@@ -100,37 +126,6 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
 
     @Transient
     private Integer oggetti_id;
-
-    /**
-     * data prestito <br>
-     * data prestito <br>
-     * Property of field:
-     * <ul>
-     * <li>length = 9
-     * <li>nullable = false
-     * </ul>
-     */
-    @Column(length = 9, nullable = false)
-    @QcDateType()
-    @Temporal(TemporalType.DATE)
-    @QrExcelColumn(order = 0)
-    private Date data_prestito;
-
-    /**
-     * data scadenza prestito <br>
-     * data scadenza prestito <br>
-     * Property of field:
-     * <ul>
-     * <li>length = 9
-     * <li>columnName = data_scadenza_prestito
-     * <li>nullable = false
-     * </ul>
-     */
-    @Column(length = 9, name = "data_scadenza_prestito", nullable = false)
-    @QcDateType()
-    @Temporal(TemporalType.DATE)
-    @QrExcelColumn(order = 0)
-    private Date data_scadenza_prestito;
 
     /**
      * Indicates whether some other object is "equal to" this one.
@@ -170,13 +165,6 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
         } else if (!soggetti.equals(other.getSoggetti())) {
             return false;
         }
-        if (oggetti == null) {
-            if (other.getOggetti() != null) {
-                return false;
-            }
-        } else if (!oggetti.equals(other.getOggetti())) {
-            return false;
-        }
         return true;
     }
 
@@ -201,7 +189,6 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((soggetti == null) ? 0 : soggetti.hashCode());
-        result = prime * result + ((oggetti == null) ? 0 : oggetti.hashCode());
         return result;
     }
 
@@ -219,11 +206,11 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
 
         sb.append(", ").append("soggetti=").append(soggetti);
 
+        sb.append(", ").append("dataPrestito=").append(dataPrestito);
+
+        sb.append(", ").append("scadenzaPrestito=").append(scadenzaPrestito);
+
         sb.append(", ").append("oggetti=").append(oggetti);
-
-        sb.append(", ").append("data_prestito=").append(data_prestito);
-
-        sb.append(", ").append("data_scadenza_prestito=").append(data_scadenza_prestito);
 
         sb.append(")");
         return sb.toString();
@@ -293,12 +280,12 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
      */
 
     public Soggetti getSoggetti() {
-        if (jdbc && soggetti == null && soggetti_user_name != null && !soggettiJdbcAlreadyChecked) {
+        if (jdbc && soggetti == null && soggettiUsername != null && !soggettiJdbcAlreadyChecked) {
             try {
-                soggetti = getQborrrowManager().getSoggetti(soggetti_user_name);
+                soggetti = getQborrrowManager().getSoggetti(soggettiUsername);
                 soggettiJdbcAlreadyChecked = true;
             } catch (DAOFinderException e) {
-                log.debug("Unexpected DAOFinderException on getSoggetti by soggetti_user_name = " + soggetti_user_name, e);
+                log.debug("Unexpected DAOFinderException on getSoggetti by soggetti_username = " + soggettiUsername, e);
             }
         }
         return soggetti;
@@ -318,30 +305,30 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
     public void setSoggetti(Soggetti soggetti) {
         this.soggetti = soggetti;
         if (soggetti != null) {
-            soggetti_user_name = soggetti.getUser_name();
+            soggettiUsername = soggetti.getUsername();
 
         } else {
-            soggetti_user_name = null;
+            soggettiUsername = null;
         }
     }
 
-    public String getSoggetti_user_name() {
+    public String getSoggettiUsername() {
         if (jdbc) {
-            return soggetti_user_name;
+            return soggettiUsername;
         } else {
-            return soggetti == null ? null : soggetti.getUser_name();
+            return soggetti == null ? null : soggetti.getUsername();
         }
     }
 
-    public void setSoggetti_user_name(String soggetti_user_name) {
+    public void setSoggetti_username(String soggetti_username) {
         if (jdbc) {
-            if (this.soggetti_user_name != null && !this.soggetti_user_name.equals(soggetti_user_name)) {
+            if (this.soggettiUsername != null && !this.soggettiUsername.equals(soggetti_username)) {
                 soggetti = null;
                 soggettiJdbcAlreadyChecked = false;
             }
-            this.soggetti_user_name = soggetti_user_name;
+            this.soggettiUsername = soggetti_username;
         } else {
-            throw new ModelJdbcException("The method setSoggetti_user_name can be invoked only on jdbc model.");
+            throw new ModelJdbcException("The method setSoggetti_username can be invoked only on jdbc model.");
         }
     }
 
@@ -363,8 +350,77 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * Return the oggetto prestato
-     * oggetto prestato <br>
+     * Return the Data Inizio Prestito
+     * Data di inizio del prestito <br>
+     * Property of field:
+     * <ul>
+     * <li>length = 255
+     * <li>columnName = data_prestito
+     * <li>nullable = true
+     * </ul>
+     * 
+     * @return the dataPrestito
+     * @see Prestiti.dataPrestito
+     */
+
+    public Date getDataPrestito() {
+        return dataPrestito;
+    }
+
+    /**
+     * Set the Data Inizio Prestito
+     * Data di inizio del prestito <br>
+     * Property of field:
+     * <ul>
+     * <li>length = 255
+     * <li>columnName = data_prestito
+     * <li>nullable = true
+     * </ul>
+     * 
+     * @param dataPrestito the Data Inizio Prestito to set
+     * @see Prestiti.dataPrestito
+     */
+    public void setDataPrestito(Date dataPrestito) {
+        this.dataPrestito = dataPrestito;
+    }
+
+    /**
+     * Return the Data Scadenza Prestito
+     * Data di scadenza del prestito <br>
+     * Property of field:
+     * <ul>
+     * <li>length = 255
+     * <li>columnName = scadenza_prestito
+     * <li>nullable = true
+     * </ul>
+     * 
+     * @return the scadenzaPrestito
+     * @see Prestiti.scadenzaPrestito
+     */
+
+    public Date getScadenzaPrestito() {
+        return scadenzaPrestito;
+    }
+
+    /**
+     * Set the Data Scadenza Prestito
+     * Data di scadenza del prestito <br>
+     * Property of field:
+     * <ul>
+     * <li>length = 255
+     * <li>columnName = scadenza_prestito
+     * <li>nullable = true
+     * </ul>
+     * 
+     * @param scadenzaPrestito the Data Scadenza Prestito to set
+     * @see Prestiti.scadenzaPrestito
+     */
+    public void setScadenzaPrestito(Date scadenzaPrestito) {
+        this.scadenzaPrestito = scadenzaPrestito;
+    }
+
+    /**
+     * <br>
      * Property of field:
      * <ul>
      * <li>columnName = oggetto_prestato
@@ -388,22 +444,20 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * Set the oggetto prestato
-     * oggetto prestato <br>
+     * <br>
      * Property of field:
      * <ul>
      * <li>columnName = oggetto_prestato
      * <li>nullable = true
      * </ul>
      * 
-     * @param oggetti the oggetto prestato to set
+     * @param oggetti
      * @see Prestiti.oggetti
      */
     public void setOggetti(Oggetti oggetti) {
         this.oggetti = oggetti;
         if (oggetti != null) {
             oggetti_id = oggetti.getId();
-
         } else {
             oggetti_id = null;
         }
@@ -429,89 +483,13 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
         }
     }
 
-    /**
-     * @return the oggettiJdbcAlreadyChecked
-     * @see Prestiti#oggettiJdbcAlreadyChecked
-     */
     @JSON(include = false)
     public boolean isOggettiJdbcAlreadyChecked() {
         return oggettiJdbcAlreadyChecked;
     }
 
-    /**
-     * @param oggettiJdbcAlreadyChecked the oggettiJdbcAlreadyChecked to set
-     * @see Prestiti#oggettiJdbcAlreadyChecked
-     */
     public void setOggettiJdbcAlreadyChecked(boolean oggettiJdbcAlreadyChecked) {
         this.oggettiJdbcAlreadyChecked = oggettiJdbcAlreadyChecked;
-    }
-
-    /**
-     * Return the data prestito
-     * data prestito <br>
-     * Property of field:
-     * <ul>
-     * <li>length = 9
-     * <li>nullable = false
-     * </ul>
-     * 
-     * @return the data_prestito
-     * @see Prestiti.data_prestito
-     */
-
-    public Date getData_prestito() {
-        return data_prestito;
-    }
-
-    /**
-     * Set the data prestito
-     * data prestito <br>
-     * Property of field:
-     * <ul>
-     * <li>length = 9
-     * <li>nullable = false
-     * </ul>
-     * 
-     * @param data_prestito the data prestito to set
-     * @see Prestiti.data_prestito
-     */
-    public void setData_prestito(Date data_prestito) {
-        this.data_prestito = data_prestito;
-    }
-
-    /**
-     * Return the data scadenza prestito
-     * data scadenza prestito <br>
-     * Property of field:
-     * <ul>
-     * <li>length = 9
-     * <li>columnName = data_scadenza_prestito
-     * <li>nullable = false
-     * </ul>
-     * 
-     * @return the data_scadenza_prestito
-     * @see Prestiti.data_scadenza_prestito
-     */
-
-    public Date getData_scadenza_prestito() {
-        return data_scadenza_prestito;
-    }
-
-    /**
-     * Set the data scadenza prestito
-     * data scadenza prestito <br>
-     * Property of field:
-     * <ul>
-     * <li>length = 9
-     * <li>columnName = data_scadenza_prestito
-     * <li>nullable = false
-     * </ul>
-     * 
-     * @param data_scadenza_prestito the data scadenza prestito to set
-     * @see Prestiti.data_scadenza_prestito
-     */
-    public void setData_scadenza_prestito(Date data_scadenza_prestito) {
-        this.data_scadenza_prestito = data_scadenza_prestito;
     }
 
 }

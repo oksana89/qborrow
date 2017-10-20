@@ -83,8 +83,8 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
             super.setParameterString(statement, p++, oggetti.getDescrizione());
             super.setParameterString(statement, p++, oggetti.getImmagine());
             super.setParameterString(statement, p++, oggetti.getCategoria());
-            super.setParameterDate(statement, p++, oggetti.getData_ultima_modifica());
-            super.setParameterString(statement, p++, oggetti.getSoggetti_user_name());
+            super.setParameterDate(statement, p++, oggetti.getDataUltimaModifica());
+            super.setParameterString(statement, p++, oggetti.getSoggettiUsername());
 
             // Execute the query
             long startTime = System.currentTimeMillis();
@@ -150,8 +150,8 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
             super.setParameterString(statement, p++, oggetti.getDescrizione());
             super.setParameterString(statement, p++, oggetti.getImmagine());
             super.setParameterString(statement, p++, oggetti.getCategoria());
-            super.setParameterDate(statement, p++, oggetti.getData_ultima_modifica());
-            super.setParameterString(statement, p++, oggetti.getSoggetti_user_name());
+            super.setParameterDate(statement, p++, oggetti.getDataUltimaModifica());
+            super.setParameterString(statement, p++, oggetti.getSoggettiUsername());
 
             // Set the primary key
             super.setParameterInteger(statement, p++, oggetti.getId());
@@ -214,9 +214,9 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
             return true;
         if (oldOggetti.getCategoria() == null && newOggetti.getCategoria() != null)
             return true;
-        if (oldOggetti.getData_ultima_modifica() != null && !oldOggetti.getData_ultima_modifica().equals(newOggetti.getData_ultima_modifica()))
+        if (oldOggetti.getDataUltimaModifica() != null && !oldOggetti.getDataUltimaModifica().equals(newOggetti.getDataUltimaModifica()))
             return true;
-        if (oldOggetti.getData_ultima_modifica() == null && newOggetti.getData_ultima_modifica() != null)
+        if (oldOggetti.getDataUltimaModifica() == null && newOggetti.getDataUltimaModifica() != null)
             return true;
         if (oldOggetti.getSoggetti() != null && !oldOggetti.getSoggetti().equals(newOggetti.getSoggetti()))
             return true;
@@ -262,7 +262,7 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
         newOggetti.setDescrizione(oggetti.getDescrizione());
         newOggetti.setImmagine(oggetti.getImmagine());
         newOggetti.setCategoria(oggetti.getCategoria());
-        newOggetti.setData_ultima_modifica(oggetti.getData_ultima_modifica());
+        newOggetti.setDataUltimaModifica(oggetti.getDataUltimaModifica());
         newOggetti.setSoggetti(oggetti.getSoggetti());
 
         return newOggetti;
@@ -351,13 +351,13 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
         oggetti.setJdbc(true);
         oggetti.setQborrrowManager(qborrrowManager);
 
-        oggetti.setSoggetti_user_name(getParameterString(rs, "proprietario"));
+        oggetti.setSoggettiUsername(getParameterString(rs, "proprietario"));
         oggetti.setId(getParameterInteger(rs, "id"));
         oggetti.setTitolo(getParameterString(rs, "titolo"));
         oggetti.setDescrizione(getParameterString(rs, "descrizione"));
         oggetti.setImmagine(getParameterString(rs, "immagine"));
         oggetti.setCategoria(getParameterString(rs, "categoria"));
-        oggetti.setData_ultima_modifica(getParameterDate(rs, "data_ultima_modifica"));
+        oggetti.setDataUltimaModifica(getParameterDate(rs, "data_ultima_modifica"));
 
         return oggetti;
     }
@@ -377,13 +377,13 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
         oggetti.setJdbc(true);
         oggetti.setQborrrowManager(qborrrowManager);
 
-        oggetti.setSoggetti_user_name(getParameterString(rs, "proprietario"));
+        oggetti.setSoggettiUsername(getParameterString(rs, "proprietario"));
         oggetti.setId(getParameterInteger(rs, "id"));
         oggetti.setTitolo(getParameterString(rs, "titolo"));
         oggetti.setDescrizione(getParameterString(rs, "descrizione"));
         oggetti.setImmagine(getParameterString(rs, "immagine"));
         oggetti.setCategoria(getParameterString(rs, "categoria"));
-        oggetti.setData_ultima_modifica(getParameterDate(rs, "data_ultima_modifica"));
+        oggetti.setDataUltimaModifica(getParameterDate(rs, "data_ultima_modifica"));
 
         return oggetti;
     }
@@ -727,7 +727,7 @@ public abstract class OggettiAbstractDAO extends AbstractJDBCDAO {
         }
         if (search.getSoggetti() != null) {
             whereClause.append("AND proprietario = ?  ");
-            parameters.put(new Integer(p), search.getSoggetti().getUser_name());
+            parameters.put(new Integer(p), search.getSoggetti().getUsername());
             p++;
         } else {
             if (search.getSoggetti_user_name() != null) {

@@ -8,21 +8,56 @@
   		<jsp:include page="_head.jsp"></jsp:include>
   	</head>
   	<body ng-app="qborrrow"> 
-  		<div class="frameworkGlobalDiv"> 
+  		<div class="qcontainer-fluid"> 
   			<jsp:include page="_header.jsp" />
-	  		<div class="frameworkRow"  >
-		  		<div class="frameworkLeftMenuCell">
-					<jsp:include page="_left.jsp">
-						<jsp:param name="menuActive" value="Home"/>
-					</jsp:include>
-				</div>
+  			<div class="qcontainer">
+	  		<div class="qrow">
+		  		
+  				<div class="qcol-x-12">
   				<div class="frameworkMainCell">
-					<div class="qpage-header qtext-warning">
-						<h1>***ATTENZIONE!<br>Questa pagina di HOME &egrave; stata generata automaticamente.<br>
-						Occorre effetuare un restyling grafico per renderla conforme allo scopo per cui &egrave; stato creato il progetto.</h1>
+					<div class="qpage-header >
+					<h1>Benvenuto,  <s:property value="userContext.getUserText()" /></h1>
 					</div>
 					<div class="qrow">
-						<div class="qcol-xs-12">
+						 <div class="row">
+    				
+						<div class="qcol-md-3">
+							
+								<div><i class="fa icon fa-plus-square-o " aria-hidden="true"></i></div>
+								<div class="tab"><s:a href="%{#oggettiUrl}">Oggetti</s:a></div>
+								<s:url id="oggettiUrl" action="oggetti" escapeAmp="false" includeParams="none">
+									<s:param name="task">mainPage</s:param>
+								</s:url>
+								
+						</div>
+						<div class="qcol-md-3">
+							
+								<div><i class="fa icon fa-eur " aria-hidden="true"></i></div>
+								<div class="tab"><s:a href="%{#prestitiUrl}">Prestiti</s:a>
+								<s:url id="prestitiUrl" action="prestiti" escapeAmp="false" includeParams="none">
+									<s:param name="task">mainPage</s:param>
+								</s:url></div>
+								
+						</div>
+						<div class="qcol-md-3">
+								<div><i class="fa icon fa-user" aria-hidden="true"></i></div>
+								<div class="tab"><s:a href="%{#soggettiUrl}">Soggetti</s:a>
+								<s:url id="prestitiUrl" action="prestiti" escapeAmp="false" includeParams="none">
+									<s:param name="task">mainPage</s:param>
+								</s:url></div>
+								
+								
+						</div>
+						<div class="qcol-md-3">
+							
+								<div><i class="fa fa-address-book-o" aria-hidden="true"></i></div>
+								<div class="tab"><s:a href="%{#frmkUrlUrl}">Amministrazione Framework</s:a>
+								<s:url id="prestitiUrl" action="prestiti" escapeAmp="false" includeParams="none">
+									<s:param name="task">mainPage</s:param>
+								</s:url></div>
+								
+						</div>
+						<div class="qcol-xs-3">
 							<ul class="qnav qnav-pills qnav-stacked">
 								<s:url id="oggettiUrl" action="oggetti" escapeAmp="false" includeParams="none">
 									<s:param name="task">mainPage</s:param>
@@ -44,8 +79,11 @@
 						</div>
 					</div>
   				</div>
+  				</div>
+			</div>
 			</div>
   		 	<jsp:include page="_footer.jsp" />
 	  	</div>	
+	  	
   	</body>
 </html>

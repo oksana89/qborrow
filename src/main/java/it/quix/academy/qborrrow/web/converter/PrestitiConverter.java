@@ -6,13 +6,15 @@ import java.math.BigInteger;
 import java.util.Date;
 
 import javax.annotation.Resource;
-import it.quix.academy.qborrrow.core.manager.QborrrowManager;
+
 import it.quix.academy.qborrrow.core.model.Prestiti;
 import it.quix.academy.qborrrow.core.model.QborrrowUserContext;
+import it.quix.academy.qborrrow.core.manager.QborrrowManager;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.conversion.TypeConversionException;
 import com.opensymphony.xwork2.util.ValueStack;
+
 import it.quix.framework.web.converter.AbstractTypeConverter;
 
 import org.apache.struts2.util.StrutsTypeConverter;
@@ -61,7 +63,7 @@ public class PrestitiConverter extends AbstractTypeConverter<Prestiti> {
         Prestiti prestiti = (Prestiti) obj;
         try {
             StringBuilder pk = new StringBuilder();
-            pk.append(convertToString(prestiti.getSoggetti_user_name()));
+            pk.append(convertToString(prestiti.getSoggettiUsername()));
             pk.append("|");
             pk.append(convertToString(prestiti.getOggetti_id()));
             return pk.toString();

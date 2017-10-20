@@ -60,7 +60,7 @@ public class SoggettiConverter extends AbstractTypeConverter<java.lang.String> {
         Soggetti soggetti = (Soggetti) obj;
         try {
             StringBuilder pk = new StringBuilder();
-            pk.append(convertToString(soggetti.getUser_name()));
+            pk.append(convertToString(soggetti.getUsername()));
             return pk.toString();
         } catch (Exception e) {
             throw new TypeConversionException(e);

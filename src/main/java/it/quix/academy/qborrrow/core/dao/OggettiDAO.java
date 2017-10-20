@@ -88,19 +88,19 @@ public class OggettiDAO extends OggettiAbstractDAO {
 
                 oggetti.setJdbc(true);
                 oggetti.setQborrrowManager(qborrrowManager);
-                oggetti.setSoggetti_user_name(getParameterString(rs, "proprietario"));
+                oggetti.setSoggettiUsername(getParameterString(rs, "proprietario"));
                 oggetti.setId(getParameterInteger(rs, "id"));
                 oggetti.setTitolo(getParameterString(rs, "titolo"));
                 oggetti.setDescrizione(getParameterString(rs, "descrizione"));
                 oggetti.setImmagine(getParameterString(rs, "immagine"));
                 oggetti.setCategoria(getParameterString(rs, "categoria"));
-                oggetti.setData_ultima_modifica(getParameterDate(rs, "data_ultima_modifica"));
+                oggetti.setDataUltimaModifica(getParameterDate(rs, "data_ultima_modifica"));
                 if (getParameterString(rs, "beneficiario") == null) {
 
-                    oggetti.isOggettoPrestato(true);
+                    oggetti.setOggettoPrestato(true);
 
                     Prestiti prestito = new Prestiti();
-                    prestito.setData_prestito(getParameterDate(rs, "data_scadenza_prestito"));
+                    prestito.setDataPrestito(getParameterDate(rs, "data_scadenza_prestito"));
                     Soggetti soggetto = new Soggetti();
                     // soggetto.setUser_name(getParameterString(rs, "user_name"));
                     soggetto.setCognome(getParameterString(rs, "nome"));

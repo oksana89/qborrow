@@ -187,7 +187,7 @@ public class SoggettiAbstractManagerAction extends QborrrowManagerAction {
     public String edit() {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         try {
-            soggetti = getQborrrowManager().getSoggetti(soggetti.getUser_name());
+            soggetti = getQborrrowManager().getSoggetti(soggetti.getUsername());
             return manageSerialize(soggetti);
         } catch (Exception e) {
             return manageException("Error on edit Soggetti", e);
@@ -219,7 +219,7 @@ public class SoggettiAbstractManagerAction extends QborrrowManagerAction {
      */
     public String delete() {
         try {
-            getQborrrowManager().deleteSoggetti(soggetti.getUser_name());
+            getQborrrowManager().deleteSoggetti(soggetti.getUsername());
             return manageOkMessage();
         } catch (Exception e) {
             return manageException("Error on delete Soggetti", e);

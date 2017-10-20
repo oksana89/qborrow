@@ -1,15 +1,27 @@
 package it.quix.academy.qborrrow.core.validation;
 
+
+
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Set;
+
+import it.quix.academy.qborrrow.core.model.Soggetti;
+import it.quix.framework.core.model.UserContext;
+import it.quix.framework.core.validation.InvalidConstraintImpl;
+import it.quix.framework.core.validation.api.InvalidConstraint;
+
+
+
+
+
+
+
+
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import it.quix.framework.core.model.UserContext;
-import it.quix.framework.core.validation.api.InvalidConstraint;
-import it.quix.framework.core.validation.InvalidConstraintImpl;
-
-import it.quix.academy.qborrrow.core.model.Soggetti;
 
 /**
  * Validator for the Soggetti object.
@@ -19,6 +31,41 @@ import it.quix.academy.qborrrow.core.model.Soggetti;
  * @author Quix CodeGenerator version 03.03.00-SNAPSHOT
  */
 public class SoggettiValidator extends QborrrowAbstractValidator<Soggetti> {
+	Calendar now = Calendar.getInstance();
+	Soggetti soggetti = new Soggetti();
+	 
+     Date dataCompl = soggetti.getDataCompleanno();
+     Calendar dob = Calendar.getInstance();
+     dob.setTiime;
+     Date dateNow = new Date();
+
+     int year1 = now.get(Calendar.YEAR);
+     int year2 = dob.get(Calendar.YEAR);
+     int age = year1 - year2;
+     int month1 = now.get(Calendar.MONTH);
+     int month2 = dob.get(Calendar.MONTH);
+     if (month2 > month1) {
+         age--;
+     } else if (month1 == month2) {
+         int day1 = now.get(Calendar.DAY_OF_MONTH);
+         int day2 = dob.get(Calendar.DAY_OF_MONTH);
+         if (day2 > day1) {
+             age--;
+         }
+         
+     }
+     if ((dataCompl.after(dateNow))) {
+     	InvalidConstraint<Soggetti> ic =
+         new InvalidConstraintImpl<Soggetti>(Soggetti.class, "error.nonNato", propertyPath + "dataCompleanno",
+         soggetti, soggetti.getDataCompleanno());
+     	errors.add(ic);
+		}
+     if (age<18) {
+     	InvalidConstraint<Soggetti> ic2 =
+         new InvalidConstraintImpl<Soggetti>(Soggetti.class, "error.minorenne", propertyPath + "dataCompleanno",
+         soggetti, soggetti.getDataCompleanno());
+     	errors.add(ic2);
+		}
 
     private static Log log = LogFactory.getLog(SoggettiValidator.class);
 
@@ -50,5 +97,13 @@ public class SoggettiValidator extends QborrrowAbstractValidator<Soggetti> {
         // in the end, add the new invalid constraint to the errors array, es:
         // errors.add(ic);
     }
+
+	@Override
+	protected void customValidation(UserContext userContext,
+			Set<InvalidConstraint<?>> errors, String propertyPath,
+			Soggetti object, String... groups) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

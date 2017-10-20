@@ -189,7 +189,7 @@ public class OggettiAbstractManagerAction extends QborrrowManagerAction {
                     String stringValue = "";
                     Soggetti soggetti = (Soggetti) value;
                     if (soggetti != null) {
-                        stringValue = String.valueOf(soggetti.getUser_name());
+                        stringValue = String.valueOf(soggetti.getUsername());
                     }
                     return stringValue;
                 }

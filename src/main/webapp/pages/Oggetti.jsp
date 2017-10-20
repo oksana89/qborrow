@@ -22,7 +22,7 @@
 		</script>
   	</head>
   	<body ng-app="qborrrow"> 
-  		<div class="frameworkGlobalDiv"> 
+  		<div class="container-fluid"> 
   			<jsp:include page="_header.jsp" />
 	  		<div class="frameworkRow"  >
 		  		<div class="frameworkLeftMenuCell">

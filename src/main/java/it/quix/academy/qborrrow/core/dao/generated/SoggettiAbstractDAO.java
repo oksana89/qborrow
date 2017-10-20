@@ -78,13 +78,13 @@ public abstract class SoggettiAbstractDAO extends AbstractJDBCDAO {
             soggetti.prePersist(configuration);
             // Set the parameters
             int p = 1;
-            super.setParameterString(statement, p++, soggetti.getUser_name());
+            super.setParameterString(statement, p++, soggetti.getUsername());
             super.setParameterString(statement, p++, soggetti.getEmail());
-            super.setParameterString(statement, p++, soggetti.getRagione_sociale());
+            super.setParameterString(statement, p++, soggetti.getRagioneSociale());
             super.setParameterString(statement, p++, soggetti.getNome());
             super.setParameterString(statement, p++, soggetti.getCognome());
             super.setParameterString(statement, p++, soggetti.getImmagine());
-            super.setParameterDate(statement, p++, soggetti.getData_ultima_modifica());
+            super.setParameterDate(statement, p++, soggetti.getDataUltimaModifica());
 
             // Execute the query
             long startTime = System.currentTimeMillis();
@@ -147,14 +147,14 @@ public abstract class SoggettiAbstractDAO extends AbstractJDBCDAO {
             // Set the parameters
             int p = 1;
             super.setParameterString(statement, p++, soggetti.getEmail());
-            super.setParameterString(statement, p++, soggetti.getRagione_sociale());
+            super.setParameterString(statement, p++, soggetti.getRagioneSociale());
             super.setParameterString(statement, p++, soggetti.getNome());
             super.setParameterString(statement, p++, soggetti.getCognome());
             super.setParameterString(statement, p++, soggetti.getImmagine());
-            super.setParameterDate(statement, p++, soggetti.getData_ultima_modifica());
+            super.setParameterDate(statement, p++, soggetti.getDataUltimaModifica());
 
             // Set the primary key
-            super.setParameterString(statement, p++, soggetti.getUser_name());
+            super.setParameterString(statement, p++, soggetti.getUsername());
 
             // Execute the query
             long startTime = System.currentTimeMillis();
@@ -194,17 +194,17 @@ public abstract class SoggettiAbstractDAO extends AbstractJDBCDAO {
      * @return if the first model is different to the second model
      */
     protected boolean isDirty(Soggetti oldSoggetti, Soggetti newSoggetti) {
-        if (oldSoggetti.getUser_name() != null && !oldSoggetti.getUser_name().equals(newSoggetti.getUser_name()))
+        if (oldSoggetti.getUsername() != null && !oldSoggetti.getUsername().equals(newSoggetti.getUsername()))
             return true;
-        if (oldSoggetti.getUser_name() == null && newSoggetti.getUser_name() != null)
+        if (oldSoggetti.getUsername() == null && newSoggetti.getUsername() != null)
             return true;
         if (oldSoggetti.getEmail() != null && !oldSoggetti.getEmail().equals(newSoggetti.getEmail()))
             return true;
         if (oldSoggetti.getEmail() == null && newSoggetti.getEmail() != null)
             return true;
-        if (oldSoggetti.getRagione_sociale() != null && !oldSoggetti.getRagione_sociale().equals(newSoggetti.getRagione_sociale()))
+        if (oldSoggetti.getRagioneSociale() != null && !oldSoggetti.getRagioneSociale().equals(newSoggetti.getRagioneSociale()))
             return true;
-        if (oldSoggetti.getRagione_sociale() == null && newSoggetti.getRagione_sociale() != null)
+        if (oldSoggetti.getRagioneSociale() == null && newSoggetti.getRagioneSociale() != null)
             return true;
         if (oldSoggetti.getNome() != null && !oldSoggetti.getNome().equals(newSoggetti.getNome()))
             return true;
@@ -218,9 +218,9 @@ public abstract class SoggettiAbstractDAO extends AbstractJDBCDAO {
             return true;
         if (oldSoggetti.getImmagine() == null && newSoggetti.getImmagine() != null)
             return true;
-        if (oldSoggetti.getData_ultima_modifica() != null && !oldSoggetti.getData_ultima_modifica().equals(newSoggetti.getData_ultima_modifica()))
+        if (oldSoggetti.getDataUltimaModifica() != null && !oldSoggetti.getDataUltimaModifica().equals(newSoggetti.getDataUltimaModifica()))
             return true;
-        if (oldSoggetti.getData_ultima_modifica() == null && newSoggetti.getData_ultima_modifica() != null)
+        if (oldSoggetti.getDataUltimaModifica() == null && newSoggetti.getDataUltimaModifica() != null)
             return true;
 
         return false;
@@ -257,13 +257,13 @@ public abstract class SoggettiAbstractDAO extends AbstractJDBCDAO {
         newSoggetti.setJdbc(true);
 
         newSoggetti.setQborrrowManager(soggetti.getQborrrowManager());
-        newSoggetti.setUser_name(soggetti.getUser_name());
+        newSoggetti.setUsername(soggetti.getUsername());
         newSoggetti.setEmail(soggetti.getEmail());
-        newSoggetti.setRagione_sociale(soggetti.getRagione_sociale());
+        newSoggetti.setRagioneSociale(soggetti.getRagioneSociale());
         newSoggetti.setNome(soggetti.getNome());
         newSoggetti.setCognome(soggetti.getCognome());
         newSoggetti.setImmagine(soggetti.getImmagine());
-        newSoggetti.setData_ultima_modifica(soggetti.getData_ultima_modifica());
+        newSoggetti.setDataUltimaModifica(soggetti.getDataUltimaModifica());
 
         return newSoggetti;
     }
@@ -350,13 +350,13 @@ public abstract class SoggettiAbstractDAO extends AbstractJDBCDAO {
         soggetti.setJdbc(true);
         soggetti.setQborrrowManager(qborrrowManager);
 
-        soggetti.setUser_name(getParameterString(rs, "user_name"));
+        soggetti.setUsername(getParameterString(rs, "user_name"));
         soggetti.setEmail(getParameterString(rs, "email"));
-        soggetti.setRagione_sociale(getParameterString(rs, "ragione_sociale"));
+        soggetti.setRagioneSociale(getParameterString(rs, "ragione_sociale"));
         soggetti.setNome(getParameterString(rs, "nome"));
         soggetti.setCognome(getParameterString(rs, "cognome"));
         soggetti.setImmagine(getParameterString(rs, "immagine"));
-        soggetti.setData_ultima_modifica(getParameterDate(rs, "data_ultima_modifica"));
+        soggetti.setDataUltimaModifica(getParameterDate(rs, "data_ultima_modifica"));
 
         return soggetti;
     }

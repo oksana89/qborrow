@@ -136,21 +136,21 @@
 					  	<div ng-message="string.length"><s:text name="error.string.length"/></div>
 					</div>
 				</div>		
-				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.oggettiEditForm.data_ultima_modifica.$invalid}">
-					<label for="data_ultima_modifica"><s:text name="oggetti.edit.data_ultima_modifica"/>*</label>
+				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.oggettiEditForm.dataUltimaModifica.$invalid}">
+					<label for="dataUltimaModifica"><s:text name="oggetti.edit.dataUltimaModifica"/>*</label>
 						<div class="qdropdown">
 							<a class="qdropdown-toggle" id="dropdown2" role="qbutton" data-toggle="qdropdown" data-target="#" href="#">
 								<div class="qinput-group">
-						    		<input type="text" name="data_ultima_modifica" id="data_ultima_modifica" class="qform-control box-input-calendar" data-ng-model="scopeController.selectedRow.data_ultima_modifica" presetDate="true" dateformat="DD/MM/YYYY">
+						    		<input type="text" name="dataUltimaModifica" id="dataUltimaModifica" class="qform-control box-input-calendar" data-ng-model="scopeController.selectedRow.dataUltimaModifica" presetDate="true" dateformat="DD/MM/YYYY">
 						    		<span class="qinput-group-addon"><i class="fa fa-calendar"></i></span>
 						    	</div>
 						  	</a>
 						  	<ul class="qdropdown-menu" role="qmenu" aria-labelledby="dLabel">
-						    	<datetimepicker data-ng-model="scopeController.selectedRow.data_ultima_modifica" data-datetimepicker-config="{ minView:'day', modelType: 'Date' }"/>
+						    	<datetimepicker data-ng-model="scopeController.selectedRow.dataUltimaModifica" data-datetimepicker-config="{ minView:'day', modelType: 'Date' }"/>
 						  	</ul>
 						</div>
 					
-					<div ng-messages="forms.oggettiEditForm.data_ultima_modifica.$error" role="alert">
+					<div ng-messages="forms.oggettiEditForm.dataUltimaModifica.$error" role="alert">
 					  	<div ng-message="notNull"><s:text name="error.notNull"/></div>
 					  	<div ng-message="invalidAK"><s:text name="error.invalidAK"/></div>
 					  	<div ng-message="notValid"><s:text name="error.notValid"/></div>

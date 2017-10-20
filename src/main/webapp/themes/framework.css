@@ -13,6 +13,7 @@ h6,
 .h6 {
   	/*font-family: 'Lato',''Helvetica Neue';*/
   	font-family: robotoregular, Arial;
+  	
 }
 body {
   	-webkit-font-smoothing: antialiased;

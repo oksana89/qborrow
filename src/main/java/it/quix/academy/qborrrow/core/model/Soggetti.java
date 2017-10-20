@@ -1,8 +1,12 @@
 package it.quix.academy.qborrrow.core.model;
 
+import flexjson.JSON;
+import it.quix.academy.qborrrow.Configuration;
+import it.quix.framework.core.composer.annotation.QrExcelColumn;
+import it.quix.framework.core.converter.annotation.QcDateType;
+import it.quix.framework.core.validation.annotation.QvPattern;
+
 import java.io.Serializable;
-import java.lang.String;
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -26,23 +30,10 @@ import javax.persistence.Transient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import flexjson.JSON;
-import it.quix.academy.qborrrow.Configuration;
-import it.quix.academy.qborrrow.core.manager.QborrrowManager;
-import it.quix.framework.core.composer.annotation.QrExcelColumn;
-import it.quix.framework.core.converter.annotation.QcDateType;
-import it.quix.framework.core.exception.DAOFinderException;
-import it.quix.framework.core.exception.ModelJdbcException;
-import it.quix.framework.core.handler.SysAttributeHandler;
-import it.quix.framework.core.manager.UserContextHolder;
-import it.quix.framework.core.model.AttributeView;
-import it.quix.framework.core.model.UserContext;
-import it.quix.framework.core.validation.annotation.QvPattern;
-
 /**
  * The Soggetti entity.
  * 
- * @author Quix CodeGenerator version 03.03.00-SNAPSHOT, generated 12/10/2017 12:46:09
+ * @author Quix CodeGenerator version 03.03.00-SNAPSHOT, generated 11/10/2017 14:50:05
  */
 @Entity
 @Table(name = "soggetti")
@@ -61,25 +52,24 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
     private static Log log = LogFactory.getLog(Soggetti.class);
 
     /**
-     * user_name <br>
-     * Nome utente <br>
+     * Username <br>
+     * Username dell'utente <br>
      * Property of field:
      * <ul>
      * <li>length = 50
-     * <li>columnName = user_name
      * <li>nullable = false
      * </ul>
      * This field is part of the primary key of this entity.
      */
     @Id
-    @Column(length = 50, name = "user_name", nullable = false)
+    @Column(length = 50, nullable = false)
     @QvPattern(regex = "[^|]*", message = "error.qvpattern.message")
     @QrExcelColumn(order = 0)
-    private String user_name;
+    private String username;
 
     /**
-     * email <br>
-     * email <br>
+     * Email <br>
+     * Email dell'utente <br>
      * Property of field:
      * <ul>
      * <li>length = 100
@@ -91,17 +81,22 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
     private String email;
 
     /**
+     * Ragione Sociale <br>
+     * Ragione Sociale dell'utente <br>
      * Property of field:
      * <ul>
      * <li>length = 255
+     * <li>columnName = ragione_sociale
      * <li>nullable = true
      * </ul>
      */
-    @Column()
+    @Column(name = "ragione_sociale")
     @QrExcelColumn(order = 0)
-    private String ragione_sociale;
+    private String ragioneSociale;
 
     /**
+     * Nome <br>
+     * Nome <br>
      * Property of field:
      * <ul>
      * <li>length = 50
@@ -113,6 +108,8 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
     private String nome;
 
     /**
+     * Cognome <br>
+     * Cognome <br>
      * Property of field:
      * <ul>
      * <li>length = 50
@@ -124,46 +121,41 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
     private String cognome;
 
     /**
+     * Immagine <br>
+     * Percorso dell'immagine dell'utente <br>
      * Property of field:
      * <ul>
      * <li>length = 255
      * <li>nullable = true
      * </ul>
      */
-    @Column()
     @Lob
+    @Column()
     @QrExcelColumn(order = 0)
     private String immagine;
 
     /**
      * Property of field:
      * <ul>
-     * <li>length = 255
+     * <li>length = 50
+     * <li>columnName = data_ultima_modifica
      * <li>nullable = false
      * </ul>
      */
-    @Column(nullable = false)
     @QcDateType()
     @Temporal(TemporalType.DATE)
+    @Column(length = 50, name = "data_ultima_modifica", nullable = false)
     @QrExcelColumn(order = 0)
-    private Date data_ultima_modifica;
-    
-    /**
-     * Property of field:
-     * <ul>
-     * <li>length = 255
-     * <li>nullable = false
-     * </ul>
-     */
-    @Column(nullable = false)
+    private Date dataUltimaModifica;
+
     @QcDateType()
     @Temporal(TemporalType.DATE)
-    @QrExcelColumn(order = 0)
-    private Date data_compleanno;
+    @Column(length = 50, name = "data_compleanno", nullable = false)
+    private Date dataCompleanno;
 
     /**
 	 */
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user_name")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "propretario")
     @QrExcelColumn(order = 0)
     private Set<Oggetti> oggetti;
 
@@ -172,7 +164,7 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
 
     /**
 	 */
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user_name")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "beneficiario")
     @QrExcelColumn(order = 0)
     private Set<Prestiti> prestiti;
 
@@ -210,11 +202,11 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
             return false;
         }
         Soggetti other = (Soggetti) obj;
-        if (user_name == null) {
-            if (other.getUser_name() != null) {
+        if (username == null) {
+            if (other.getUsername() != null) {
                 return false;
             }
-        } else if (!user_name.equals(other.getUser_name())) {
+        } else if (!username.equals(other.getUsername())) {
             return false;
         }
         return true;
@@ -240,7 +232,7 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((user_name == null) ? 0 : user_name.hashCode());
+        result = prime * result + ((username == null) ? 0 : username.hashCode());
         return result;
     }
 
@@ -256,11 +248,11 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
         sb.append(this.getClass().getName());
         sb.append("(");
 
-        sb.append(", ").append("user_name=").append(user_name);
+        sb.append(", ").append("username=").append(username);
 
         sb.append(", ").append("email=").append(email);
 
-        sb.append(", ").append("ragione_sociale=").append(ragione_sociale);
+        sb.append(", ").append("ragioneSociale=").append(ragioneSociale);
 
         sb.append(", ").append("nome=").append(nome);
 
@@ -268,7 +260,9 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
 
         sb.append(", ").append("immagine=").append(immagine);
 
-        sb.append(", ").append("data_ultima_modifica=").append(data_ultima_modifica);
+        sb.append(", ").append("dataUltimaModifica=").append(dataUltimaModifica);
+
+        sb.append(", ").append("dataCompleanno=").append(dataCompleanno);
 
         sb.append(", ").append("oggetti=").append(oggetti);
 
@@ -284,7 +278,7 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
      */
     @PrePersist
     public void prePersist() {
-        this.user_name = UUID.randomUUID().toString();
+        this.username = UUID.randomUUID().toString();
     }
 
     /**
@@ -293,7 +287,7 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
      */
     public void prePersist(Configuration configuration) {
         prePersist();
-        this.user_name = UUID.randomUUID().toString();
+        this.username = UUID.randomUUID().toString();
     }
 
     /**
@@ -332,43 +326,41 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * Return the user_name
-     * Nome utente <br>
+     * Return the Username
+     * Username dell'utente <br>
      * Property of field:
      * <ul>
      * <li>length = 50
-     * <li>columnName = user_name
      * <li>nullable = false
      * </ul>
      * 
-     * @return the user_name
-     * @see Soggetti.user_name
+     * @return the username
+     * @see Soggetti.username
      */
 
-    public String getUser_name() {
-        return user_name;
+    public String getUsername() {
+        return username;
     }
 
     /**
-     * Set the user_name
-     * Nome utente <br>
+     * Set the Username
+     * Username dell'utente <br>
      * Property of field:
      * <ul>
      * <li>length = 50
-     * <li>columnName = user_name
      * <li>nullable = false
      * </ul>
      * 
-     * @param user_name the user_name to set
-     * @see Soggetti.user_name
+     * @param username the Username to set
+     * @see Soggetti.username
      */
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     /**
-     * Return the email
-     * email <br>
+     * Return the Email
+     * Email dell'utente <br>
      * Property of field:
      * <ul>
      * <li>length = 100
@@ -384,15 +376,15 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * Set the email
-     * email <br>
+     * Set the Email
+     * Email dell'utente <br>
      * Property of field:
      * <ul>
      * <li>length = 100
      * <li>nullable = false
      * </ul>
      * 
-     * @param email the email to set
+     * @param email the Email to set
      * @see Soggetti.email
      */
     public void setEmail(String email) {
@@ -400,38 +392,43 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * <br>
+     * Return the Ragione Sociale
+     * Ragione Sociale dell'utente <br>
      * Property of field:
      * <ul>
      * <li>length = 255
+     * <li>columnName = ragione_sociale
      * <li>nullable = true
      * </ul>
      * 
-     * @return the ragione_sociale
-     * @see Soggetti.ragione_sociale
+     * @return the ragioneSociale
+     * @see Soggetti.ragioneSociale
      */
 
-    public String getRagione_sociale() {
-        return ragione_sociale;
+    public String getRagioneSociale() {
+        return ragioneSociale;
     }
 
     /**
-     * <br>
+     * Set the Ragione Sociale
+     * Ragione Sociale dell'utente <br>
      * Property of field:
      * <ul>
      * <li>length = 255
+     * <li>columnName = ragione_sociale
      * <li>nullable = true
      * </ul>
      * 
-     * @param ragione_sociale
-     * @see Soggetti.ragione_sociale
+     * @param ragioneSociale the Ragione Sociale to set
+     * @see Soggetti.ragioneSociale
      */
-    public void setRagione_sociale(String ragione_sociale) {
-        this.ragione_sociale = ragione_sociale;
+    public void setRagioneSociale(String ragioneSociale) {
+        this.ragioneSociale = ragioneSociale;
     }
 
     /**
-     * <br>
+     * Return the Nome
+     * Nome <br>
      * Property of field:
      * <ul>
      * <li>length = 50
@@ -447,14 +444,15 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * <br>
+     * Set the Nome
+     * Nome <br>
      * Property of field:
      * <ul>
      * <li>length = 50
      * <li>nullable = true
      * </ul>
      * 
-     * @param nome
+     * @param nome the Nome to set
      * @see Soggetti.nome
      */
     public void setNome(String nome) {
@@ -462,7 +460,8 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * <br>
+     * Return the Cognome
+     * Cognome <br>
      * Property of field:
      * <ul>
      * <li>length = 50
@@ -478,14 +477,15 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * <br>
+     * Set the Cognome
+     * Cognome <br>
      * Property of field:
      * <ul>
      * <li>length = 50
      * <li>nullable = true
      * </ul>
      * 
-     * @param cognome
+     * @param cognome the Cognome to set
      * @see Soggetti.cognome
      */
     public void setCognome(String cognome) {
@@ -493,7 +493,8 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * <br>
+     * Return the Immagine
+     * Percorso dell'immagine dell'utente <br>
      * Property of field:
      * <ul>
      * <li>length = 255
@@ -509,14 +510,15 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * <br>
+     * Set the Immagine
+     * Percorso dell'immagine dell'utente <br>
      * Property of field:
      * <ul>
      * <li>length = 255
      * <li>nullable = true
      * </ul>
      * 
-     * @param immagine
+     * @param immagine the Immagine to set
      * @see Soggetti.immagine
      */
     public void setImmagine(String immagine) {
@@ -527,34 +529,34 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
      * <br>
      * Property of field:
      * <ul>
-     * <li>length = 255
+     * <li>length = 50
+     * <li>columnName = data_ultima_modifica
      * <li>nullable = false
      * </ul>
      * 
-     * @return the data_ultima_modifica
-     * @see Soggetti.data_ultima_modifica
+     * @return the dataUltimaModifica
+     * @see Soggetti.dataUltimaModifica
      */
 
-    public Date getData_ultima_modifica() {
-        return data_ultima_modifica;
+    public Date getDataUltimaModifica() {
+        return dataUltimaModifica;
     }
 
     /**
      * <br>
      * Property of field:
      * <ul>
-     * <li>length = 255
+     * <li>length = 50
+     * <li>columnName = data_ultima_modifica
      * <li>nullable = false
      * </ul>
      * 
-     * @param data_ultima_modifica
-     * @see Soggetti.data_ultima_modifica
+     * @param dataUltimaModifica
+     * @see Soggetti.dataUltimaModifica
      */
-    public void setData_ultima_modifica(Date data_ultima_modifica) {
-        this.data_ultima_modifica = data_ultima_modifica;
+    public void setDataUltimaModifica(Date dataUltimaModifica) {
+        this.dataUltimaModifica = dataUltimaModifica;
     }
-   
-    
 
     /**
      * <br>
@@ -565,7 +567,7 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
 
     public Set<Oggetti> getOggetti() {
         if (jdbc && !oggettiJdbcAlreadyChecked && (oggetti == null || oggetti.isEmpty())) {
-            List<Oggetti> list = getQborrrowManager().getOggettiListBySoggetti(user_name);
+            List<Oggetti> list = getQborrrowManager().getOggettiListBySoggetti(username);
             oggettiJdbcAlreadyChecked = true;
             Set<Oggetti> set = new HashSet<Oggetti>();
             set.addAll(list);
@@ -602,7 +604,7 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
 
     public Set<Prestiti> getPrestiti() {
         if (jdbc && !prestitiJdbcAlreadyChecked && (prestiti == null || prestiti.isEmpty())) {
-            List<Prestiti> list = getQborrrowManager().getPrestitiListBySoggetti(user_name);
+            List<Prestiti> list = getQborrrowManager().getPrestitiListBySoggetti(username);
             prestitiJdbcAlreadyChecked = true;
             Set<Prestiti> set = new HashSet<Prestiti>();
             set.addAll(list);
@@ -630,23 +632,12 @@ public class Soggetti extends QborrrowAbstractModel implements Serializable {
         this.prestitiJdbcAlreadyChecked = prestitiJdbcAlreadyChecked;
     }
 
-    public void setData_ultima_modifica(String string) {
-        // TODO Auto-generated method stub
-
+    public Date getDataCompleanno() {
+        return dataCompleanno;
     }
 
-	/**
-	 * @return the data_compleanno
-	 */
-	public Date getData_compleanno() {
-		return data_compleanno;
-	}
-
-	/**
-	 * @param data_compleanno the data_compleanno to set
-	 */
-	public void setData_compleanno(Date data_compleanno) {
-		this.data_compleanno = data_compleanno;
-	}
+    public void setDataCompleanno(Date dataCompleanno) {
+        this.dataCompleanno = dataCompleanno;
+    }
 
 }

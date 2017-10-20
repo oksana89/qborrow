@@ -33,7 +33,6 @@ import flexjson.JSON;
 import it.quix.academy.qborrrow.Configuration;
 import it.quix.academy.qborrrow.core.manager.QborrrowManager;
 import it.quix.framework.core.composer.annotation.QrExcelColumn;
-import it.quix.framework.core.converter.annotation.QcDateType;
 import it.quix.framework.core.exception.DAOFinderException;
 import it.quix.framework.core.exception.ModelJdbcException;
 import it.quix.framework.core.handler.SysAttributeHandler;
@@ -44,7 +43,7 @@ import it.quix.framework.core.model.UserContext;
 /**
  * The Oggetti entity.
  * 
- * @author Quix CodeGenerator version 03.03.00-SNAPSHOT, generated 12/10/2017 12:46:08
+ * @author Quix CodeGenerator version 03.03.00-SNAPSHOT, generated 11/10/2017 14:50:04
  */
 @Entity
 @Table(name = "oggetti")
@@ -63,49 +62,49 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
     private static Log log = LogFactory.getLog(Oggetti.class);
 
     /**
-     * id <br>
-     * id oggetto <br>
+     * Id <br>
+     * Codice identificativo dell'oggetto <br>
      * Property of field:
      * <ul>
-     * <li>length = 50
+     * <li>length = 255
      * <li>nullable = false
      * </ul>
      * This field is part of the primary key of this entity.
      */
     @Id
-    @Column(length = 50, nullable = false)
+    @Column(nullable = false)
     @QrExcelColumn(order = 0)
     private Integer id;
 
     /**
-     * titolo <br>
-     * titolo <br>
+     * Titolo <br>
+     * Titolo dell'oggetto <br>
      * Property of field:
      * <ul>
-     * <li>length = 225
+     * <li>length = 255
      * <li>nullable = true
      * </ul>
      */
-    @Column(length = 225)
+    @Column()
     @QrExcelColumn(order = 0)
     private String titolo;
 
     /**
-     * descrizione <br>
-     * descrizione <br>
+     * Descrizione <br>
+     * Descrzione dell'oggetto <br>
      * Property of field:
      * <ul>
-     * <li>length = 225
+     * <li>length = 50
      * <li>nullable = true
      * </ul>
      */
-    @Column(length = 225)
+    @Column(length = 50)
     @QrExcelColumn(order = 0)
     private String descrizione;
 
     /**
-     * immagine <br>
-     * immagine <br>
+     * Immagine <br>
+     * Percorso dell'immagine dell'oggetto <br>
      * Property of field:
      * <ul>
      * <li>length = 255
@@ -118,59 +117,57 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
     private String immagine;
 
     /**
-     * categoria <br>
-     * categoria <br>
+     * Categoria <br>
+     * Categoria a cui appartiene l'oggetto <br>
      * Property of field:
      * <ul>
-     * <li>length = 225
+     * <li>length = 255
      * <li>nullable = true
      * </ul>
      */
-    @Column(length = 225)
+    @Column()
     @QrExcelColumn(order = 0, translate = true)
     private String categoria;
 
     /**
      * Property of field:
      * <ul>
-     * <li>length = 9
+     * <li>length = 50
+     * <li>columnName = data_ultima_modifica
      * <li>nullable = false
      * </ul>
      */
-    @Column(length = 9, nullable = false)
-    @QcDateType()
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(length = 50, name = "data_ultima_modifica", nullable = false)
     @QrExcelColumn(order = 0)
-    private Date data_ultima_modifica;
+    private Date dataUltimaModifica;
 
     /**
-     * proprietario <br>
-     * proprietario <br>
+     * Propretario <br>
+     * Username del propretario dell'oggetto <br>
      * Property of field:
      * <ul>
-     * <li>columnName = proprietario
+     * <li>columnName = propretario
      * <li>nullable = true
      * </ul>
      */
-    @Column(length = 50, nullable = false)
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "proprietario")
-    @QrExcelColumn(order = 0, translate = true)
+    @JoinColumn(name = "propretario")
     private Soggetti soggetti;
 
     @Transient
     private boolean soggettiJdbcAlreadyChecked = false;
 
     @Transient
-    private String soggetti_user_name;
+    private String soggettiUsername;
 
     /**
-     * indica se oggetto � prestato
+     * Indica se l'oggetto � prestato
      */
     private boolean isOggettoPrestato = false;
 
     /**
-     * Se oggetto � in prestito vedremo i dati del prestito
+     * Se l'oggetto � in prestito, vedremo i dati del prestito.
      */
     private Prestiti prestito;
 
@@ -261,7 +258,7 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
 
         sb.append(", ").append("categoria=").append(categoria);
 
-        sb.append(", ").append("data_ultima_modifica=").append(data_ultima_modifica);
+        sb.append(", ").append("dataUltimaModifica=").append(dataUltimaModifica);
 
         sb.append(", ").append("soggetti=").append(soggetti);
 
@@ -321,11 +318,11 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * Return the id
-     * id oggetto <br>
+     * Return the Id
+     * Codice identificativo dell'oggetto <br>
      * Property of field:
      * <ul>
-     * <li>length = 50
+     * <li>length = 255
      * <li>nullable = false
      * </ul>
      * 
@@ -338,15 +335,15 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * Set the id
-     * id oggetto <br>
+     * Set the Id
+     * Codice identificativo dell'oggetto <br>
      * Property of field:
      * <ul>
-     * <li>length = 50
+     * <li>length = 255
      * <li>nullable = false
      * </ul>
      * 
-     * @param id the id to set
+     * @param id the Id to set
      * @see Oggetti.id
      */
     public void setId(Integer id) {
@@ -354,11 +351,11 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * Return the titolo
-     * titolo <br>
+     * Return the Titolo
+     * Titolo dell'oggetto <br>
      * Property of field:
      * <ul>
-     * <li>length = 225
+     * <li>length = 255
      * <li>nullable = true
      * </ul>
      * 
@@ -371,15 +368,15 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * Set the titolo
-     * titolo <br>
+     * Set the Titolo
+     * Titolo dell'oggetto <br>
      * Property of field:
      * <ul>
-     * <li>length = 225
+     * <li>length = 255
      * <li>nullable = true
      * </ul>
      * 
-     * @param titolo the titolo to set
+     * @param titolo the Titolo to set
      * @see Oggetti.titolo
      */
     public void setTitolo(String titolo) {
@@ -387,11 +384,11 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * Return the descrizione
-     * descrizione <br>
+     * Return the Descrizione
+     * Descrzione dell'oggetto <br>
      * Property of field:
      * <ul>
-     * <li>length = 225
+     * <li>length = 50
      * <li>nullable = true
      * </ul>
      * 
@@ -404,15 +401,15 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * Set the descrizione
-     * descrizione <br>
+     * Set the Descrizione
+     * Descrzione dell'oggetto <br>
      * Property of field:
      * <ul>
-     * <li>length = 225
+     * <li>length = 50
      * <li>nullable = true
      * </ul>
      * 
-     * @param descrizione the descrizione to set
+     * @param descrizione the Descrizione to set
      * @see Oggetti.descrizione
      */
     public void setDescrizione(String descrizione) {
@@ -420,8 +417,8 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * Return the immagine
-     * immagine <br>
+     * Return the Immagine
+     * Percorso dell'immagine dell'oggetto <br>
      * Property of field:
      * <ul>
      * <li>length = 255
@@ -437,15 +434,15 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * Set the immagine
-     * immagine <br>
+     * Set the Immagine
+     * Percorso dell'immagine dell'oggetto <br>
      * Property of field:
      * <ul>
      * <li>length = 255
      * <li>nullable = true
      * </ul>
      * 
-     * @param immagine the immagine to set
+     * @param immagine the Immagine to set
      * @see Oggetti.immagine
      */
     public void setImmagine(String immagine) {
@@ -453,11 +450,11 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * Return the categoria
-     * categoria <br>
+     * Return the Categoria
+     * Categoria a cui appartiene l'oggetto <br>
      * Property of field:
      * <ul>
-     * <li>length = 225
+     * <li>length = 255
      * <li>nullable = true
      * </ul>
      * 
@@ -470,7 +467,7 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * Return the description of SysAttribute QBO000_categoria
+     * Return the description of SysAttribute qbo0001_categoria
      */
     public String getCategoriaDescription() {
         if (getCategoria() != null) {
@@ -479,12 +476,12 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
             SysAttributeHandler sysAttributeHandler = getSysAttributeHandler();
             try {
                 AttributeView attribute =
-                    sysAttributeHandler.getAttribute("QBO000_categoria", uc.getLanguageForSysAttribute(), uc.getOrganizationForSysSysAttribute(),
+                    sysAttributeHandler.getAttribute("qbo0001_categoria", uc.getLanguageForSysAttribute(), uc.getOrganizationForSysSysAttribute(),
                         getCategoria(), uc);
                 String description = attribute.getDescription();
                 return description;
             } catch (Exception e) {
-                log.error("Error on find sysAttribute QBO000_categoria, value " + getCategoria() + " not found!", e);
+                log.error("Error on find sysAttribute qbo0001_categoria, value " + getCategoria() + " not found!", e);
                 return "";
             }
         } else {
@@ -493,15 +490,15 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
     }
 
     /**
-     * Set the categoria
-     * categoria <br>
+     * Set the Categoria
+     * Categoria a cui appartiene l'oggetto <br>
      * Property of field:
      * <ul>
-     * <li>length = 225
+     * <li>length = 255
      * <li>nullable = true
      * </ul>
      * 
-     * @param categoria the categoria to set
+     * @param categoria the Categoria to set
      * @see Oggetti.categoria
      */
     public void setCategoria(String categoria) {
@@ -512,39 +509,41 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
      * <br>
      * Property of field:
      * <ul>
-     * <li>length = 9
+     * <li>length = 50
+     * <li>columnName = data_ultima_modifica
      * <li>nullable = false
      * </ul>
      * 
-     * @return the data_ultima_modifica
-     * @see Oggetti.data_ultima_modifica
+     * @return the dataUltimaModifica
+     * @see Oggetti.dataUltimaModifica
      */
 
-    public Date getData_ultima_modifica() {
-        return data_ultima_modifica;
+    public Date getDataUltimaModifica() {
+        return dataUltimaModifica;
     }
 
     /**
      * <br>
      * Property of field:
      * <ul>
-     * <li>length = 9
+     * <li>length = 50
+     * <li>columnName = data_ultima_modifica
      * <li>nullable = false
      * </ul>
      * 
-     * @param data_ultima_modifica
-     * @see Oggetti.data_ultima_modifica
+     * @param dataUltimaModifica
+     * @see Oggetti.dataUltimaModifica
      */
-    public void setData_ultima_modifica(Date data_ultima_modifica) {
-        this.data_ultima_modifica = data_ultima_modifica;
+    public void setDataUltimaModifica(Date dataUltimaModifica) {
+        this.dataUltimaModifica = dataUltimaModifica;
     }
 
     /**
-     * Return the proprietario
-     * proprietario <br>
+     * Return the Propretario
+     * Username del propretario dell'oggetto <br>
      * Property of field:
      * <ul>
-     * <li>columnName = proprietario
+     * <li>columnName = propretario
      * <li>nullable = true
      * </ul>
      * 
@@ -553,55 +552,55 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
      */
 
     public Soggetti getSoggetti() {
-        if (jdbc && soggetti == null && soggetti_user_name != null && !soggettiJdbcAlreadyChecked) {
+        if (jdbc && soggetti == null && soggettiUsername != null && !soggettiJdbcAlreadyChecked) {
             try {
-                soggetti = getQborrrowManager().getSoggetti(soggetti_user_name);
+                soggetti = getQborrrowManager().getSoggetti(soggettiUsername);
                 soggettiJdbcAlreadyChecked = true;
             } catch (DAOFinderException e) {
-                log.debug("Unexpected DAOFinderException on getSoggetti by soggetti_user_name = " + soggetti_user_name, e);
+                log.debug("Unexpected DAOFinderException on getSoggetti by soggetti_username = " + soggettiUsername, e);
             }
         }
         return soggetti;
     }
 
     /**
-     * Set the proprietario
-     * proprietario <br>
+     * Set the Propretario
+     * Username del propretario dell'oggetto <br>
      * Property of field:
      * <ul>
-     * <li>columnName = proprietario
+     * <li>columnName = propretario
      * <li>nullable = true
      * </ul>
      * 
-     * @param soggetti the proprietario to set
+     * @param soggetti the Propretario to set
      * @see Oggetti.soggetti
      */
     public void setSoggetti(Soggetti soggetti) {
         this.soggetti = soggetti;
         if (soggetti != null) {
-            soggetti_user_name = soggetti.getUser_name();
+            soggettiUsername = soggetti.getUsername();
         } else {
-            soggetti_user_name = null;
+            soggettiUsername = null;
         }
     }
 
-    public String getSoggetti_user_name() {
+    public String getSoggettiUsername() {
         if (jdbc) {
-            return soggetti_user_name;
+            return soggettiUsername;
         } else {
-            return soggetti == null ? null : soggetti.getUser_name();
+            return soggetti == null ? null : soggetti.getUsername();
         }
     }
 
-    public void setSoggetti_user_name(String soggetti_user_name) {
+    public void setSoggettiUsername(String soggetti_username) {
         if (jdbc) {
-            if (this.soggetti_user_name != null && !this.soggetti_user_name.equals(soggetti_user_name)) {
+            if (this.soggettiUsername != null && !this.soggettiUsername.equals(soggetti_username)) {
                 soggetti = null;
                 soggettiJdbcAlreadyChecked = false;
             }
-            this.soggetti_user_name = soggetti_user_name;
+            this.soggettiUsername = soggetti_username;
         } else {
-            throw new ModelJdbcException("The method setSoggetti_user_name can be invoked only on jdbc model.");
+            throw new ModelJdbcException("The method setSoggetti_username can be invoked only on jdbc model.");
         }
     }
 
@@ -614,31 +613,18 @@ public class Oggetti extends QborrrowAbstractModel implements Serializable {
         this.soggettiJdbcAlreadyChecked = soggettiJdbcAlreadyChecked;
     }
 
-    /**
-     * @param b
-     * @return the isOggettoPrestato
-     */
-    public boolean isOggettoPrestato(boolean b) {
+    public boolean isOggettoPrestato() {
         return isOggettoPrestato;
     }
 
-    /**
-     * @param isOggettoPrestato the isOggettoPrestato to set
-     */
     public void setOggettoPrestato(boolean isOggettoPrestato) {
         this.isOggettoPrestato = isOggettoPrestato;
     }
 
-    /**
-     * @return the prestito
-     */
     public Prestiti getPrestito() {
         return prestito;
     }
 
-    /**
-     * @param prestito the prestito to set
-     */
     public void setPrestito(Prestiti prestito) {
         this.prestito = prestito;
     }

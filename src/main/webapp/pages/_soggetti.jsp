@@ -16,12 +16,12 @@
   			<h3 class="qh3 box-title">&nbsp;&nbsp;<s:text name="soggetti.search.title"/></h3>
 		</div>
 		<div class="box-body" ng-show="!filtriEspansi" ng-cloak>
-			<span class="filterDiv" ng-if="scopeController.search.user_name != null && scopeController.search.user_name != ''">
-				<s:text name="soggetti.search.user_name"/>: 
+			<span class="filterDiv" ng-if="scopeController.search.username != null && scopeController.search.username != ''">
+				<s:text name="soggetti.search.username"/>: 
 				<b>
-					{{scopeController.search.user_name}}
+					{{scopeController.search.username}}
 				</b>
-				&nbsp;&nbsp;<i class="fa fa-times-circle" style="cursor: pointer;" ng-click="removeFilter('user_name')"></i>
+				&nbsp;&nbsp;<i class="fa fa-times-circle" style="cursor: pointer;" ng-click="removeFilter('username')"></i>
 			</span>
 			<span class="filterDiv" ng-if="scopeController.search.email != null && scopeController.search.email != ''">
 				<s:text name="soggetti.search.email"/>: 
@@ -47,11 +47,11 @@
 		</div>
 		<div class="box-body qfade " ng-show="filtriEspansi" ng-cloak>
 			<div class="qrow">
-				<div class="qcol-xs-12 qcol-sm-12 qcol-md-6" ng-class="{'qhas-error': forms.soggettiListForm.user_name.$invalid}">
-					<label for="user_name"><s:text name="soggetti.search.user_name"/>:</label>
+				<div class="qcol-xs-12 qcol-sm-12 qcol-md-6" ng-class="{'qhas-error': forms.soggettiListForm.username.$invalid}">
+					<label for="username"><s:text name="soggetti.search.username"/>:</label>
 					<div>
-						<input type="text" ng-model="scopeController.search.user_name" id="user_name" class="qform-control" />
-						<div ng-messages="forms.soggettiListForm.user_name.$error" role="alert">
+						<input type="text" ng-model="scopeController.search.username" id="username" class="qform-control" />
+						<div ng-messages="forms.soggettiListForm.username.$error" role="alert">
 						  	<div ng-message="notNull"><s:text name="error.notNull"/></div>
 						  	<div ng-message="invalidAK"><s:text name="error.invalidAK"/></div>
 						  	<div ng-message="notValid"><s:text name="error.notValid"/></div>
@@ -162,14 +162,14 @@
 				</a>
 				<ul class="qdropdown-menu qdropdown-menu-right" ng-show="openOrderMenu" style="display: block;"> 											
 					<li style="padding: 10px;">
-						<s:text name="soggetti.list.order.user_name"/>
+						<s:text name="soggetti.list.order.username"/>
 						<span class="pull-right">
 							<i class="fa fa-sort-amount-asc" style="cursor: pointer;" ng-class="{'active-order-icon': scopeController.search.order == 1}" ng-click="orderBy(1); openOrderMenu = false;"></i>
 							<i class="fa fa-sort-amount-desc" style="cursor: pointer;" ng-class="{'active-order-icon': scopeController.search.order == 2}" ng-click="orderBy(2); openOrderMenu = false;"></i>
 						</span>
 					</li> 											
 					<li style="padding: 10px;">
-						<s:text name="soggetti.list.order.ragione_sociale"/>
+						<s:text name="soggetti.list.order.ragioneSociale"/>
 						<span class="pull-right">
 							<i class="fa fa-sort-amount-asc" style="cursor: pointer;" ng-class="{'active-order-icon': scopeController.search.order == 3}" ng-click="orderBy(3); openOrderMenu = false;"></i>
 							<i class="fa fa-sort-amount-desc" style="cursor: pointer;" ng-class="{'active-order-icon': scopeController.search.order == 4}" ng-click="orderBy(4); openOrderMenu = false;"></i>
@@ -207,28 +207,28 @@
     	<table class="qtable qtable-hover">
 			<thead>
 				<tr>
-					<th class="qtext-left"><s:text name="soggetti.list.user_name"/></th>
+					<th class="qtext-left"><s:text name="soggetti.list.username"/></th>
 					<th class="qtext-left"><s:text name="soggetti.list.email"/></th>
-					<th class="qtext-left"><s:text name="soggetti.list.ragione_sociale"/></th>
+					<th class="qtext-left"><s:text name="soggetti.list.ragioneSociale"/></th>
 					<th class="qtext-left"><s:text name="soggetti.list.nome"/></th>
 					<th class="qtext-left"><s:text name="soggetti.list.cognome"/></th>
 					<th class="qtext-left"><s:text name="soggetti.list.immagine"/></th>
-					<th class="qtext-center"><s:text name="soggetti.list.data_ultima_modifica"/></th>
+					<th class="qtext-center"><s:text name="soggetti.list.dataUltimaModifica"/></th>
 					<th>&nbsp;</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="row in scopeController.result.list">
-					<td>{{ row.user_name }}</td>
+					<td>{{ row.username }}</td>
 					<td>{{ row.email }}</td>
-					<td>{{ row.ragione_sociale }}</td>
+					<td>{{ row.ragioneSociale }}</td>
 					<td>{{ row.nome }}</td>
 					<td>{{ row.cognome }}</td>
 					<td>{{ row.immagine }}</td>
-					<td class="qtext-center" nowrap="nowrap">{{ row.data_ultima_modifica  | date:"<s:text name="format.date3" />" }}</td>
+					<td class="qtext-center" nowrap="nowrap">{{ row.dataUltimaModifica  | date:"<s:text name="format.date3" />" }}</td>
 					<td class="qtext-right">
 						<div class="qbtn-group" ng-hide="popup">
-		                  	<button class="qbtn btn-framework-color" ng-click="edit(row)" type="button"><i class="fa fa-pencil"></i>&nbsp;<s:text name="button.edit" /></button>
+		                  	<button class="qbtn btn-framework-color" ng-click="editWithCompleanno(row)" type="button"><i class="fa fa-pencil"></i>&nbsp;<s:text name="button.edit" /></button>
 		                   	<button data-toggle="qdropdown" class="qbtn btn-framework-color qdropdown-toggle" type="button" aria-expanded="false">
 		                       	<span class="qcaret"></span>
 		                       	<span class="qsr-only"></span>
