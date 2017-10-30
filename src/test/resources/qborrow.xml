@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:qborrow xmlns:tns="http://www.example.org/NewXMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/NewXMLSchema NewXMLSchema.xsd">
+	
+	<tns:oggetto>
+		<tns:Id>20</tns:Id>
+		<tns:proprietario>oksana</tns:proprietario>
+		<tns:titolo>libro</tns:titolo>
+		<tns:descrizione>interessante</tns:descrizione>
+		<tns:immagine>img</tns:immagine>
+		<tns:categoria>lbri e giornali</tns:categoria>
+		<tns:data_ultima_modifica>2017-10-13</tns:data_ultima_modifica>
+	</tns:oggetto>
+	
+	<tns:soggetto>
+		<tns:user_name>Oksana</tns:user_name>
+		<tns:email>oksi.kom89@gmail.com</tns:email>
+		<tns:ragione_sociale>OKS</tns:ragione_sociale>
+		<tns:nome>oksana</tns:nome>
+		<tns:cognome>komarnytska</tns:cognome>
+		<tns:immagine>img</tns:immagine>
+		<tns:data_ultima_modifica>2017-10-16</tns:data_ultima_modifica>
+	</tns:soggetto>
+	
+	<tns:prestiti>
+	<tns:beneficiario>oksana</tns:beneficiario>
+		<tns:oggetto_prestato>libro</tns:oggetto_prestato>
+		<tns:data_prestito>17/10/2017</tns:data_prestito>
+		<tns:data_scadenza_prestito>17/11/12017</tns:data_scadenza_prestito>
+	</tns:prestiti>
+</tns:qborrow>

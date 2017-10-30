@@ -67,6 +67,18 @@ public class SoggettiManagerAction extends SoggettiAbstractManagerAction {
         }
     }
 
+    public String editProfilo() {
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        try {
+            // QborrrowManagerAction qma = new QborrrowManagerAction();
+            Soggetti soggetti = new Soggetti();
+            soggetti = getQborrrowManager().getProfilo(getUserContext().getUserText());
+            return manageSerialize(soggetti);
+        } catch (Exception e) {
+            return manageException("Error on edit Soggetti", e);
+        }
+    }
+
     /**
      * Save task.
      * This method save one soggetti instance.
@@ -84,6 +96,26 @@ public class SoggettiManagerAction extends SoggettiAbstractManagerAction {
         } catch (Exception e) {
             return manageException("Error on save Soggetti", e);
         }
+    }
+
+    public String saveProfile() {
+        if (getSoggetti() == null) {
+            // New Soggetti and all fields are empty. Create a new empty Soggetti to avoid NPE on validators.
+            setSoggetti(new Soggetti());
+        }
+        try {
+            getQborrrowManager().saveProfile(getSoggetti());
+            return manageOkMessage();
+        } catch (ValidationException e) {
+            return manageValidationError(e.getInvalidConstraints(), "save");
+        } catch (Exception e) {
+            return manageException("Error on save Soggetti", e);
+        }
+    }
+
+    public String profilo() {
+        return "profilo";
+
     }
 
 }

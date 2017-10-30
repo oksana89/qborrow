@@ -1,48 +1,32 @@
 package it.quix.academy.qborrrow.web.action.generated;
 
-import java.util.HashSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.Set;
-import java.io.IOException;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.awt.Color;
-import java.awt.Font;
-
-import org.zefer.pd4ml.PD4ML;
-import org.zefer.pd4ml.PD4PageMark;
-
-import javax.annotation.Resource;
+import flexjson.JSONSerializer;
+import it.quix.academy.qborrrow.core.manager.QborrrowException;
+import it.quix.academy.qborrrow.core.manager.QborrrowManager;
+import it.quix.academy.qborrrow.core.model.Oggetti;
+import it.quix.academy.qborrrow.core.model.Soggetti;
+import it.quix.academy.qborrrow.core.search.OggettiSearch;
+// import it.quix.academy.qborrrow.core.handler.OggettiHandler;
+import it.quix.academy.qborrrow.web.action.QborrrowManagerAction;
 import it.quix.framework.core.composer.ExcelComposer;
 import it.quix.framework.core.exception.DAOFinderException;
 import it.quix.framework.core.handler.SysAttributeHandler;
 import it.quix.framework.core.model.AttributeView;
-import it.quix.framework.core.validation.InvalidConstraintImpl;
-import it.quix.framework.core.validation.api.InvalidConstraint;
 import it.quix.framework.core.validation.exception.ValidationException;
-import it.quix.academy.qborrrow.core.model.Oggetti;
-import it.quix.academy.qborrrow.core.model.*;
-import it.quix.academy.qborrrow.core.search.OggettiSearch;
-import it.quix.academy.qborrrow.core.manager.QborrrowManager;
-import it.quix.academy.qborrrow.core.manager.QborrrowException;
-// import it.quix.academy.qborrrow.core.handler.OggettiHandler;
-import it.quix.academy.qborrrow.web.action.QborrrowManagerAction;
 
-import org.apache.commons.lang.StringUtils;
+import java.io.File;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionContext;
-import flexjson.JSONDeserializer;
-import flexjson.JSONSerializer;
-
-import java.util.Date;
-import java.lang.reflect.Field;
-import java.math.*;
 
 /**
  * Action class for the Oggetti model.
@@ -60,6 +44,8 @@ public class OggettiAbstractManagerAction extends QborrrowManagerAction {
      * Log
      */
     private static Log log = LogFactory.getLog(OggettiAbstractManagerAction.class);
+
+    private List<Oggetti> oggettiList = new ArrayList<Oggetti>();
 
     /**
      * QborrrowManager injected by Spring
@@ -149,6 +135,14 @@ public class OggettiAbstractManagerAction extends QborrrowManagerAction {
         } catch (Exception e) {
             return manageException("Error on list Oggetti", e);
         }
+    }
+
+    public String listMieiOggettiStruts() {
+        oggettiSearch = new OggettiSearch();
+        oggettiSearch.setPage(0);
+        oggettiSearch.setRowPerPage(10);
+        oggettiList = getQborrrowManager().getOggettiList(oggettiSearch);
+        return "listMieiOggetti";
     }
 
     /**
@@ -310,5 +304,19 @@ public class OggettiAbstractManagerAction extends QborrrowManagerAction {
      */
     public void setOggetti(Oggetti oggetti) {
         this.oggetti = oggetti;
+    }
+
+    /**
+     * @return the oggettiList
+     */
+    public List<Oggetti> getOggettiList() {
+        return oggettiList;
+    }
+
+    /**
+     * @param oggettiList the oggettiList to set
+     */
+    public void setOggettiList(List<Oggetti> oggettiList) {
+        this.oggettiList = oggettiList;
     }
 }

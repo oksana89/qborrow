@@ -18,7 +18,7 @@
 					<div ng-messages="forms.soggettiEditForm.email.$error" role="alert">
 					  	<div ng-message="notNull"><s:text name="error.notNull"/></div>
 					  	<div ng-message="invalidAK"><s:text name="error.invalidAK"/></div>
-					  	<div ng-message="notValid"><s:text name="error.notValid"/></div>
+					  	<div  class = "invalid" ng-message="notValid"><s:text name="error.notValid"/></div>
 					  	<div ng-message="lenght"><s:text name="error.lenght"/></div>
 					  	<div ng-message="dateToBeforeDateFrom"><s:text name="error.dateToBeforeDateFrom"/></div>
 					  	<div ng-message="fieldToBeforeFieldFrom"><s:text name="error.fieldToBeforeFieldFrom"/></div>
@@ -26,7 +26,7 @@
 					  	<div ng-message="min"><s:text name="error.min"/></div>
 					  	<div ng-message="max"><s:text name="error.max"/></div>
 					  	<div ng-message="ognl"><s:text name="error.ognl"/></div>
-					  	<div ng-message="pattern"><s:text name="error.pattern"/></div>
+					  	<div class = "invalid" ng-message="pattern"><s:text name="error.pattern"/></div>
 					  	<div ng-message="notBlank"><s:text name="error.notBlank"/></div>
 					  	<div ng-message="qvpattern.message"><s:text name="error.qvpattern.message"/></div>
 					  	<div ng-message="string.length"><s:text name="error.string.length"/></div>
@@ -147,6 +147,8 @@
 						</div>
 					
 					<div ng-messages="forms.soggettiEditForm.dataUltimaModifica.$error" role="alert">
+					    <div ng-message="minorenne"><s:text name= "error.minorenne"/></div>
+					  	<div ng-message="nonNato"><s:text name= "error.nonNato"/></div>
 					  	<div ng-message="notNull"><s:text name="error.notNull"/></div>
 					  	<div ng-message="invalidAK"><s:text name="error.invalidAK"/></div>
 					  	<div ng-message="notValid"><s:text name="error.notValid"/></div>
@@ -177,10 +179,12 @@
 						  	</ul>
 						</div>
 					
-					<div ng-messages="forms.soggettiEditForm.dataUltimaModifica.$error" role="alert">
+					<div ng-messages="forms.soggettiEditForm.dataCompleanno.$error">
 					  	<div ng-message="notNull"><s:text name="error.notNull"/></div>
 					  	<div ng-message="invalidAK"><s:text name="error.invalidAK"/></div>
 					  	<div ng-message="notValid"><s:text name="error.notValid"/></div>
+					  	<!-- <div ng-message="minorenne"><s:text name= "error.minorenne"/></div>
+					  	<div ng-message="nonNato"><s:text name= "error.nonNato"/></div>-->
 					  	<div ng-message="lenght"><s:text name="error.lenght"/></div>
 					  	<div ng-message="dateToBeforeDateFrom"><s:text name="error.dateToBeforeDateFrom"/></div>
 					  	<div ng-message="fieldToBeforeFieldFrom"><s:text name="error.fieldToBeforeFieldFrom"/></div>

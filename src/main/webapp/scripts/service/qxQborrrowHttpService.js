@@ -360,6 +360,32 @@ var qxQborrrowHttpService = function($http, qborrrowConfig, $timeout) {
 		});
 		scopeController.promise.success(success).error(_manageError);
 	}
+	this.editProfilo = function(scopeController) {
+		var success = function(data) {
+			if ((typeof data) == 'string') {
+				// Not Managed Server error
+				_manageError(data, 0);
+				return;
+			}
+			if (data.error == true) {
+				_manageError(data, 0);
+				return;
+			}
+			scopeController.selectedRow = data;
+			scopeController.selectedPage = "edit";
+		};
+
+		scopeController.promise = $http({
+			method : 'POST',
+			url : qborrrowConfig.baseUrl
+					+ '/soggetti.action?task=editProfilo',
+			//data : quixParamSerializer(scopeController.selectedRow, 'soggetti.'),
+			headers : {
+				'Content-Type' : 'application/x-www-form-urlencoded'
+			}
+		});
+		scopeController.promise.success(success).error(_manageError);
+	}
 
 	this.deleteSoggetti = function(scopeController, labelService) {
 		var success = function(data) {
@@ -447,7 +473,49 @@ var qxQborrrowHttpService = function($http, qborrrowConfig, $timeout) {
 		});
 		scopeController.promise.success(success).error(_manageError);
 	}
-
+	this.saveProfile = function(scopeController, form) {
+		var success = function(data) {
+			if ((typeof data) == 'string') {
+				// Not Managed Server error
+				_manageError(data, 0);
+				return;
+			}
+			if (data.error == true) {
+				_manageError(data, 0);
+				return;
+			}
+			if (data.errors != undefined) {
+				qxValidationError(data, form, $timeout, scopeController);
+				/*swal("Oops!", "L'indirizzo email che hai inserito non è valido!", "error");*/
+			} else {
+				_getSoggettiList(scopeController, null);
+				scopeController.selectedPage = 'list';
+				swal('Ottimo!',
+					'I tuoi dati sono stati aggiornati con successo!',
+				    'success');
+			}
+		};
+		scopeController.promise = $http({
+			method : 'POST',
+			url : qborrrowConfig.baseUrl
+					+ '/soggetti.action?task=saveProfile&reset=true',
+			data : quixParamSerializer(scopeController.selectedRow, 'soggetti.'),
+			headers : {
+				'Content-Type' : 'application/x-www-form-urlencoded'
+			}
+		});
+		scopeController.promise.success(success).error(_manageError);
+		/*if (success) {
+			try {
+			  const result = await fetch(`http://pokeapi.co/api/v2/pokemon/1`)
+			  const json = await result.json()
+			  console.log(json)
+			} catch (err) {
+			  swal("Oops!", "Seems like we couldn't fetch the info", "error")
+			}*/
+		 
+	    
+	}
 	this.getCombo = function(scopeController, name) {
 		var success = function(data) {
 			if ((typeof data) == 'string') {

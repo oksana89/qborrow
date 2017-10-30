@@ -2,6 +2,8 @@ var qborrrowApp = angular.module('qborrrow');
 
 qborrrowApp.controller('qxSoggettiController', ['$scope', 'qxQborrrowHttpService', '$modal', 'labelService', 'SweetAlert', 'qborrrowConfig', function ($scope, qxQborrrowHttpService, $modal, labelService, SweetAlert, qborrrowConfig){
 	
+	
+	
 	$scope.forms = {};
 	$scope.scopeController = {}; 
 	$scope.scopeController.selectedPage = 'list';
@@ -43,6 +45,10 @@ qborrrowApp.controller('qxSoggettiController', ['$scope', 'qxQborrrowHttpService
 		qxQborrrowHttpService.editSoggettiWithCompleanno($scope.scopeController);
 	}
 	
+	$scope.editProfilo = function(){
+		qxQborrrowHttpService.editProfilo($scope.scopeController);
+	}
+	
 	$scope.exportXLS = function() {
 		document.location.href =  qborrrowConfig.baseUrl + '/soggetti.action?task=exportXls&reset=true&' + quixParamSerializer($scope.scopeController.search, 'soggettiSearch.');
 	}
@@ -77,12 +83,34 @@ qborrrowApp.controller('qxSoggettiController', ['$scope', 'qxQborrrowHttpService
 	}
 	
 	$scope.save = function(row){
-		qxQborrrowHttpService.saveSoggetti($scope.scopeController, $scope.forms.soggettiEditForm);
+		if($scope.forms.soggettiEditForm.$invalid){
+			swal("Oops!", "L'indirizzo email che hai inserito non è valido!", "error");
+		}else{
+			qxQborrrowHttpService.saveSoggetti($scope.scopeController, $scope.forms.soggettiEditForm);
+			swal('Ottimo!',
+				'I tuoi dati sono stati aggiornati con successo!',
+				 'success');
+		}	
+		/*qxQborrrowHttpService.saveSoggetti($scope.scopeController, $scope.forms.soggettiEditForm);*/
+		
 	}
 	
 	$scope.saveWithCompleanno = function(row){
 		qxQborrrowHttpService.saveSoggettiCompleanno($scope.scopeController, $scope.forms.soggettiEditForm);
 	}
+	
+	$scope.saveProfile = function(row){
+		if($scope.forms.soggettiEditForm.$invalid){
+			swal("Oops!", "L'indirizzo email che hai inserito non è valido!", "error");
+		}else{
+			$scope.forms.addClass('warning');
+			qxQborrrowHttpService.saveSoggetti($scope.scopeController, $scope.forms.soggettiEditForm);
+			swal('Ottimo!',
+				'I tuoi dati sono stati aggiornati con successo!',
+				'success');
+		}	
+	}
+		
 	
 	$scope.resetSearch = function () {
 		$scope.scopeController.search= {};

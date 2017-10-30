@@ -50,19 +50,16 @@ public class QborrrowUserContext extends UserContext {
         final String userId = user;
         User userModel = new User() {
 
-            @Override
             public String getPassword() {
                 // TODO Auto-generated method stub
                 return null;
             }
 
-            @Override
             public String getName() {
                 // TODO Auto-generated method stub
                 return userId;
             }
 
-            @Override
             public String getDn() {
                 // TODO Auto-generated method stub
                 return userId;

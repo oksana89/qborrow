@@ -33,7 +33,10 @@
 <s:url id="logoutUrl" action="logout" includeParams="none"
 	escapeAmp="false">
 </s:url>
-
+<s:url id="profiloUrl" namespace="/" action="soggetti"
+	escapeAmp="false" includeParams="none">
+	<s:param name="task">profilo</s:param>
+</s:url>
 <div class="qrow">
 
 	<nav class="qnavbar qnavbar-default" role="navigtion">
@@ -55,30 +58,29 @@
 			<ul class="qnav qnavbar-nav">
 				<li><a class="framework-sidebar-menu-element-link"
 					href="<s:property value="#homeUrl" escape="false" />"> <s:text
-								name="menu.home" />
-				<li><a class="framework-sidebar-menu-element-link"
-					href="<s:property value="#oggettiUrl" escape="false" />">oggetti
-				</a></li>
-				<li><a class="framework-sidebar-menu-element-link"
-					href="<s:property value="#mieiOggettiUrl" escape="false" />"> oggetti
-							struts 
-				</a></li>
-				<li><a class="framework-sidebar-menu-element-link"
-					href="<s:property value="#soggettiUrl" escape="false" />"> soggetti
-				</a></li>
-				<li><a class="framework-sidebar-menu-element-link"
-					href="<s:property value="#prestitiUrl" escape="false" />"> prestiti
-				</a></li>
+							name="menu.home" />
+						<li><a class="framework-sidebar-menu-element-link"
+							href="<s:property value="#oggettiUrl" escape="false" />">oggetti
+						</a></li>
+						<li><a class="framework-sidebar-menu-element-link"
+							href="<s:property value="#mieiOggettiUrl" escape="false" />">
+								oggetti struts </a></li>
+						<li><a class="framework-sidebar-menu-element-link"
+							href="<s:property value="#soggettiUrl" escape="false" />">
+								soggetti </a></li>
+						<li><a class="framework-sidebar-menu-element-link"
+							href="<s:property value="#prestitiUrl" escape="false" />">
+								prestiti </a></li>
 			</ul>
 			<ul class="qnav qnavbar-nav qnavbar-right">
 				<li>
-					<div class="frameworkHeaderRightCellUserDiv qpull-right"
-						>
+					<div class="frameworkHeaderRightCellUserDiv qpull-right">
 						<a href="#" class="qdropdown-toggle user-menu-link"
 							data-toggle="qdropdown">
 							<div
 								style="display: inline-block; padding-left: 30px; padding-top: 10px;">
-								<i class="fa fa-user" aria-hidden="true"></i><span class="hidden-xs"><s:property
+								<i class="fa fa-user" aria-hidden="true"></i><span
+									class="hidden-xs"><s:property
 										value="userContext.getUserText()" /></span>
 							</div>
 						</a>
@@ -102,14 +104,22 @@
 								</p></li>
 							<li class="user-footer">
 								<div class="qpull-left">
-									<a href=""
+									<!--<a href=""
 										onclick="javascript:window.open('/puma/mydetailedit.do?dn=<s:property value="userContext.realUserDn"/>', 'detailPuma', 'width=600,height=600,statusbar=no,toolbar=no,scrollbars=no,resizable=yes')"
 										class="qbtn qbtn-default qbtn-flat"><s:text
-											name="header.profile" /></a>
+											name="header.profile" /></a>-->
+									
+									<!-- <div class="tab"><s:a href="%{#profilo}">Profilo</s:a></div>-->
+									<a class="qbtn qbtn-default qbtn-flat"
+									href="<s:property value="#profiloUrl" escape="false" />"/>
+								profilo  </a>
+
+
+
 								</div>
 								<div class="qpull-right">
 									<a href="<s:property value="#logoutUrl" escape="false" />"
-										class="qbtn qbtn-default qbtn-flat"><s:text
+										  class="qbtn qbtn-default qbtn-flat"><s:text
 											name="header.signout" /></a>
 								</div>
 							</li>

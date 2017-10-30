@@ -7,7 +7,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.transaction.annotation.Transactional;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -17,17 +16,16 @@ import it.quix.framework.core.exception.DAOFinderException;
 import it.quix.framework.core.exception.DAOStoreException;
 import it.quix.framework.core.validation.exception.ValidationException;
 import it.quix.framework.core.manager.UserContextHolder;
-import it.quix.academy.qborrrow.core.model.QborrrowUserContext;
 
 import it.quix.academy.qborrrow.core.validation.ValidatorFactory;
 import it.quix.academy.qborrrow.core.dao.DAOFactory;
 import it.quix.academy.qborrrow.core.model.Oggetti;
+import it.quix.academy.qborrrow.core.model.QborrrowUserContext;
 import it.quix.academy.qborrrow.core.search.OggettiSearch;
 import it.quix.academy.qborrrow.core.model.Prestiti;
 import it.quix.academy.qborrrow.core.search.PrestitiSearch;
 import it.quix.academy.qborrrow.core.model.Soggetti;
 import it.quix.academy.qborrrow.core.search.SoggettiSearch;
-
 import it.quix.framework.core.handler.SysAttributeHandler;
 
 /**
@@ -564,6 +562,31 @@ public class QborrrowManager {
         return soggetti;
     }
 
+    @Transactional(readOnly = true, rollbackFor = { QborrrowException.class })
+    public Soggetti getProfilo(String user_name) throws DAOFinderException {
+        Soggetti soggetti = null;
+        soggetti = daoFactory.getSoggettiDAO().getProfilo(user_name);
+        return soggetti;
+    }
+
+    /**
+     * retrieve from persistence system the required Soggetti record
+     * 
+     * @param soggettiId the key to retrieve the soggetti
+     * @return the requested Soggetti record
+     * @throws QborrrowException if an unexpected exception occurs or no record
+     *             is found
+     * @see Soggetti
+     */
+    /*
+     * @Transactional(readOnly = true, rollbackFor = { QborrrowException.class })
+     * public Soggetti getSoggettiWithUserContext( QborrrowManagerAction().getUserContext()) throws DAOFinderException {
+     * Soggetti soggetti = null;
+     * soggetti = daoFactory.getSoggettiDAO().getWithCompleanno(user_name);
+     * return soggetti;
+     * }
+     */
+
     /**
      * persist the passed Soggetti object to database, previous validation
      * 
@@ -582,6 +605,11 @@ public class QborrrowManager {
     @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
     public Soggetti saveSoggettiCompleanno(Soggetti soggetti) throws QborrrowException, ValidationException {
         return saveSoggettiCompleanno(soggetti, true);
+    }
+
+    @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
+    public Soggetti saveProfile(Soggetti soggetti) throws QborrrowException, ValidationException {
+        return saveProfile(soggetti, true);
     }
 
     /**
@@ -617,6 +645,19 @@ public class QborrrowManager {
             createSoggetti(soggetti, validate);
         } else {
             updateSoggettiCompleanno(soggetti, validate);
+        }
+        return soggetti;
+    }
+
+    @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
+    public Soggetti saveProfile(Soggetti soggetti, boolean validate) throws QborrrowException, ValidationException {
+        if (validate) {
+            validateSoggetti(soggetti);
+        }
+        if (soggetti.getUsername() == null) {
+            createSoggetti(soggetti, validate);
+        } else {
+            updateSoggettiProfile(soggetti, validate);
         }
         return soggetti;
     }
@@ -703,6 +744,21 @@ public class QborrrowManager {
 
     @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
     public Soggetti updateSoggettiCompleanno(Soggetti soggetti, boolean validate) throws QborrrowException, ValidationException {
+        if (validate) {
+            validateSoggetti(soggetti);
+        }
+        try {
+
+            daoFactory.getSoggettiDAO().updateCompleanno(soggetti);
+
+            return soggetti;
+        } catch (DAOStoreException ex) {
+            throw new QborrrowException(ex, soggetti);
+        }
+    }
+
+    @Transactional(rollbackFor = { QborrrowException.class, ValidationException.class })
+    public Soggetti updateSoggettiProfile(Soggetti soggetti, boolean validate) throws QborrrowException, ValidationException {
         if (validate) {
             validateSoggetti(soggetti);
         }
