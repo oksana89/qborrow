@@ -34,6 +34,7 @@
 			<result name="mainPage">/pages/Oggetti.jsp</result>
 			<result name="mieiOggetti">/pages/MieiOggetti.jsp</result>
 			<result name="listMieiOggetti">/pages/listOggetti.jsp</result>
+			<result name="editMioOggetto">/pages/_mioOggettoEdit.jsp</result>
 			<interceptor-ref name="quixStack" >
 				<param name="quixValidationInterceptor.exludeMethods">select</param>
 			</interceptor-ref>

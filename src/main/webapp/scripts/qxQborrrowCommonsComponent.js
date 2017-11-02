@@ -21,7 +21,7 @@ if(typeof qborrrowPresent == 'undefined'){
     	  return v;
     	}
     
-    function quixParamSerializer(params, prefix) {
+    /*function quixParamSerializer(params, prefix) {
         if (!params) return '';
         var parts = [];
         qxForEachSorted(params, function(value, key) {
@@ -37,6 +37,44 @@ if(typeof qborrrowPresent == 'undefined'){
         });
 		parts.push('jsonCall=true');
         return parts.join('&');
+    };*/
+    function quixParamSerializer(params, prefix) {
+        if (!params) return '';
+        var parts = [];
+        if (Array.isArray(params)) {
+      	  for (var i = 0; i < params.length; i++) {
+    		  if (typeof params[i] === 'object') {
+    			  parts.push(quixParamSerializer(params[i], prefix + '[' + i + '].'));
+    		  } else {
+    			  parts.push(encodeURIComponent(prefix + '[' + i + ']') + '=' + encodeURIComponent(qxSerializeValue(params[i])));
+    		  }
+      		  //parts.push(encodeURIComponent(prefix + key)  + '=' + encodeURIComponent(qxSerializeValue(v)));
+      	  }
+        } else {
+	        qxForEachSorted(params, function(value, key) {
+	          if (value === null || value == undefined) return;
+	          if (Array.isArray(value)) {
+	        	  for (var i = 0; i < value.length; i++) {
+	        		  if (typeof value[i] === 'object') {
+	        			  parts.push(quixParamSerializer(value[i], prefix + key + '[' + i + '].'));
+	        		  } else {
+	        			  parts.push(encodeURIComponent(prefix + key + '[' + i + ']') + '=' + encodeURIComponent(qxSerializeValue(value[i])));
+	        		  }
+	        		  //parts.push(encodeURIComponent(prefix + key)  + '=' + encodeURIComponent(qxSerializeValue(v)));
+	        	  }
+	          } else {
+	        	  if (value !== null && typeof value === 'object' && !(toString.call(value) === '[object Date]')) {
+	        		  parts.push(quixParamSerializer(value, prefix + key + '.'));
+	        	  } else {
+	        		  parts.push(encodeURIComponent(prefix + key) + '=' + encodeURIComponent(qxSerializeValue(value)));
+	//        		  parts.push(quixParamSerializer(value[i], prefix + key + '[' + i + '].'));
+	        	  }
+	          }
+	        });
+        }
+		parts.push('jsonCall=true');
+        return parts.join('&');
+       
     };
 
 	function qxResetPopupField(object, property) {

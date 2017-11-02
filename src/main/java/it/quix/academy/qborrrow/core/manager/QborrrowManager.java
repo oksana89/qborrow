@@ -144,9 +144,37 @@ public class QborrrowManager {
             validateOggetti(oggetti);
         }
         if (oggetti.getId() == null) {
-            createOggetti(oggetti, validate);
+
+            if (oggetti.getPrestito() != null) {
+                createOggetti(oggetti, validate);
+                oggetti.getPrestito().setOggetti_id(oggetti.getId());
+
+                createPrestiti(oggetti.getPrestito(), validate);
+            } else {
+                createOggetti(oggetti, validate);
+
+            }
+
         } else {
-            updateOggetti(oggetti, validate);
+            if (oggetti.isOggettoPrestato()) {
+                updateOggetti(oggetti, validate);
+                oggetti.getPrestito().setOggetti_id(oggetti.getId());
+                oggetti.getPrestito().setSoggetti_username(oggetti.getPrestito().getSoggetti().getUsername());
+
+                updatePrestiti(oggetti.getPrestito(), validate);
+
+            } else {
+                updateOggetti(oggetti, validate);
+                oggetti.getPrestito().setOggetti_id(oggetti.getId());
+                oggetti.getPrestito().setSoggetti_username(oggetti.getPrestito().getSoggetti().getUsername());
+
+                oggetti.getPrestito().setOggetti_id(oggetti.getId());
+
+                createPrestiti(oggetti.getPrestito(), validate);
+
+            }
+
+            // updateOggetti(oggetti, validate);
         }
         return oggetti;
     }
@@ -406,7 +434,7 @@ public class QborrrowManager {
             validatePrestiti(prestiti);
         }
         try {
-            daoFactory.getPrestitiDAO().create(prestiti);
+            daoFactory.getPrestitiDAO().createMio(prestiti);
             return prestiti;
         } catch (DAOCreateException ex) {
             throw new QborrrowException(ex, prestiti);

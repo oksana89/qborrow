@@ -4,8 +4,15 @@
 
 
 
+
+<!--<s:url id="editMioOggettoUrl" namespace="/" action="oggetti"
+	escapeAmp="false" includeParams="none">
+	<s:param name="task">editMioOggetto</s:param>
+</s:url>-->
+
+
 <form name="forms.oggettiListForm" novalidate ng-init="listMieiOggetti();" >
-	<div class="box box-framework">
+	<div class="container-fluid">
 		<div class="box-header with-border">
 			<div class="qrow" style="margin: 1px 10px 10px 6px;display: inline-block;" ng-cloak>
 				<label for="qt"  class="control-label text-yellow cursor" ng-click="filtriEspansi = !filtriEspansi">
@@ -35,7 +42,7 @@
 			<span class="filterDiv" ng-if="scopeController.search.categoria != null && scopeController.search.categoria != ''">
 				<s:text name="oggetti.search.categoria"/>: 
 				<b>
-					{{ scopeController.search.categoria | sysattribute:'qbo0001_categoria' }}
+					{{ scopeController.search.categoria | sysattribute:'qbo000_categoria' }}
 				</b>
 				&nbsp;&nbsp;<i class="fa fa-times-circle" style="cursor: pointer;" ng-click="removeFilter('categoria')"></i>
 			</span>
@@ -229,7 +236,7 @@
 					
 					<td>{{ row.titolo }}</td>
 					<td>{{ row.descrizione }}</td>
-					<td>{{ row.categoria | sysattribute:'qbo0001_categoria' }}</td>
+					<td>{{ row.categoria | sysattribute:'qbo000_categoria' }}</td>
 					<td ng-if="row.oggettoPrestato == true">
 						<i class="fa fa-check qtext-success" aria-hidden="true"></i>
 					</td>
@@ -240,17 +247,38 @@
 					<td> {{ row.prestito.scadenzaPrestito | date:"<s:text name="format.date4"/>" }}</td>
 					<td class="qtext-right">
 						<div class="qbtn-group" ng-hide="popup">
+
+						<!--  
+
+								<a  class="qbtn btn-framework-color" ng-click="edit(row)" 
+									href="<s:property value="#editMioOggettoUrl" escape="false" />">
+								EditMioOggetto </a>-->
+							<div ng-if="row.oggettoPrestato == false">
+						
+						    <button class="qbtn btn-framework-color" ng-click="delete(row)" type="button"><i  class="fa fa-trash-o"></i>&nbsp;DELETE</button>
+		
+							
+		                  	<button class="qbtn btn-framework-color" ng-click="edit(row)" type="button"><i class="fa fa-user-plus"></i>&nbsp;NEW</button>
+		                  	
+		                  	<button class="qbtn btn-framework-color" ng-click="edit(row)" type="button"><i class="fa fa-pencil"></i>&nbsp;UPDATE</button>
+		                   	
+		                    <ul role="qmenu" class="qdropdown-menu qdropdown-menu-right">
+		                       	<li ng-click="delete(row)"><a><i class="fa fa-trash-o"></i>&nbsp;<s:text name="button.delete" /></a></li>
+		                    </ul>
+		              	</div>
+		              	<div ng-if="row.oggettoPrestato == true">
+						
+						    
+							
 		                  	<button class="qbtn btn-framework-color" ng-click="edit(row)" type="button"><i class="fa fa-pencil"></i>&nbsp;<s:text name="button.edit" /></button>
-		                   	<button data-toggle="qdropdown" class="qbtn btn-framework-color qdropdown-toggle" type="button" aria-expanded="false">
-		                       	<span class="qcaret"></span>
-		                       	<span class="qsr-only"></span>
-		                    </button>
+		                  
+		                   	
 		                    <ul role="qmenu" class="qdropdown-menu qdropdown-menu-right">
 		                       	<li ng-click="delete(row)"><a><i class="fa fa-trash-o"></i>&nbsp;<s:text name="button.delete" /></a></li>
 		                    </ul>
 		              	</div>
 		              	<div ng-show="popup">		 	
-							<button class="qbtn btn-framework-color" ng-click="select(row)" type="button"><i class="fa fa-check-circle"></i>&nbsp;<s:text name="button.select" /></button>		 	
+							<button class="qbtn btn-framework-color" ng-click="select(row)" type="button"><i class="fa fa-check-circle"></i>&nbsp; New prestito</button>		 	
 						</div>		
 					</td>
 				</tr>

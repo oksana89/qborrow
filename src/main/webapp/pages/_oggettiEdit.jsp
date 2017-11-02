@@ -9,7 +9,7 @@
 		</div>
 		<div class="box-body">
 			<div class="qrow">		
-				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.oggettiEditForm.id.$invalid}">
+				<!--<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.oggettiEditForm.id.$invalid}">
 					<label for="id"><s:text name="oggetti.edit.id"/>*</label>
 					<input type="text" 
 						ng-model="scopeController.selectedRow.id" 
@@ -32,7 +32,9 @@
 					  	<div ng-message="qvpattern.message"><s:text name="error.qvpattern.message"/></div>
 					  	<div ng-message="string.length"><s:text name="error.string.length"/></div>
 					</div>
-				</div>		
+				</div>-->
+				<div class="qrow">		
+				
 				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.oggettiEditForm.titolo.$invalid}">
 					<label for="titolo"><s:text name="oggetti.edit.titolo"/></label>
 					<input type="text" 
@@ -57,8 +59,7 @@
 					  	<div ng-message="string.length"><s:text name="error.string.length"/></div>
 					</div>
 				</div>
-			</div>
-			<div class="qrow">		
+				
 				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.oggettiEditForm.descrizione.$invalid}">
 					<label for="descrizione"><s:text name="oggetti.edit.descrizione"/></label>
 					<input type="text" 
@@ -82,7 +83,8 @@
 					  	<div ng-message="qvpattern.message"><s:text name="error.qvpattern.message"/></div>
 					  	<div ng-message="string.length"><s:text name="error.string.length"/></div>
 					</div>
-				</div>		
+				</div>
+						
 				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.oggettiEditForm.immagine.$invalid}">
 					<label for="immagine"><s:text name="oggetti.edit.immagine"/></label>
 					<input type="text" 
@@ -107,8 +109,8 @@
 					  	<div ng-message="string.length"><s:text name="error.string.length"/></div>
 					</div>
 				</div>
-			</div>
-			<div class="qrow">		
+			
+					
 				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.oggettiEditForm.categoria.$invalid}">
 					<label for="categoria"><s:text name="oggetti.edit.categoria"/></label>
 					<qs2:attribute2Input 
@@ -135,8 +137,64 @@
 					  	<div ng-message="qvpattern.message"><s:text name="error.qvpattern.message"/></div>
 					  	<div ng-message="string.length"><s:text name="error.string.length"/></div>
 					</div>
-				</div>		
-				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.oggettiEditForm.dataUltimaModifica.$invalid}">
+				</div>
+				 <div  class="qcol-md-6 qcol-sm-6 qcol-xs-12" class="qrow">				
+				<div ng-class="{'qhas-error': forms.oggettiEditForm.beneficiario.$invalid}">
+					<label for="beneficiario">Beneficiario: </label>
+							<select 
+						ng-model="scopeController.selectedRow.prestito.soggetti"
+						ng-options="option  as option.username for option in scopeController.result.list"
+						class="qform-control" />
+					
+					
+				</div></div>
+				
+				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" class="qdropdown">
+				<label for="beneficiario">Data prestito: </label>
+							<a class="qdropdown-toggle" id="dropdown2" role="qbutton" data-toggle="qdropdown" data-target="#" href="#">
+								<div class="qinput-group">
+						    		<input type="text" class="qform-control box-input-calendar" data-ng-model="scopeController.selectedRow.prestito.dataPrestito" presetDate="true" dateformat="DD/MM/YYYY">
+						    		<span class="qinput-group-addon"><i class="fa fa-calendar"></i></span>
+						    	</div>
+						  	</a>
+						  	<ul class="qdropdown-menu" role="qmenu" aria-labelledby="dLabel">
+						    	<datetimepicker data-ng-model="scopeController.selectedRow.prestito.dataPrestito" data-datetimepicker-config="{ minView:'day', modelType: 'Date' }"/>
+						  	</ul>
+				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.oggettiEditForm.beneficiario.$invalid}">
+					
+					
+				</div></div>
+				
+				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" class="qdropdown">
+				<label for="beneficiario">Scadenza prestito: </label>
+							<a class="qdropdown-toggle" id="dropdown2" role="qbutton" data-toggle="qdropdown" data-target="#" href="#">
+								<div class="qinput-group">
+						    		<input type="text" class="qform-control box-input-calendar" data-ng-model="scopeController.selectedRow.prestito.scadenzaPrestito" presetDate="true" dateformat="DD/MM/YYYY">
+						    		<span class="qinput-group-addon"><i class="fa fa-calendar"></i></span>
+						    	</div>
+						  	</a>
+						  	<ul class="qdropdown-menu" role="qmenu" aria-labelledby="dLabel">
+						    	<datetimepicker data-ng-model="scopeController.selectedRow.prestito.scadenzaPrestito" data-datetimepicker-config="{ minView:'day', modelType: 'Date' }"/>
+						  	</ul>
+				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.oggettiEditForm.beneficiario.$invalid}">
+					
+					
+				</div></div>
+				
+				<!--<div class="qrow">	
+				<div class="qcol-xs-12 qcol-sm-12 qcol-md-6" ng-class="{'qhas-error': forms.oggettiListForm.isInPrestito.$invalid}">
+					<label for="isInPrestito"><s:text name="oggetti.search.isInPrestito"/>:</label>
+					<select id="isInPrestito" name="isInPrestito"  class="qform-control" ng-model="scopeController.search.isInPrestito" ng-init="row.oggettoPrestato" >
+					
+						<option value="true">In Prestito</option>
+						<option  value="false">Non In Prestito</option>
+					</select>
+				</div>	-->
+				
+			
+				
+				
+				<!--  <div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.oggettiEditForm.dataUltimaModifica.$invalid}">
 					<label for="dataUltimaModifica"><s:text name="oggetti.edit.dataUltimaModifica"/>*</label>
 						<div class="qdropdown">
 							<a class="qdropdown-toggle" id="dropdown2" role="qbutton" data-toggle="qdropdown" data-target="#" href="#">
@@ -166,9 +224,9 @@
 					  	<div ng-message="qvpattern.message"><s:text name="error.qvpattern.message"/></div>
 					  	<div ng-message="string.length"><s:text name="error.string.length"/></div>
 					</div>
-				</div>
+				</div>-->
 			</div>
-			<div class="qrow">		
+			<!--<div class="qrow">		
 				<div class="qcol-md-6 qcol-sm-6 qcol-xs-12" ng-class="{'qhas-error': forms.oggettiEditForm.soggetti.$invalid}">
 					<label for="soggetti"><s:text name="oggetti.edit.soggetti"/></label>
 					<select 
@@ -195,7 +253,7 @@
 					  	<div ng-message="string.length"><s:text name="error.string.length"/></div>
 					</div>
 				</div>
-			</div>
+			</div>-->
 		</div>
 		<div class="box-footer qtext-center">
 			<button ng-click="save()" class="qbtn btn-framework-color"><i class="fa fa-floppy-o"></i>&nbsp;<s:text name="button.save"/></button>

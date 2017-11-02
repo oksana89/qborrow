@@ -4,6 +4,7 @@ import flexjson.JSONSerializer;
 import it.quix.academy.qborrrow.core.manager.QborrrowException;
 import it.quix.academy.qborrrow.core.manager.QborrrowManager;
 import it.quix.academy.qborrrow.core.model.Oggetti;
+import it.quix.academy.qborrrow.core.model.Prestiti;
 import it.quix.academy.qborrrow.core.model.Soggetti;
 import it.quix.academy.qborrrow.core.search.OggettiSearch;
 // import it.quix.academy.qborrrow.core.handler.OggettiHandler;
@@ -204,6 +205,12 @@ public class OggettiAbstractManagerAction extends QborrrowManagerAction {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         try {
             oggetti = getQborrrowManager().getOggetti(oggetti.getId());
+            List<Prestiti> listPrestito = getQborrrowManager().getPrestitiListByOggetti(oggetti.getId());
+            if (listPrestito.size() > 0) {
+                Prestiti prestito = listPrestito.get(0);
+                oggetti.setPrestito(prestito);
+                oggetti.setOggettoPrestato(true);
+            }
             return manageSerialize(oggetti);
         } catch (Exception e) {
             return manageException("Error on edit Oggetti", e);
@@ -219,6 +226,14 @@ public class OggettiAbstractManagerAction extends QborrrowManagerAction {
             // New Oggetti and all fields are empty. Create a new empty Oggetti to avoid NPE on validators.
             oggetti = new Oggetti();
         }
+        /*
+         * List<Prestiti> listPrestito = getQborrrowManager().getPrestitiListByOggetti(oggetti.getId());
+         * if (listPrestito.size() > 0) {
+         * Prestiti prestito = listPrestito.get(0);
+         * oggetti.setPrestito(prestito);
+         * oggetti.setOggettoPrestato(true);
+         * }
+         */
         try {
             getQborrrowManager().saveOggetti(oggetti);
             return manageOkMessage();

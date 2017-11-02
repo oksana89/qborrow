@@ -34,11 +34,20 @@ qborrrowApp.controller('qxOggettiController', ['$scope', 'qxQborrrowHttpService'
 	}
 	
 	$scope.listMieiOggetti = function () {
+		$scope.scopeController.search.page=-1;
 		qxQborrrowHttpService.getMieiOggettiList($scope.scopeController, $scope.forms.oggettiListForm);
 	}
+	
+	$scope.listSoggetti = function () {
+		$scope.scopeController.search.page=-1;
+		qxQborrrowHttpService.getSoggettiList($scope.scopeController, $scope.forms.soggettiListForm);
+	}
+	
 	$scope.edit = function(row){
+		
 		$scope.scopeController.selectedRow = row;
 		qxQborrrowHttpService.editOggetti($scope.scopeController);
+		$scope.listSoggetti();
 	}
 	
 	$scope.exportXLS = function() {
@@ -67,6 +76,7 @@ qborrrowApp.controller('qxOggettiController', ['$scope', 'qxQborrrowHttpService'
 	$scope.create = function(){
 		$scope.scopeController.selectedRow = {};
 		$scope.scopeController.selectedPage = "edit";
+		$scope.listSoggetti();
 	}
 	
 	$scope.back = function(){
@@ -75,7 +85,9 @@ qborrrowApp.controller('qxOggettiController', ['$scope', 'qxQborrrowHttpService'
 	}
 	
 	$scope.save = function(row){
+		$scope.scopeController.selectedRow.dataUltimaModifica = new Date ();
 		qxQborrrowHttpService.saveOggetti($scope.scopeController, $scope.forms.oggettiEditForm);
+		$scope.listSoggetti();
 	}
 	
 	$scope.resetSearch = function () {

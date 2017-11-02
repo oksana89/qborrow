@@ -126,8 +126,8 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             // Compose the update query
             StringBuilder query = new StringBuilder(EOL);
             query.append(" UPDATE prestiti SET ").append(EOL);
-            query.append(" data_prestito = ? , data_scadenza_prestito = ?  ").append(EOL);
-            query.append("  WHERE beneficiario = ?  AND oggetto_prestato = ? ").append(EOL);
+            query.append(" beneficiario =? , data_prestito = ? , data_scadenza_prestito = ?  ").append(EOL);
+            query.append("  WHERE  oggetto_prestato = ? ").append(EOL);
 
             // Query logging
             if (queryLog.isInfoEnabled()) {
@@ -143,11 +143,13 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
 
             // Set the parameters
             int p = 1;
-            super.setParameterDate(statement, p++, prestiti.getDataPrestito());
-            super.setParameterDate(statement, p++, prestiti.getDataPrestito());
-
-            // Set the primary key
             super.setParameterString(statement, p++, prestiti.getSoggettiUsername());
+            super.setParameterDate(statement, p++, prestiti.getDataPrestito());
+            super.setParameterDate(statement, p++, prestiti.getScadenzaPrestito());
+            // super.setParameterString(statement, p++, prestiti.getSoggettiUsername());
+            // Set the primary key
+
+            // super.setParameterString(statement, p++, prestiti.getSoggettiUsername());
             super.setParameterInteger(statement, p++, prestiti.getOggetti_id());
 
             // Execute the query
@@ -535,6 +537,7 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             StringBuilder query = new StringBuilder(EOL);
             query.append("SELECT * FROM prestiti ").append(EOL);
             query.append("WHERE oggetto_prestato = ?  ").append(EOL);
+            query.append("order by data_prestito DESC").append(EOL);
             // Query logging
             if (queryLog.isInfoEnabled()) {
                 queryLog.info(query);

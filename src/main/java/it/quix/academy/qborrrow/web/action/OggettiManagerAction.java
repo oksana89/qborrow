@@ -9,6 +9,7 @@ import java.util.Set;
 import java.io.IOException;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.awt.Color;
 import java.awt.Font;
 
@@ -22,6 +23,7 @@ import it.quix.framework.core.validation.InvalidConstraintImpl;
 import it.quix.framework.core.validation.api.InvalidConstraint;
 import it.quix.framework.core.validation.exception.ValidationException;
 import it.quix.academy.qborrrow.core.model.Oggetti;
+import it.quix.academy.qborrrow.core.model.Prestiti;
 import it.quix.academy.qborrrow.core.search.OggettiSearch;
 import it.quix.academy.qborrrow.core.manager.QborrrowManager;
 import it.quix.academy.qborrrow.core.manager.QborrrowException;
@@ -51,7 +53,7 @@ public class OggettiManagerAction extends OggettiAbstractManagerAction {
     /**
      * Search filters
      */
-    private OggettiSearch oggettiSearch = new OggettiSearch();
+    // private OggettiSearch oggettiSearch = new OggettiSearch();
 
     /**
      * 
@@ -73,25 +75,25 @@ public class OggettiManagerAction extends OggettiAbstractManagerAction {
     public String listMieiOggetti() throws QborrrowException {
         try {
             log.debug("il mio username" + getUserContext().getRealUserDn());
-            oggettiSearch.setSoggetti_user_name(getUserContext().getRealUserDn());
+            getOggettiSearch().setSoggetti_user_name(getUserContext().getRealUserDn());
             // Validate the search model
-            getQborrrowManager().validateOggettiSearch(oggettiSearch);
+            getQborrrowManager().validateOggettiSearch(getOggettiSearch());
             // Perform count of record that satisfy search filters
-            long total = getQborrrowManager().countOggetti(oggettiSearch);
+            long total = getQborrrowManager().countOggetti(getOggettiSearch());
             // If there are results ...
             List<Oggetti> oggettiList = null;
             if (total > 0) {
                 // Search the results to display
                 do {
-                    oggettiList = getQborrrowManager().getMieiOggettiList(oggettiSearch);
-                    if (oggettiList.isEmpty() && oggettiSearch.getPage() > 0) {
+                    oggettiList = getQborrrowManager().getMieiOggettiList(getOggettiSearch());
+                    if (oggettiList.isEmpty() && getOggettiSearch().getPage() > 0) {
                         if (log.isInfoEnabled()) {
-                            log.info("The request page " + oggettiSearch.getPage() + " was empty."
-                                + ((oggettiSearch.getPage() > 1) ? " Try with page " + (oggettiSearch.getPage() - 1) + "." : ""));
+                            log.info("The request page " + getOggettiSearch().getPage() + " was empty."
+                                + ((getOggettiSearch().getPage() > 1) ? " Try with page " + (getOggettiSearch().getPage() - 1) + "." : ""));
                         }
-                        oggettiSearch.setPage(oggettiSearch.getPage() - 1);
+                        getOggettiSearch().setPage(getOggettiSearch().getPage() - 1);
                     }
-                } while (0 < oggettiSearch.getPage() && oggettiList.isEmpty());
+                } while (0 < getOggettiSearch().getPage() && oggettiList.isEmpty());
             }
 
             // Compose the response
@@ -106,24 +108,25 @@ public class OggettiManagerAction extends OggettiAbstractManagerAction {
         }
     }
 
-    /*
-     * public String mieiOggettiStus{
-     * return "mieiOggettiStruts";
-     * }
-     */
-
     /**
      * @return the oggettiSearch
      */
-    public OggettiSearch getOggettiSearch() {
-        return oggettiSearch;
-    }
 
-    /**
-     * @param oggettiSearch the oggettiSearch to set
-     */
-    public void setOggettiSearch(OggettiSearch oggettiSearch) {
-        this.oggettiSearch = oggettiSearch;
+    public String saveMio() {
+        if (getOggetti() == null) {
+            setOggetti(new Oggetti());
+
+        }
+        try {
+            getOggetti().setSoggettiUsername(userContext.getRealUserDn());
+            getQborrrowManager().saveOggetti(getOggetti());
+            return manageOkMessage();
+        } catch (ValidationException e) {
+            return manageValidationError(e.getInvalidConstraints(), "save");
+        } catch (Exception e) {
+            return manageException("Error on save Oggetti", e);
+        }
+
     }
 
 }

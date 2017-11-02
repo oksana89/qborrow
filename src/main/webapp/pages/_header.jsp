@@ -64,7 +64,7 @@
 						</a></li>
 						<li><a class="framework-sidebar-menu-element-link"
 							href="<s:property value="#mieiOggettiUrl" escape="false" />">
-								oggetti struts </a></li>
+								miei oggetti </a></li>
 						<li><a class="framework-sidebar-menu-element-link"
 							href="<s:property value="#soggettiUrl" escape="false" />">
 								soggetti </a></li>

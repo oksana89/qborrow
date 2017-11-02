@@ -42,22 +42,22 @@
 										<table width= "80%" align ="center">
 										
 										 <tr>
-										    <td width= "30%" margin-left="50px" padding-left ="60px" >Ragione Sociale</td>
+										    <td width= "30%" >Ragione Sociale</td>
 										    <td width= "30%" margin-left="25px" ><input class="qform-control" type="text" name="" ng-model="scopeController.selectedRow.ragioneSociale"></td>
 										    <td width= "30%" margin-left="40px"   rowspan="4" align="right"><img class ="userImmage" name="immagine" id="immagine" ng-src ="{{scopeController.selectedRow.immagine}}" height="200px" width="200px" /></td>
 										    
 										  </tr>
 										  <tr>
-										    <td width= "30%" margin-left="50px" padding-left ="60px" >Nome</td>
+										    <td width= "30%"  >Nome</td>
 										    <td width= "30%"  margin-left="25px"><input class="qform-control" type="text" name="nome" ng-model="scopeController.selectedRow.nome"></td>
 										    <td width= "30%"></td>
 										  </tr>
 										  <tr>
-										    <td width= "30%" margin-left="50px" padding-left ="60px" >Cognome </td>
+										    <td width= "30%" >Cognome </td>
 										    <td width= "30%" margin-left="25px"><input class="qform-control" type="text" name="cognome" ng-model="scopeController.selectedRow.cognome"></td>
 										  </tr>
 										  <tr>
-										    <td width= "30%" margin-left="50px" padding-left ="60px">Email</td>
+										    <td width= "30%" >Email</td>
 										    <td width= "30%" margin-left="25px" ng-class="{'qhas-error': forms.soggettiEditForm.email.$invalid}" class="qhas-error"><input class="qform-control ng-valid-parse ng-touched ng-not-empty ng-pristine ng-invalid ng-invalid-not-valid" id="email" type="text" name="email" ng-model="scopeController.selectedRow.email"
 										    	ng-class="{'qhas-error': forms.soggettiEditForm.email.$invalid}"
 										    	id="email" 
@@ -89,7 +89,7 @@
 													
 										  </tr>
 										  <tr>
-										    <td width= "30%" margin-left="50px" padding-left ="60px">Data di Nascita</td>
+										    <td width= "30%" >Data di Nascita</td>
 										    <td width= "30%" margin-left="25px"><div>
 										    		<div class="qdropdown">
 							<a class="qdropdown-toggle" id="dropdown2" role="qbutton" data-toggle="qdropdown" data-target="#" href="#">

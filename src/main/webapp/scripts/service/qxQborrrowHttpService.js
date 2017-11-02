@@ -70,6 +70,7 @@ var qxQborrrowHttpService = function($http, qborrrowConfig, $timeout) {
 		});
 		scopeController.promise.success(success).error(_manageError);
 	}
+	
 	this.editOggetti = function(scopeController) {
 		var success = function(data) {
 			if ((typeof data) == 'string') {
@@ -83,14 +84,21 @@ var qxQborrrowHttpService = function($http, qborrrowConfig, $timeout) {
 			}
 			scopeController.selectedRow = data;
 			scopeController.selectedPage = "edit";
-		};
+			
+			
+			
+			};
+		
 
 		scopeController.promise = $http({
 			method : 'POST',
 			url : qborrrowConfig.baseUrl + '/oggetti.action?task=edit',
-			data : quixParamSerializer(scopeController.selectedRow, 'oggetti.'),
+			//data : quixParamSerializer(scopeController.selectedRow, 'oggetti.'),
+			data : {
+				"oggetti": {"id": scopeController.selectedRow.id }
+			},
 			headers : {
-				'Content-Type' : 'application/x-www-form-urlencoded'
+				'Content-Type' : 'application/json'
 			}
 		});
 		scopeController.promise.success(success).error(_manageError);
@@ -144,8 +152,8 @@ var qxQborrrowHttpService = function($http, qborrrowConfig, $timeout) {
 		scopeController.promise = $http({
 			method : 'POST',
 			url : qborrrowConfig.baseUrl
-					+ '/oggetti.action?task=save&reset=true',
-			data : quixParamSerializer(scopeController.selectedRow, 'oggetti.'),
+					+ '/oggetti.action?task=saveMio&reset=true',
+			data : quixParamSerializer(scopeController.selectedRow, 'oggetti.'), 
 			headers : {
 				'Content-Type' : 'application/x-www-form-urlencoded'
 			}
