@@ -117,6 +117,13 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
      * <li>nullable = true
      * </ul>
      */
+
+    @QcDateType()
+    @Temporal(TemporalType.DATE)
+    @Column(name = "data_reso")
+    @QrExcelColumn(order = 0)
+    private Date dataReso;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "oggetto_prestato")
     private Oggetti oggetti;
@@ -490,6 +497,20 @@ public class Prestiti extends QborrrowAbstractModel implements Serializable {
 
     public void setOggettiJdbcAlreadyChecked(boolean oggettiJdbcAlreadyChecked) {
         this.oggettiJdbcAlreadyChecked = oggettiJdbcAlreadyChecked;
+    }
+
+    /**
+     * @return the dataReso
+     */
+    public Date getDataReso() {
+        return dataReso;
+    }
+
+    /**
+     * @param dataReso the dataReso to set
+     */
+    public void setDataReso(Date dataReso) {
+        this.dataReso = dataReso;
     }
 
 }

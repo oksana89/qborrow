@@ -57,12 +57,12 @@ public class OggettiDAO extends OggettiAbstractDAO {
             StringBuilder query = new StringBuilder(EOL);
             query
                 .append(
-                    " SELECT oggetti.*, soggetti.nome, soggetti.cognome, soggetti.user_name, prestiti.beneficiario, prestiti.data_prestito, prestiti.data_scadenza_prestito")
+                    " SELECT oggetti.*, soggetti.nome, soggetti.cognome, soggetti.user_name, prestiti.beneficiario, prestiti.data_prestito, prestiti.data_scadenza_prestito, prestiti.data_reso")
                 .append(EOL);
             query.append(" FROM oggetti").append(EOL);
             query.append(" LEFT JOIN prestiti ON oggetti.id = prestiti.oggetto_prestato ").append(EOL);
             query.append(" LEFT JOIN soggetti ON prestiti.beneficiario = soggetti.user_name ").append(EOL);
-            query.append(" WHERE oggetti.proprietario ='oksana' ").append(EOL);
+            query.append(" WHERE oggetti.proprietario ='oksana' || prestiti.beneficiario ='oksana' ").append(EOL);
             Map<Integer, Object> parameters = new HashMap<Integer, Object>();
             query.append(getWhereQuery(parameters, search));
             addOrderClause(search, query);
@@ -107,7 +107,7 @@ public class OggettiDAO extends OggettiAbstractDAO {
                     Prestiti prestito = new Prestiti();
                     prestito.setDataPrestito(getParameterDate(rs, "data_prestito"));
                     prestito.setScadenzaPrestito(getParameterDate(rs, "data_scadenza_prestito"));
-
+                    prestito.setDataReso(getParameterDate(rs, "data_reso"));
                     Soggetti soggetto = new Soggetti();
                     soggetto.setUsername(getParameterString(rs, "user_name"));
                     soggetto.setNome(getParameterString(rs, "nome"));

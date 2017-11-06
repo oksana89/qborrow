@@ -15,6 +15,10 @@
 	escapeAmp="false" includeParams="none">
 	<s:param name="task">mieiOggetti</s:param>
 </s:url>
+<s:url id="gestionePrestitiUrl" namespace="/" action="oggetti"
+	escapeAmp="false" includeParams="none">
+	<s:param name="task">gestionePrestiti</s:param>
+</s:url>
 <s:url id="prestitiUrl" namespace="/" action="prestiti"
 	escapeAmp="false" includeParams="none">
 	<s:param name="task">mainPage</s:param>
@@ -65,6 +69,9 @@
 						<li><a class="framework-sidebar-menu-element-link"
 							href="<s:property value="#mieiOggettiUrl" escape="false" />">
 								miei oggetti </a></li>
+						<li><a class="framework-sidebar-menu-element-link"
+							href="<s:property value="#gestionePrestitiUrl" escape="false" />">
+								gestione prestiti </a></li>	
 						<li><a class="framework-sidebar-menu-element-link"
 							href="<s:property value="#soggettiUrl" escape="false" />">
 								soggetti </a></li>

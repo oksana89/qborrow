@@ -62,9 +62,9 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             // Compose the insert query
             StringBuilder query = new StringBuilder(EOL);
             query.append("INSERT INTO prestiti ").append(EOL);
-            query.append("   (BENEFICIARIO, OGGETTO_PRESTATO, DATA_PRESTITO, DATA_SCADENZA_PRESTITO) ").append(EOL);
+            query.append("   (BENEFICIARIO, OGGETTO_PRESTATO, DATA_PRESTITO, DATA_SCADENZA_PRESTITO, DATA_RESO) ").append(EOL);
             query.append(" VALUES ").append(EOL);
-            query.append(" (?, ?, ?, ?) ").append(EOL);
+            query.append(" (?, ?, ?, ?, ?) ").append(EOL);
 
             // Query logging
             if (queryLog.isInfoEnabled()) {
@@ -82,7 +82,7 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             super.setParameterInteger(statement, p++, prestiti.getOggetti_id());
             super.setParameterDate(statement, p++, prestiti.getDataPrestito());
             super.setParameterDate(statement, p++, prestiti.getScadenzaPrestito());
-
+            super.setParameterDate(statement, p++, prestiti.getDataReso());
             // Execute the query
             long startTime = System.currentTimeMillis();
             int numberOfCreatedRecord = statement.executeUpdate();
@@ -126,7 +126,7 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             // Compose the update query
             StringBuilder query = new StringBuilder(EOL);
             query.append(" UPDATE prestiti SET ").append(EOL);
-            query.append(" beneficiario =? , data_prestito = ? , data_scadenza_prestito = ?  ").append(EOL);
+            query.append(" beneficiario =? , data_prestito = ? , data_scadenza_prestito = ? , data_reso = ? ").append(EOL);
             query.append("  WHERE  oggetto_prestato = ? ").append(EOL);
 
             // Query logging
@@ -146,6 +146,7 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
             super.setParameterString(statement, p++, prestiti.getSoggettiUsername());
             super.setParameterDate(statement, p++, prestiti.getDataPrestito());
             super.setParameterDate(statement, p++, prestiti.getScadenzaPrestito());
+            super.setParameterDate(statement, p++, prestiti.getDataReso());
             // super.setParameterString(statement, p++, prestiti.getSoggettiUsername());
             // Set the primary key
 
@@ -245,7 +246,7 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
         newPrestiti.setOggetti(prestiti.getOggetti());
         newPrestiti.setDataPrestito(prestiti.getDataPrestito());
         newPrestiti.setScadenzaPrestito(prestiti.getDataPrestito());
-
+        newPrestiti.setDataReso(prestiti.getDataReso());
         return newPrestiti;
     }
 
@@ -341,7 +342,7 @@ public abstract class PrestitiAbstractDAO extends AbstractJDBCDAO {
         prestiti.setOggetti_id(getParameterInteger(rs, "oggetto_prestato"));
         prestiti.setDataPrestito(getParameterDate(rs, "data_prestito"));
         prestiti.setScadenzaPrestito(getParameterDate(rs, "data_scadenza_prestito"));
-
+        prestiti.setDataReso(getParameterDate(rs, "data_reso"));
         return prestiti;
     }
 

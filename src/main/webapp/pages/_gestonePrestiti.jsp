@@ -227,6 +227,7 @@
 					<th class="qtext-left"><s:text name="oggetti.list.categoria"/></th>
 					<th class="qtext-left"><s:text name="oggetti.list.inPrestito"/></th>
 					<th class="qtext-left"><s:text name="oggetti.list.beneficiario"/></th>
+					<th class="qtext-left">IN PRESTITO DA</th>
 					<th class="qtext-left"><s:text name="oggetti.list.dataScadenza"/></th>
 					<th class="qtext-left">RESO</th>
 					<th>&nbsp;</th>
@@ -245,6 +246,7 @@
 						<i class="fa fa-times qtext-danger" aria-hidden="true"></i>
 					</td>
 					<td>{{ row.prestito.soggetti.nome }} {{ row.prestito.soggetti.cognome  }}</td>
+					<td>ciao</td>
 					<td> {{ row.prestito.scadenzaPrestito | date:"<s:text name="format.date4"/>" }}</td>
 					<td ng-if="row.prestito.dataReso != null">
 						<i class="fa fa-check qtext-success" aria-hidden="true"></i>

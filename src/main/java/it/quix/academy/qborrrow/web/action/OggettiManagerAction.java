@@ -53,7 +53,7 @@ public class OggettiManagerAction extends OggettiAbstractManagerAction {
     /**
      * Search filters
      */
-    // private OggettiSearch oggettiSearch = new OggettiSearch();
+    private OggettiSearch oggettiSearch = new OggettiSearch();
 
     /**
      * 
@@ -65,6 +65,10 @@ public class OggettiManagerAction extends OggettiAbstractManagerAction {
         return "mieiOggetti";
     }
 
+    public String gestionePrestiti() {
+        return "gestionePrestiti";
+    }
+
     /**
      * metodo di lista che torna solo i miei oggetti
      * List task.
@@ -72,28 +76,27 @@ public class OggettiManagerAction extends OggettiAbstractManagerAction {
      * 
      * @throws QborrrowException if an error occurs
      */
+
     public String listMieiOggetti() throws QborrrowException {
-        try {
-            log.debug("il mio username" + getUserContext().getRealUserDn());
-            getOggettiSearch().setSoggetti_user_name(getUserContext().getRealUserDn());
+        /*try {
             // Validate the search model
-            getQborrrowManager().validateOggettiSearch(getOggettiSearch());
+            getQborrrowManager().validateOggettiSearch(oggettiSearch);
             // Perform count of record that satisfy search filters
-            long total = getQborrrowManager().countOggetti(getOggettiSearch());
+            long total = getQborrrowManager().countOggetti(oggettiSearch);
             // If there are results ...
             List<Oggetti> oggettiList = null;
             if (total > 0) {
                 // Search the results to display
                 do {
-                    oggettiList = getQborrrowManager().getMieiOggettiList(getOggettiSearch());
-                    if (oggettiList.isEmpty() && getOggettiSearch().getPage() > 0) {
+                    oggettiList = getQborrrowManager().getOggettiList(oggettiSearch);
+                    if (oggettiList.isEmpty() && oggettiSearch.getPage() > 0) {
                         if (log.isInfoEnabled()) {
-                            log.info("The request page " + getOggettiSearch().getPage() + " was empty."
-                                + ((getOggettiSearch().getPage() > 1) ? " Try with page " + (getOggettiSearch().getPage() - 1) + "." : ""));
+                            log.info("The request page " + oggettiSearch.getPage() + " was empty."
+                                + ((oggettiSearch.getPage() > 1) ? " Try with page " + (oggettiSearch.getPage() - 1) + "." : ""));
                         }
-                        getOggettiSearch().setPage(getOggettiSearch().getPage() - 1);
+                        oggettiSearch.setPage(oggettiSearch.getPage() - 1);
                     }
-                } while (0 < getOggettiSearch().getPage() && oggettiList.isEmpty());
+                } while (0 < oggettiSearch.getPage() && oggettiList.isEmpty());
             }
 
             // Compose the response
@@ -105,7 +108,42 @@ public class OggettiManagerAction extends OggettiAbstractManagerAction {
             return manageValidationError(e.getInvalidConstraints(), "list");
         } catch (Exception e) {
             return manageException("Error on list Oggetti", e);
-        }
+        }*/
+        
+          try {
+         log.debug("il mio username" + getUserContext().getRealUserDn());
+         getOggettiSearch().setSoggetti_user_name(getUserContext().getRealUserDn());
+         // Validate the search model
+         getQborrrowManager().validateOggettiSearch(getOggettiSearch());
+         // Perform count of record that satisfy search filters
+         long total = getQborrrowManager().countOggetti(getOggettiSearch());
+         // If there are results ...
+         List<Oggetti> oggettiList = null;
+         if (total > 0) {
+         // Search the results to display
+         do {
+         oggettiList = getQborrrowManager().getMieiOggettiList(getOggettiSearch());
+         if (oggettiList.isEmpty() && getOggettiSearch().getPage() > 0) {
+         if (log.isInfoEnabled()) {
+         log.info("The request page " + getOggettiSearch().getPage() + " was empty."
+         + ((getOggettiSearch().getPage() > 1) ? " Try with page " + (getOggettiSearch().getPage() - 1) + "." : ""));
+         }
+         getOggettiSearch().setPage(getOggettiSearch().getPage() - 1);
+          }
+         } while (0 < getOggettiSearch().getPage() && oggettiList.isEmpty());
+         }
+        
+         // Compose the response
+         Map<String, Object> map = new HashMap<String, Object>();
+         map.put("list", oggettiList);
+         map.put("count", total);
+         return manageSerialize(map, new JSONSerializer().include("list"));
+       } catch (ValidationException e) {
+         return manageValidationError(e.getInvalidConstraints(), "list");
+          } catch (Exception e) {
+          return manageException("Error on list Oggetti", e);
+          }
+         
     }
 
     /**

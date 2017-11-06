@@ -38,9 +38,9 @@ public class PrestitiDAO extends PrestitiAbstractDAO {
             // Compose the insert query
             StringBuilder query = new StringBuilder(EOL);
             query.append("INSERT INTO prestiti ").append(EOL);
-            query.append("   (BENEFICIARIO, OGGETTO_PRESTATO, DATA_PRESTITO, DATA_SCADENZA_PRESTITO) ").append(EOL);
+            query.append("   (BENEFICIARIO, OGGETTO_PRESTATO, DATA_PRESTITO, DATA_SCADENZA_PRESTITO, DATA_RESO) ").append(EOL);
             query.append(" VALUES ").append(EOL);
-            query.append(" (?, ?, ?, ?) ").append(EOL);
+            query.append(" (?, ?, ?, ?, ?) ").append(EOL);
 
             // Query logging
             if (queryLog.isInfoEnabled()) {
@@ -58,7 +58,7 @@ public class PrestitiDAO extends PrestitiAbstractDAO {
             super.setParameterInteger(statement, p++, prestiti.getOggetti_id());
             super.setParameterDate(statement, p++, prestiti.getDataPrestito());
             super.setParameterDate(statement, p++, prestiti.getScadenzaPrestito());
-
+            super.setParameterDate(statement, p++, prestiti.getDataReso());
             // Execute the query
             long startTime = System.currentTimeMillis();
             int numberOfCreatedRecord = statement.executeUpdate();

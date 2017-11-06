@@ -1,5 +1,6 @@
 package it.quix.academy.qborrrow.web.action.generated;
 
+import java.sql.Statement;
 import flexjson.JSONSerializer;
 import it.quix.academy.qborrrow.core.manager.QborrrowException;
 import it.quix.academy.qborrrow.core.manager.QborrrowManager;
